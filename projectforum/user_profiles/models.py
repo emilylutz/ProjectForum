@@ -1,3 +1,135 @@
-from django.db import models
+from datetime import tzinfo, timedelta, datetime
 
-# Create your models here.
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.mail import EmailMultiAlternatives
+from django.db import models
+from django.template import RequestContext
+from django.template.loader import render_to_string
+
+import hashlib
+import random
+import re
+
+class UTC(tzinfo):
+    """UTC"""
+    def utcoffset(self, dt):
+        return timedelta(0)
+    def tzname(self, dt):
+        return "UTC"
+    def dst(self, dt):
+        return timedelta(0)
+
+class RegistrationLinkManager(models.Manager):
+    """
+    Custom manager for the ``RegistrationLink`` model.
+    """
+    
+    def activate_by_key(self, activation_key):
+        """
+        Validate a key and activate the corresponding ``User`` if it exists.
+        """
+        if not re.compile('^[a-f0-9]{40}$').search(activation_key):
+            return False
+
+        try:
+            link = self.get(activation_key=activation_key)
+        except self.model.DoesNotExist:
+            return False
+
+        if not link.is_activation_key_expired():
+            user = link.user
+            user.is_active = True
+            user.save()
+            link.delete()
+            return user
+        return False
+
+    def create_inactive_user(self, site, new_user, request):
+        """
+        Creates an inactive ``User`` with an associated ``RegistrationLink``.
+        Sends an email with the link.
+        """
+        new_user.is_active = False
+        new_user.save()
+
+        salt = (hashlib.sha1(str(random.random()).encode('ascii'))
+                       .hexdigest()[:5]).encode('ascii')
+        user_pk = str(new_user.pk)
+        if isinstance(user_pk, unicode):
+            user_pk = user_pk.encode('utf-8')
+        activation_key = hashlib.sha1(salt+user_pk).hexdigest()
+
+        link = self.create(user=new_user, activation_key=activation_key)
+        link.send_activation_email(site, request)
+
+        return new_user
+
+    def delete_expired_users(self):
+        """
+        Deletes ```RegistrationLink``s that are no longer valid.
+        """
+        for link in self.all():
+            try:
+                if link.is_activation_key_expired():
+                    user = link.user
+                    if not user.is_active:
+                        user.delete()
+                        link.delete()
+            except get_user_model().DoesNotExist:
+                link.delete()
+
+
+class RegistrationLink(models.Model):
+    """
+    A simple link which stores an activation key for use during
+    user account registration.
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='user')
+    activation_key = models.CharField('activation key', max_length=40)
+
+    objects = RegistrationLinkManager()
+
+    class Meta:
+        verbose_name = 'registration link'
+        verbose_name_plural = 'registration links'
+
+    def __str__(self):
+        return "Registration link for %s" % self.user
+
+    def is_activation_key_expired(self):
+        """
+        Determine whether this ``RegistrationLink``'s activation key is expired.
+        """
+        life = timedelta(days=settings.REGISTRATION_LINK_LIFE)
+        now = datetime.utcnow()
+        now = now.replace(tzinfo=UTC())
+        return (self.user.date_joined + life <= now)
+
+    def send_activation_email(self, site, request=None):
+        """
+        Send an activation email to the user associated.
+        """
+        context = {}
+        if request is not None:
+            context = RequestContext(request, context)
+        context.update({
+            'user': self.user,
+            'activation_key': self.activation_key,
+            'expiration_days': settings.REGISTRATION_LINK_LIFE,
+            'site': site,
+        })
+
+        subject = render_to_string('activation_email_subject.txt', context)
+        subject = ''.join(subject.splitlines())
+        body = render_to_string('activation_email.txt', context)
+        html_body = render_to_string('activation_email.html', context)
+        from_email = settings.REGISTRATION_FROM_ADDRESS
+        to_emails = [self.user.email]
+
+        from django.core.mail import send_mail
+
+        email_message = EmailMultiAlternatives(subject, body, from_email,
+                                               to_emails)
+        email_message.attach_alternative(html_body, 'text/html')
+        email_message.send()

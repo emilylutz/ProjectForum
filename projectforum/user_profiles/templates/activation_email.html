@@ -1,0 +1,4 @@
+<p>Activate your ProjectForum account by following the link below:</p>
+<p><a href="http://{{ site.domain }}{% url "profile:activate" activation_key %}">
+http://{{ site.domain }}{% url "profile:activate" activation_key %}</a></p>
+<p>Link is valid for {{ expiration_days }} days.</p>

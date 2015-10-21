@@ -1,12 +1,14 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
-class RegisterForm(forms.Form):
-    username = forms.CharField(label="Username", max_length=30)
-    firstname = forms.CharField(label="First Name", max_length=30)
-    lastname = forms.CharField(label="Last Name", max_length=30)
-    email = forms.EmailField(label="Email", max_length=254)
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+class RegisterForm(UserCreationForm):
+    """
+    Form for registering a new user account.
+    """
+    required_css_class = 'required'
+    email = forms.EmailField(label='Email')
 
-    def send_email(self):
-        # send email using the self.cleaned_data dictionary
-        pass
+    class Meta:
+        model = get_user_model()
+        fields = (getattr(model, 'USERNAME_FIELD', 'username'), 'email')

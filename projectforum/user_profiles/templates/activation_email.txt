@@ -1,0 +1,5 @@
+Activate your ProjectForum account by following the link below:
+
+http://{{ site.domain }}{% url "profile:activate" activation_key %}
+
+Link is valid for {{ expiration_days }} days.

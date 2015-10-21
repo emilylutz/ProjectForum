@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 """
 Copyright (c) 2011 Bradley Whittington
  
@@ -26,8 +28,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 """
 Adapted from source found at: https://github.com/BradWhittington/django-mailgun
 """
-
-from __future__ import unicode_literals
 
 import requests
 from django.conf import settings

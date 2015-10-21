@@ -2,10 +2,18 @@
 
 from django.conf.urls import include, patterns, url
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
-from .views import RegisterView
+from .views import ActivateView, RegisterView
 
 urlpatterns = [
+    url(r'^activate/complete/$',
+        TemplateView.as_view(template_name='register_activate_done.html'),
+        name='activate_complete'),
+    url(r'^activate/(?P<activation_key>\w+)/$',
+        ActivateView.as_view(),
+        name='activate'),
+
     url(r'^login/$', auth_views.login,
         {'template_name': 'login.html'},
         name='login'),
@@ -31,7 +39,12 @@ urlpatterns = [
         {'template_name': 'password_reset_done.html'},
         name='password_reset_done'),
 
-    url(r'register', RegisterView.as_view(), name='register'),
+    url(r'^register/$',
+        RegisterView.as_view(),
+        name='register'),
+    url(r'^register/complete/$',
+        TemplateView.as_view(template_name='register_complete.html'),
+        name='register_complete'),
 
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm,
