@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Forum</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="header">
+        {% if user.is_authenticated %}
+            Logged in: {{ user.username }}
+            (<a href="{% url "profile:logout" %}">Log out</a> | 
+            <a href="{% url "profile:password_change" %}">Change password</a>)
+        {% else %}
+            <a href="{% url "profile:login" %}">Log in</a>
+        {% endif %}
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

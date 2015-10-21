@@ -35,8 +35,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'projects',
+    'projectforum.mailgun',
+    'projectforum.projects',
+    'projectforum.user_profiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,10 +86,22 @@ USE_L10N = True
 USE_TZ = True
 
 
+# AUTH settings
+
+LOGIN_REDIRECT_URL = '/'
+
+
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# Mailgun settings
+
+EMAIL_BACKEND = 'projectforum.mailgun.backend.MailgunBackend'
+MAILGUN_ACCESS_KEY = os.environ.get('MAILGUN_ACCESS_KEY')
+MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
 
 
 # Heroku settings
@@ -115,6 +128,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+# Enable more logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
