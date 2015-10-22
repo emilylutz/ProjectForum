@@ -11,6 +11,7 @@ import hashlib
 import random
 import re
 
+
 class UTC(tzinfo):
     """UTC"""
     def utcoffset(self, dt):
@@ -19,6 +20,7 @@ class UTC(tzinfo):
         return "UTC"
     def dst(self, dt):
         return timedelta(0)
+
 
 class RegistrationLinkManager(models.Manager):
     """
@@ -42,6 +44,9 @@ class RegistrationLinkManager(models.Manager):
             user.is_active = True
             user.save()
             link.delete()
+
+            profile = UserProfile.objects.get_or_create_profile(user)
+
             return user
         return False
 
@@ -82,8 +87,7 @@ class RegistrationLinkManager(models.Manager):
 
 class RegistrationLink(models.Model):
     """
-    A simple link which stores an activation key for use during
-    user account registration.
+    A link which stores an activation key for user account registration.
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='user')
     activation_key = models.CharField('activation key', max_length=40)
@@ -133,3 +137,36 @@ class RegistrationLink(models.Model):
                                                to_emails)
         email_message.attach_alternative(html_body, 'text/html')
         email_message.send()
+
+
+class UserProfileManager(models.Manager):
+    """
+    Custom manager for the ``UserProfile`` model.
+    """
+
+    def get_or_create_profile(self, user):
+        """
+        Get the user's profile (creating it if necessary).
+        """
+        try:
+            return self.get(user=user)
+        except self.model.DoesNotExist:
+            profile = self.create(user=user)
+            return profile
+
+
+class UserProfile(models.Model):
+    """
+    The unrequired user information for filling out the user profile.
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='user')
+    github = models.URLField('GitHub url', blank=True)
+
+    objects = UserProfileManager()
+
+    class Meta:
+        verbose_name = 'user profile'
+        verbose_name_plural = 'user profiles'
+
+    def __str__(self):
+        return "User profile for %s" % self.user

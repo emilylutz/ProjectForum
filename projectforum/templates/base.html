@@ -10,7 +10,8 @@
 <body>
     <div id="header">
         {% if user.is_authenticated %}
-            Logged in: {{ user.username }}
+            Logged in:
+            <a href="{% url "profile:view" user.username %}">{{ user.username }}</a>
             (<a href="{% url "profile:logout" %}">Log out</a> | 
             <a href="{% url "profile:password_change" %}">Change password</a>)
         {% else %}

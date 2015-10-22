@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if user_profile %}
+        <h2>User profile for {{ user_profile.user.username }}</h2>
+        {% if can_edit %}
+            <p>
+                <a href="{% url "profile:edit" user_profile.user.username %}">
+                    Edit
+                </a>
+            </p>
+        {% endif %}
+        <p>First name: {{ user_profile.user.first_name }}</p>
+        <p>Last name: {{ user_profile.user.last_name }}</p>
+        <p>Email: {{ user_profile.user.email }}</p>
+        <p>Github: {{ user_profile.github }}</p>
+    {% else %}
+        No such user exists.
+    {% endif %}
+{% endblock %}
