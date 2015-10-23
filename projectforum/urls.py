@@ -10,5 +10,7 @@ urlpatterns = [
                               namespace="profile")),
 
     # Temporary Static Index Webpage
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name="index"),
+
+    url(r'^page', TemplateView.as_view(template_name='index.html'), name="index"),
+    url(r'^$', TemplateView.as_view(template_name='welcome.html'), name="index"),
 ]

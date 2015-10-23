@@ -1,0 +1,18 @@
+$header-color: #2F9ED4;
+
+.headerbackground {
+  width: 100%;
+  background-color: $header-color;
+  min-height: 3em;
+  padding: 1em;
+
+}
+.banner {
+  font-size: 1.75em;
+  float: left;
+  vertical-align: middle;
+}
+.login {
+  float: right;
+}
+

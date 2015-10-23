@@ -1,0 +1,24 @@
+$font-stack: 1em "Helvetica Neue", Arial, sans-serif;
+$window-size: 95%;
+$margin-size: 0 (100% - $window-size) / 2;
+$mobile-size: 320px;
+
+body {
+  min-width: $mobile-size;
+  font: $font-stack;
+  -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
+}
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.content {
+  width: $window-size;
+  margin: $margin-size;
+}

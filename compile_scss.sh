@@ -1,0 +1,1 @@
+sass --watch projectforum/static/css/sass/ projectforum/static/css/

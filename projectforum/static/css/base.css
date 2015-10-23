@@ -1,0 +1,19 @@
+body {
+  min-width: 320px;
+  font: 1em "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  /* Stops Mobile Safari from auto-adjusting font-sizes */ }
+
+html {
+  box-sizing: border-box; }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; }
+
+.content {
+  width: 95%;
+  margin: 0 2.5%; }
+
+/*# sourceMappingURL=base.css.map */
