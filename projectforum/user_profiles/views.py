@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 
-from .forms import ProfileEditForm, RegisterForm
+from .forms import ProfileEditForm, RegisterForm, UserNamesEditForm
 from .models import RegistrationLink, UserProfile
 
 
@@ -58,10 +58,33 @@ class ProfileEditView(UpdateView):
         except UserModel.DoesNotExist:
             user_profile = None
         return user_profile
-        
+
     def get_success_url(self):
         return reverse('profile:view',
                        kwargs={'username':self.profile_username})
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileEditView, self).get_context_data(**kwargs)
+        context['user_form'] = UserNamesEditForm({
+            'first_name': self.profile.user.first_name,
+            'last_name': self.profile.user.last_name
+        })
+        return context
+
+    def form_valid(self, form):
+        user_form = UserNamesEditForm(**self.get_form_kwargs())
+        if user_form.is_valid():
+            self.profile.user.first_name = user_form.cleaned_data['first_name']
+            self.profile.user.last_name = user_form.cleaned_data['last_name']
+            self.profile.user.save()
+            return super(ProfileEditView, self).form_valid(form)
+        else:
+            return super(ProfileEditView, self).form_invalid(form)
+
+    def form_invalid(self, form):
+        user_form = UserNamesEditForm(**self.get_form_kwargs())
+        user_form.is_valid()
+        return super(ProfileEditView, self).form_invalid(form)
 
 
 class ProfileView(TemplateView):
