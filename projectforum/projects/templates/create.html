@@ -1,19 +1,21 @@
-{% load staticfiles %}
-{% block stylesheets %}
+{% extends "base.html" %}
+<!-- {% load staticfiles %} -->
+{% block extra_css %}
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
-<!-- <link href="//raw.githubusercontent.com/aehlke/tag-it/master/css/jquery.tagit.css" rel="stylesheet" type="text/css"> -->
+<link href="{% static "css/jquery.tagit.css" %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block scripts %}
+{% block extra_js %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="//raw.githubusercontent.com/aehlke/tag-it/master/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+<script src="{% static "js/tag-it.js" %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block content %}
 <form action="." method="post" id="create-project">
     {% csrf_token %}
     <div id="project-defaults">
+        <br/>
         <div class="form-field title">
             <label>{{form.title.label}}</label>
             <br/>
