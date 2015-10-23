@@ -1,0 +1,73 @@
+{% load staticfiles %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+<!-- <link href="//raw.githubusercontent.com/aehlke/tag-it/master/css/jquery.tagit.css" rel="stylesheet" type="text/css"> -->
+{% endblock %}
+
+{% block scripts %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//raw.githubusercontent.com/aehlke/tag-it/master/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+<form action="." method="post" id="create-project">
+    {% csrf_token %}
+    <div id="project-defaults">
+        <div class="form-field title">
+            <label>{{form.title.label}}</label>
+            <br/>
+            {{form.title}}
+        </div>
+        <div class="form-field description">
+            <label>{{form.description.label}}</label>
+            <br/>
+            {{form.description}}
+        </div>
+        <div class="form-field compensation">
+            <label>Compensation</label>
+            <br/>
+            {{form.payment}}
+            {{form.amount}}
+        </div>
+    </div>
+    <div id="project-options">
+        <label>Optional:</label>
+        Questions<br/>
+        Help us help you!<br/>
+        Are you looking for ... <br/>
+        <input type="checkbox" name="mobile" value="mobile" onclick="calc(this)">Mobile<br/>
+        <input type="checkbox" name="android" value="android" onclick="calc(this)">Android<br/>
+        <input type="checkbox" name="ios" value="ios" onclick="calc(this)">iOS<br/>
+        <input type="checkbox" name="webapp" value="webapp" onclick="calc(this)">Web Application<br/>
+        <div id="form-field-options">
+            <label>Tags:</label>
+            <br/>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#myTags").tagit({
+                        'singleField': true
+                    });
+                });
+            </script>
+
+            <ul id="myTags">
+            </ul>
+            <br/>
+        </div>
+    </div>
+    <!-- {{form.tags}} -->
+    <input type="submit" value="Post!" />
+</form>
+
+<script type="text/javascript">
+    function calc (event) {
+        if (event.checked == true) {
+            $("#myTags").tagit("createTag", event.value);
+        } else {
+            $("#myTags").tagit("removeTagByLabel", event.value);
+        }
+    }
+
+</script>
+{% endblock %}

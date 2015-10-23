@@ -1,13 +1,24 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from .models import UserProfile
 
 
+class UserNamesEditForm(forms.ModelForm):
+    """
+    Form for editing a user account's first_name and last_name fields
+    """
+    required_css_class = 'required'
+
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name')
+
+
 class ProfileEditForm(forms.ModelForm):
     """
-    Form for editing a user account and its profile.
+    Form for editing a user account's profile.
     """
     required_css_class = 'required'
 
