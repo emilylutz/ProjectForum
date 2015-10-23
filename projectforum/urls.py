@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^profile/', include('projectforum.user_profiles.urls',
                               namespace="profile")),
+    url(r'^project/', include('projectforum.projects.urls',
+                              namespace="project")),
 
     # Temporary Static Index Webpage
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="index"),

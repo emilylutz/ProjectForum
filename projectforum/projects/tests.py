@@ -1,5 +1,5 @@
-from django.test import TestCase
-from projectforum.projects.models import Project
+from django.test import TestCase, Client
+from .models import Project
 
 class ProjectsTest(TestCase):
 	#def setUp(self):
@@ -19,6 +19,12 @@ class ProjectsTest(TestCase):
 
 		fetched_projects = Project.objects.filter()
 		self.assertEqual(1, len(fetched_projects))
+		self.assertEqual(fetched_projects[0].title, "Test Title")
 		print "projects can be gotten"
 
-# Create your tests here.
+	def test_list_page_exists(self):
+		c = Client()
+		resp = c.get('/project/list/')
+		self.assertTrue(resp.is_rendered)
+
+	#Please add more tests!
