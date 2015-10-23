@@ -4,7 +4,7 @@ from django.conf.urls import include, patterns, url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
-from .views import ActivateView, RegisterView
+from .views import ActivateView, ProfileEditView, ProfileView, RegisterView
 
 urlpatterns = [
     url(r'^activate/complete/$',
@@ -13,6 +13,10 @@ urlpatterns = [
     url(r'^activate/(?P<activation_key>\w+)/$',
         ActivateView.as_view(),
         name='activate'),
+
+    url(r'^edit/(?P<username>\w+)/$',
+        ProfileEditView.as_view(),
+        name='edit'),
 
     url(r'^login/$', auth_views.login,
         {'template_name': 'login.html'},
@@ -54,4 +58,8 @@ urlpatterns = [
     url(r'^reset/done/$', auth_views.password_reset_complete,
         {'template_name': 'password_reset_complete.html'},
         name='password_reset_complete'),
+
+    url(r'^view/(?P<username>\w+)/$',
+        ProfileView.as_view(),
+        name='view'),
 ]
