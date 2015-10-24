@@ -72,5 +72,16 @@ class ProjectsTest(TestCase):
 		resp_projects = resp.context_data['project_list']
 		self.assertEqual(project1, resp_projects[0])
 
+	def test_project_to_string(self):
+		project1 = Project.objects.create(
+			title = "Test Title 1",
+			description = "Test Description 1",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		self.assertEqual(project1.__str__(), "Project: {title: Test Title 1}")
+
 
 # 	#Please add more tests!
