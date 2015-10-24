@@ -16,4 +16,18 @@ html {
   width: 95%;
   margin: 0 2.5%; }
 
+.headerbackground {
+  width: 100%;
+  background-color: #2F9ED4;
+  min-height: 3em;
+  padding: 1em; }
+
+.banner {
+  font-size: 1.75em;
+  float: left;
+  vertical-align: middle; }
+
+.login {
+  float: right; }
+
 /*# sourceMappingURL=base.css.map */
