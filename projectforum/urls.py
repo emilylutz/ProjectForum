@@ -11,8 +11,5 @@ urlpatterns = [
     url(r'^project/', include('projectforum.projects.urls',
                               namespace="project")),
 
-    # Temporary Static Index Webpage
-
-    url(r'^page', TemplateView.as_view(template_name='index.html'), name="index"),
-    url(r'^$', TemplateView.as_view(template_name='welcome.html'), name="index"),
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name="index"),
 ]

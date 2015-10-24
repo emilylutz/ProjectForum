@@ -2,6 +2,7 @@ $font-stack: 1em "Helvetica Neue", Arial, sans-serif;
 $window-size: 95%;
 $margin-size: 0 (100% - $window-size) / 2;
 $mobile-size: 320px;
+$header-color: #2F9ED4;
 
 body {
   min-width: $mobile-size;
@@ -21,4 +22,20 @@ html {
 .content {
   width: $window-size;
   margin: $margin-size;
+}
+
+.headerbackground {
+  width: 100%;
+  background-color: $header-color;
+  min-height: 3em;
+  padding: 1em;
+
+}
+.banner {
+  font-size: 1.75em;
+  float: left;
+  vertical-align: middle;
+}
+.login {
+  float: right;
 }
