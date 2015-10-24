@@ -1,9 +1,11 @@
 from django.test import TestCase, Client
 from .models import Project
+from django.contrib.auth.models import User
+
 
 class ProjectsTest(TestCase):
-	#def setUp(self):
-		# add any set-up code here
+	def setUp(self):
+		self.user = User.objects.create_user(username='jacob', email='jacob@gmail.com', password='topsecret')
 
 	def test_that_tests_work(self):
 		print "test works"
@@ -12,6 +14,10 @@ class ProjectsTest(TestCase):
 		project1 = Project.objects.create(
 			title = "Test Title",
 			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
 		)
 		self.assertEqual(project1.title, "Test Title")
 		self.assertEqual(project1.description, "Test Description")
@@ -32,10 +38,18 @@ class ProjectsTest(TestCase):
 		project1 = Project.objects.create(
 			title = "Test Title 1",
 			description = "Test Description 1",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
 		)
 		project2 = Project.objects.create(
 			title = "Test Title 2",
 			description = "Test Description 2",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
 		)
 		c = Client()
 		resp = c.get('/project/list/')
@@ -47,6 +61,10 @@ class ProjectsTest(TestCase):
 		project1 = Project.objects.create(
 			title = "Test Title 1",
 			description = "Test Description 1",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
 		)
 		c = Client()
 		resp = c.get('/project/list/')
@@ -55,4 +73,4 @@ class ProjectsTest(TestCase):
 		self.assertEqual(project1, resp_projects[0])
 
 
-	#Please add more tests!
+# 	#Please add more tests!
