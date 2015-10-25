@@ -2,19 +2,43 @@
 
 {% block content %}
     {% if user_profile %}
-        <h2>User profile for {{ user_profile.user.username }}</h2>
+        <h2>User profile for {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</h2>
         {% if can_edit %}
             <p>
-                <a href="{% url "profile:edit" user_profile.user.username %}">
+                <a href="{% url 'profile:edit' user_profile.user.username %}">
                     Edit
                 </a>
             </p>
         {% endif %}
-        <p>First name: {{ user_profile.user.first_name }}</p>
-        <p>Last name: {{ user_profile.user.last_name }}</p>
+
+        {% if user_profile.openToEmploy %}
+            <p>User is open to full-time employment.</p>
+        {% endif %}
+
         <p>Email: {{ user_profile.user.email }}</p>
+        <p>Phone number: {{ user_profile.phone_number }}</p>
+
         <p>Github: {{ user_profile.github }}</p>
+        <p>LinkedIn: {{ user_profile.linkedin }}</p>
+        <p>Personal: {{ user_profile.personal }}</p>
+
+        <p>Skills:</p>
+        <ul>
+            {% for skill_tag in user_profile.skills.all %}
+                <li>{{ skill_tag.skill }}</li>
+            {% empty %}
+                <li>No skills listed.</li>
+            {% endfor %}
+        </ul>
+
+        {% if user_profile.showPastProjects %}
+            <p>Past Projects Here</p>
+        {% endif %}
+
+        {% if user_profile.showRatings %}
+            <p>Ratings Here</p>
+        {% endif %}
     {% else %}
-        No such user exists.
+        <p>No such user exists.</p>
     {% endif %}
 {% endblock %}

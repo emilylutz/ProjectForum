@@ -3,6 +3,7 @@ from datetime import tzinfo, timedelta, datetime
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
+from django.core.validators import RegexValidator
 from django.db import models
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -139,6 +140,23 @@ class RegistrationLink(models.Model):
         email_message.send()
 
 
+class UserSkillTag(models.Model):
+    """
+    The user can be tagged with skills. Each tag is a skill.
+    """
+    skill = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.skill
+
+    class Meta:
+        verbose_name = 'user skill tag'
+        verbose_name_plural = 'user skill tags'
+
+    def __str__(self):
+        return "User skill %s" % self.skill
+
+
 class UserProfileManager(models.Manager):
     """
     Custom manager for the ``UserProfile`` model.
@@ -160,7 +178,29 @@ class UserProfile(models.Model):
     The unrequired user information for filling out the user profile.
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='user')
+
+    openToEmploy = models.BooleanField('Open to full time employment',
+                                       default=False)
+
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the" +
+                                         " format: '+999999999'. Up to 15 dig" +
+                                         "its allowed.")
+    phone_number = models.CharField(validators=[phone_regex], blank=True,
+                                    max_length=15)
+
     github = models.URLField('GitHub url', blank=True)
+    linkedin = models.URLField('Linkedin url', blank=True)
+    personal = models.URLField('Personal url', blank=True)
+
+    skills = models.ManyToManyField(UserSkillTag, related_name='user_profiles',
+                                    blank=True)
+
+    showPastProjects = models.BooleanField('Publicly show past projects',
+                                       default=False)
+
+    showRatings = models.BooleanField('Public show ratings',
+                                       default=False)
 
     objects = UserProfileManager()
 

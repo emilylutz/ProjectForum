@@ -46,3 +46,23 @@ Set up ProjectForum to run locally and then run the following command:
 ```
 $ python manage.py test
 ```
+
+To run the tests on Heroku, first make a new postgres database on Heroku. Then
+you should be able to see what the url to the value of the config variable
+HEROKU_POSTGRESQL_<COLOR>_URL. Use the following command to see the value.
+
+```
+$ heroku config
+```
+
+Then use this command to set the value
+
+```
+$ heroku config:set TEST_DATABASE_URL=*postgres database url*
+```
+
+Finally run this command to run the tests.
+
+```
+$ heroku run python manage.py test
+```

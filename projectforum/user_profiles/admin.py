@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import RegistrationLink, UserProfile
+from .models import RegistrationLink, UserProfile, UserSkillTag
 
 
 class RegistrationLinkAdmin(admin.ModelAdmin):
@@ -14,3 +14,10 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
+
+
+class UserSkillTagAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(UserSkillTag, UserSkillTagAdmin)
