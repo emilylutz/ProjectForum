@@ -26,3 +26,5 @@ class Project(models.Model):
     tags = models.CharField(max_length=2048, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    def __str__(self):
+        return "Project: {title: "+self.title+"}"

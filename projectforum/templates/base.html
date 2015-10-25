@@ -3,13 +3,31 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
-    {% block extra_css %}{% endblock %}
-    {% block extra_js %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/external/bootstrap/css/bootstrap.min.css' %}">
+    {% block header %}{% endblock %}
 </head>
 <body>
-    {% include "header.html" %}
+    <div class="clearfix headerbackground">
+        <div class="col-xs-6 col-sm-6">
+            <div class="banner">
+                Project Forum
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-6">
+            <div class="login">
+                {% if user.is_authenticated %}
+                    Logged in:
+                    <a href="{% url "profile:view" user.username %}">{{ user.username }}</a>
+                    (<a href="{% url "profile:logout" %}">Log out</a> |
+                    <a href="{% url "profile:password_change" %}">Change password</a>)
+                {% else %}
+                    <a href="{% url "profile:login" %}">Log in</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <div id="content">
         {% block content %}{% endblock %}
