@@ -58,7 +58,7 @@ $ python manage.py test
 
 To run the tests on Heroku, first make a new postgres database on Heroku. Then
 you should be able to see what the url to the value of the config variable
-HEROKU_POSTGRESQL_<COLOR>_URL. Use the following command to see the value.
+HEROKU_POSTGRESQL_\<COLOR>_URL. Use the following command to see the value.
 
 ```
 $ heroku config
