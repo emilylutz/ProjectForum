@@ -33,8 +33,14 @@ pip install them to get it working.
 # Running ProjectForum
 
 ProjectForum is set up to deploy to Heroku. Just deploy and then run the
-following command to set up the databases.
+following commands to set up the databases.
 
+This will remove the current objects in the database. Not a good idea in production, but while we are still in development it is fine and removes a lot of headaches later with a bad migration.
+```
+$ heroku run python manage.py flush
+```
+
+This will update the database structure.
 ```
 $ heroku run python manage.py migrate
 ```
@@ -46,3 +52,12 @@ Set up ProjectForum to run locally and then run the following command:
 ```
 $ python manage.py test
 ```
+
+## Pull-Request Checklist:
+* Add tests for at least the main functionality of your code. This way if you or someone else accidentaly breaks your code, they will know.
+* Run the tests, make sure they all pass.
+* push your feature branch to the git repo
+```
+git push origin <feature_branch_name>
+```
+* make a pull request on git hub with a description of what your feature does
