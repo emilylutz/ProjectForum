@@ -79,5 +79,5 @@ $ heroku run python manage.py test
 ## Pull-Request Checklist:
 * Add tests for at least the main functionality of your code. This way if you or someone else accidentaly breaks your code, they will know.
 * Run the tests, make sure they all pass.
-* push your feature branch to the git repo `git push origin <feature_branch>`
+* push your feature branch to the git repo `git push origin \<feature_branch>`
 * make a pull request on git hub with a description of what your feature does
