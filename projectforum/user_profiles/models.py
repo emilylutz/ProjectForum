@@ -5,8 +5,10 @@ from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
 from django.core.validators import RegexValidator
 from django.db import models
+from django.forms.models import ModelMultipleChoiceField
 from django.template import RequestContext
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 import hashlib
 import random
@@ -210,3 +212,60 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "User profile for %s" % self.user
+
+
+class TagsField(ModelMultipleChoiceField):
+    """
+    A ModelMultipleChoiceField for tags. It makes a new instance of the tag if
+    it doesn't exist.
+    """
+    default_error_messages = {
+        'list': _('Enter a list of values.'),
+        'invalid_choice': _('Select a valid choice. %(value)s is not one of the'
+                            ' available choices.'),
+        'invalid_pk_value': _('"%(pk)s" is not a valid value for a primary key.'),
+        'test': _('"%(t)s" is the value.')
+    }
+
+    def clean(self, value):
+        if self.required and not value:
+            raise ValidationError(self.error_messages['required'], code='required')
+        elif not self.required and not value:
+            return self.queryset.none()
+        if not isinstance(value, (list, tuple)):
+            raise ValidationError(self.error_messages['list'], code='list')
+        value = self._create_values_if_needed(value)
+        return super(TagsField, self).clean(value)
+
+    def _create_values_if_needed(self, value):
+        """
+        Given a list of possible PK values, creates any tags that don't exist
+        and replace it with the PK value.
+        """
+        key = self.to_field_name or 'pk'
+        # deduplicate given values to avoid creating many querysets or
+        # requiring the database backend deduplicate efficiently.
+        try:
+            value = frozenset(value)
+            finalValue = set(value)
+        except TypeError:
+            # list of lists isn't hashable, for example
+            raise ValidationError(
+                self.error_messages['list'],
+                code='list',
+            )
+        raise ValidationError(
+            self.error_messages['test'],
+            code='test',
+            params={'t': value},
+        )
+        for pk in value:
+            try:
+                self.queryset.filter(**{key: pk})
+            except (ValueError, TypeError):
+                raise ValidationError(
+                    self.error_messages['invalid_pk_value'],
+                    code='invalid_pk_value',
+                    params={'pk': pk},
+                )
+        return finalValue

@@ -1,11 +1,125 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/bootstrap-tokenfield.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/tokenfield-typeahead.min.css' %}">
+    <script src="{% static 'js/bootstrap-tokenfield.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <form method="post" action=".">
-      {{ user_form.as_p }}
-      {{ form.as_p }}
-      {% csrf_token %}
+        <h2>User Profile and Settings</h2>
+        {% if user_form.non_field_errors or form.non_field_errors %}
+            {{ user_form.non_field_errors }}
+            {{ form.non_field_errors }}
+        {% endif %}
 
+        <h3>Personal Information</h3>
+        <p>
+            {{ user_form.first_name.errors }}
+            {{ user_form.first_name.label_tag }}
+            {{ user_form.first_name }}
+        </p>
+        <p>
+            {{ user_form.last_name.errors }}
+            {{ user_form.last_name.label_tag }}
+            {{ user_form.last_name }}
+        </p>
+        <p>
+            {{ form.openToEmploy.errors }}
+            {{ form.openToEmploy.label_tag }}
+            {{ form.openToEmploy }}
+        </p>
+
+        <h3>Contact Information</h3>
+        <p>
+            {{ form.phone_number.errors }}
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+        </p>
+        <p>
+            {{ form.github.errors }}
+            {{ form.github.label_tag }}
+            {{ form.github }}
+        </p>
+        <p>
+            {{ form.linkedin.errors }}
+            {{ form.linkedin.label_tag }}
+            {{ form.linkedin }}
+        </p>
+        <p>
+            {{ form.personal.errors }}
+            {{ form.personal.label_tag }}
+            {{ form.personal }}
+        </p>
+
+        <h3>Work Skills</h3>
+        <p>
+            {{ form.skills.errors }}
+            {{ form.skills.label_tag }}
+            {{ form.skills }}
+        </p>
+        <div id="skills_tokenfield"></div>
+        <script>
+            var skills_input = $('#{{ form.skills.id_for_label }}');
+            skills_input.hide();
+            var tokenfield = $('#skills_tokenfield');
+            tokenfield
+                .tokenfield()
+                .on('tokenfield:createtoken', function (e) {
+                    var tag = e.attrs.value;
+                    skills_input.append('<option selected="selected" value="'
+                        + tag + '">' + tag + '</option>');
+                })
+                .on('tokenfield:createdtoken', function (e) {
+                    var tag = e.attrs.value;
+                    var same = skills_input.find('option[value="' + tag + '"]');
+                    if (same.length > 1) {
+                        $(e.relatedTarget).addClass('invalid');
+                    }
+                })
+                .on('tokenfield:edittoken', function (e) {
+                    var tag = e.attrs.value;
+                    var same = skills_input.find('option[value="' + tag + '"]');
+                    if (same.length == 2) {
+                        tokenfield
+                            .siblings()
+                            .find("span:contains('" + tag + "')")
+                            .parent('.invalid')
+                            .removeClass('invalid');
+                    }
+                    same.last().remove();
+                })
+                .on('tokenfield:removedtoken', function (e) {
+                    var tag = e.attrs.value;
+                    var same = skills_input.find('option[value="' + tag + '"]');
+                    if (same.length == 2) {
+                        tokenfield
+                            .siblings()
+                            .find("span:contains('" + tag + "')")
+                            .parent('.invalid')
+                            .removeClass('invalid');
+                    }
+                    same.last().remove();
+                });
+        </script>
+
+        <h3>Profile Page Settings</h3>
+        <p>
+            {{ form.showPastProjects.errors }}
+            {{ form.showPastProjects.label_tag }}
+            {{ form.showPastProjects }}
+        </p>
+        <p>
+            {{ form.showRatings.errors }}
+            {{ form.showRatings.label_tag }}
+            {{ form.showRatings }}
+        </p>
+
+        {% csrf_token %}
       <input type="submit" value="Update" />
     </form>
 {% endblock %}

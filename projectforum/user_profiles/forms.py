@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 
-from .models import UserProfile
+from .models import UserProfile, TagsField
 
 
 class UserNamesEditForm(forms.ModelForm):
@@ -22,9 +23,15 @@ class ProfileEditForm(forms.ModelForm):
     """
     required_css_class = 'required'
 
+    skills = TagsField()
+
     class Meta:
         model = UserProfile
         exclude = ['user']
+
+    def clean_skills(self):
+        skills = self.cleaned_data.get("skills")
+        raise ValidationError("Nope: " + str(skills))
 
 
 class RegisterForm(UserCreationForm):
