@@ -29,3 +29,10 @@ class CreateView(FormView):
         kwargs = super(CreateView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+class ProjectDetailView(TemplateView):
+    """
+    Project list view.
+    """
+    # model = Project
+    template_name = 'project_detail.html'
