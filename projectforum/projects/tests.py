@@ -107,7 +107,7 @@ class ProjectsTest(TestCase):
 			status = 1,
 		)
 		c = Client()
-		resp = c.get('/project/'+project1.id+'/')
+		resp = c.get('/project/'+str(project1.id)+'/')
 		self.assertTrue(resp.is_rendered)
 
 	def test_project_detail_view_gets_correct_project(self):
@@ -120,7 +120,7 @@ class ProjectsTest(TestCase):
 			status = 1,
 		)
 		c = Client()
-		resp = c.get('/project/'+project1.id+'/')
+		resp = c.get('/project/'+str(project1.id)+'/')
 		self.assertEqual(project1, resp.context_data['project'])
 
 	def test_project_detail_view_error_response_when_project_doesnt_exist(self):
