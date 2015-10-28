@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^create/fail/$',
         TemplateView.as_view(template_name='create_fail.html'),
         name='create_fail'),
+    url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view()),
     #add more urls here
 ]

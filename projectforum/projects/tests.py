@@ -126,5 +126,5 @@ class ProjectsTest(TestCase):
 	def test_project_detail_view_error_response_when_project_doesnt_exist(self):
 		c = Client()
 		resp = c.get('/project/37/')
-		self.assertEqual(404, resp.code)
+		self.assertEqual(404, resp.status_code)
 
