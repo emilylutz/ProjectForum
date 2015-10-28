@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import FormView
 from projectforum.projects.models import Project
 from projectforum.projects.forms import *
+from django.http import Http404
 
 # Create your views here.
 class ProjectListView(ListView):
@@ -34,5 +35,22 @@ class ProjectDetailView(TemplateView):
     """
     Project list view.
     """
-    # model = Project
     template_name = 'project_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(id=kwargs['id'])
+        except Project.DoesNotExist:
+            raise Http404("Project with given id does not exist")
+        self.logged_in = self.request.user.is_authenticated()
+        return super(ProjectDetailView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'project': self.project,
+            'logged_in': self.logged_in,
+            'user': self.request.user,
+        })
+        return context
+

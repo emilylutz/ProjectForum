@@ -128,3 +128,17 @@ class ProjectsTest(TestCase):
 		resp = c.get('/project/37/')
 		self.assertEqual(404, resp.status_code)
 
+	def test_project_detail_view_correct_context_when_user_not_logged_in(self):
+		project1 = Project.objects.create(
+			title = "Test Title",
+			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		c = Client()
+		resp = c.get('/project/'+str(project1.id)+'/')
+		self.assertFalse(resp.context_data['logged_in'])
+
+	#def test_project_detail_view_correct_context_when_user_logged_in(self):
