@@ -5,6 +5,19 @@ allow people to post jobs and collaborate to get things done.
 
 # Setting up ProjectForum
 
+## Setting up the local database
+
+Make sure you have postgress running and then run the following command to create the database.
+
+```
+psql -c "CREATE DATABASE projectforum_db"
+```
+
+Then fill in the structure of the database with the following command:
+```
+python manage.py migrate
+```
+
 ## Setting up Mailgun
 
 ProjectForum uses [Mailgun](https://mailgun.com) to send emails. To get this
@@ -39,10 +52,46 @@ following command to set up the databases.
 $ heroku run python manage.py migrate
 ```
 
+**If you run into migration issues**, you can empty the database from the heroku [portal](https://dashboard.heroku.com/apps) and then run
+
+```
+heroku run python manage.py syncdb
+````
+
 # Running the Tests
 
-Set up ProjectForum to run locally and then run the following command:
+## Running Locally
+
+1. Comment out the lines for `TEST_DATABASES` and `TEST_RUNNER` in `settings.py`
+
+1. Run the following command:
 
 ```
 $ python manage.py test
 ```
+
+## Running Remotely
+
+To run the tests on Heroku, first make a new free postgres database on Heroku using the [portal](https://dashboard.heroku.com/apps). Then you should be able to see what the url to the value of the config variable HEROKU_POSTGRESQL_\<COLOR>_URL. Use the following command to see the value.
+
+```
+$ heroku config --app *app name*
+```
+
+Then use this command to set the value
+
+```
+$ heroku config:set TEST_DATABASE_URL=*postgres database url* --app *app name*
+```
+
+Finally run this command to run the tests.
+
+```
+$ heroku run python manage.py test --app *app name*
+```
+
+## Pull-Request Checklist:
+* Add tests for at least the main functionality of your code. This way if you or someone else accidentaly breaks your code, they will know.
+* Run the tests, make sure they all pass.
+* push your feature branch to the git repo `git push origin \<feature_branch>`
+* make a pull request on git hub with a description of what your feature does

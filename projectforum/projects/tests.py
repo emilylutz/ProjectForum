@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 
 class ProjectsTest(TestCase):
 	def setUp(self):
-		self.user = User.objects.create_user(username='jacob', email='jacob@gmail.com', password='topsecret')
+		self.user = User.objects.create_user(username='jacob',
+                                             email='jacob@gmail.com',
+                                             password='topsecret')
 
 	def test_that_tests_work(self):
-		print "test works"
+		pass
 
 	def test_projects_can_be_created(self):
 		project1 = Project.objects.create(
@@ -19,14 +21,15 @@ class ProjectsTest(TestCase):
 			amount = 1,
 			status = 1,
 		)
+
+		# projects can be created
 		self.assertEqual(project1.title, "Test Title")
 		self.assertEqual(project1.description, "Test Description")
-		print "projects can be created"
 
+		# projects can be gotten
 		fetched_projects = Project.objects.filter()
 		self.assertEqual(1, len(fetched_projects))
 		self.assertEqual(fetched_projects[0].title, "Test Title")
-		print "projects can be gotten"
 
 	def test_list_page_exists(self):
 		c = Client()
@@ -82,6 +85,3 @@ class ProjectsTest(TestCase):
 			status = 1,
 		)
 		self.assertEqual(project1.__str__(), "Project: {title: Test Title 1}")
-
-
-# 	#Please add more tests!

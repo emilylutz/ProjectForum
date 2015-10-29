@@ -114,6 +114,12 @@ import dj_database_url
 DATABASES = {}
 DATABASES['default'] =  dj_database_url.config(default='postgres://:@localhost/projectforum_db')
 
+TEST_DATABASES = {
+    'default': dj_database_url.config(env='TEST_DATABASE_URL')
+}
+
+TEST_RUNNER = 'projectforum.heroku_test_runner.HerokuTestSuiteRunner'
+
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
