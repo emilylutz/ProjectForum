@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from projectforum.user_profiles.models import UserProfile
+# from projectforum.user_profiles.models import UserProfile
 
 
 #title, description, owner, team, status, tags
@@ -26,13 +26,13 @@ class Project(models.Model):
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.CharField(max_length=2048, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-    team_profiles = models.ManyToManyField(UserProfile, related_name="current_projects")
-    applicant_profiles = models.ManyToManyField(UserProfile, related_name="projects_applied_to")
+    team_members = models.ManyToManyField(User, related_name="current_projects")
+    applicants = models.ManyToManyField(User, related_name="projects_applied_to")
 
-    def accept_applicant(self, applicant_profile):
-        if applicant_profile in self.applicant_profiles:
-            self.applicant_profiles.remove(applicant_profile)
-            self.team_profiles.add(applicant_profile)
+    def accept_applicant(self, applicant):
+        if applicant in self.applicants.all():
+            self.applicants.remove(applicant)
+            self.team_members.add(applicant)
             return True
         else:
             return False
