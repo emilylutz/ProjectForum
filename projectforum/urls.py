@@ -12,4 +12,5 @@ urlpatterns = [
                               namespace="project")),
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="index"),
+    url(r'^styleguide$', TemplateView.as_view(template_name='styleguide.html'), name="styleguide"),
 ]
