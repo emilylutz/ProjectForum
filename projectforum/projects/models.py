@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from projectforum.user_profiles.models import UserProfile
 
 
 #title, description, owner, team, status, tags
@@ -11,20 +12,30 @@ class Project(models.Model):
     )
 
     STATUSES = (
-        (1, "In progress"),
-        (2, 'Canceled'),
-        (3, 'Finished'),
+        (1, 'Accepting Applicants'),
+        (2, 'In progress'),
+        (3, 'Canceled'),
+        (4, 'Finished'),
     )
 
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=2048)
     owner = models.ForeignKey(User)
-    #team = models.ManyToManyField(User)
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
     amount = models.IntegerField()
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.CharField(max_length=2048, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    team_profiles = models.ManyToManyField(UserProfile, related_name="current_projects")
+    applicant_profiles = models.ManyToManyField(UserProfile, related_name="projects_applied_to")
+
+    def accept_applicant(self, applicant_profile):
+        if applicant_profile in self.applicant_profiles:
+            self.applicant_profiles.remove(applicant_profile)
+            self.team_profiles.add(applicant_profile)
+            return True
+        else:
+            return False
 
     def __str__(self):
         return "Project: {title: "+self.title+"}"
