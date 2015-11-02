@@ -3,7 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 
-from .models import UserProfile, TagsField
+from .fields import TagsField
+from .models import UserProfile
 
 
 class UserNamesEditForm(forms.ModelForm):
@@ -28,10 +29,6 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ['user']
-
-    def clean_skills(self):
-        skills = self.cleaned_data.get("skills")
-        raise ValidationError("Nope: " + str(skills))
 
 
 class RegisterForm(UserCreationForm):

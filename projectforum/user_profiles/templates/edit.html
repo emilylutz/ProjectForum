@@ -66,24 +66,36 @@
         <script>
             var skills_input = $('#{{ form.skills.id_for_label }}');
             skills_input.hide();
-            var tokenfield = $('#skills_tokenfield');
+
+            var initial_skills = skills_input.children().map(function(){
+               return $.trim($(this).text());
+            }).get();
+
+            var getSkillsWithText = function(text) {
+                return skills_input
+                    .children()
+                    .filter(function () {
+                        return $(this).html() == text;
+                    });
+            };
+
+            var tokenfield = $('#skills_tokenfield').tokenfield();
+            tokenfield.tokenfield('setTokens', initial_skills);
             tokenfield
-                .tokenfield()
                 .on('tokenfield:createtoken', function (e) {
-                    var tag = e.attrs.value;
-                    skills_input.append('<option selected="selected" value="'
-                        + tag + '">' + tag + '</option>');
+                    var tag = e.attrs.label;
+                    skills_input.append('<option selected="selected">' + tag
+                        + '</option>');
                 })
                 .on('tokenfield:createdtoken', function (e) {
-                    var tag = e.attrs.value;
-                    var same = skills_input.find('option[value="' + tag + '"]');
-                    if (same.length > 1) {
+                    var tag = e.attrs.label;
+                    if (getSkillsWithText(tag).length > 1) {
                         $(e.relatedTarget).addClass('invalid');
                     }
                 })
                 .on('tokenfield:edittoken', function (e) {
-                    var tag = e.attrs.value;
-                    var same = skills_input.find('option[value="' + tag + '"]');
+                    var tag = e.attrs.label;
+                    var same = getSkillsWithText(tag);
                     if (same.length == 2) {
                         tokenfield
                             .siblings()
@@ -94,8 +106,8 @@
                     same.last().remove();
                 })
                 .on('tokenfield:removedtoken', function (e) {
-                    var tag = e.attrs.value;
-                    var same = skills_input.find('option[value="' + tag + '"]');
+                    var tag = e.attrs.label;
+                    var same = getSkillsWithText(tag);
                     if (same.length == 2) {
                         tokenfield
                             .siblings()
