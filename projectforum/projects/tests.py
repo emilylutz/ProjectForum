@@ -112,7 +112,7 @@ class ProjectsTest(TestCase):
 		self.assertEqual(1, len(all_applicants))
 		self.assertEqual(joe, all_applicants[0])
 
-		#check that project is in applicant's current_projects
+		#check that project is in applicant's projects applied to
 		fetched_joe = User.objects.get(id=joe.id)
 		self.assertEqual(1, len(fetched_joe.projects_applied_to.all()))
 		self.assertEqual(project1, fetched_joe.projects_applied_to.all()[0])
@@ -131,17 +131,20 @@ class ProjectsTest(TestCase):
                                              email='joe@gmail.com',
                                              password='topsecret2')
 		
+		# Check that you can't accept an applicant who isn't in applicants
 		self.assertFalse(project1.accept_applicant(joe))
 		
 		# Add applicant to project
 		project1.applicants.add(joe)
 
+		# Check that project doesn't have any team members yet
 		allTeamMembers = project1.team_members.all()
 		self.assertEqual(0, len(allTeamMembers))
 
+		# Check that accepting an applicant in applicants works
 		self.assertTrue(project1.accept_applicant(joe))
 
-		#check that applicant is in project's applicants
+		# check that applicant is in project's team members
 		fetched_project = Project.objects.filter()[0]
 		allTeamMembers = fetched_project.team_members.all()
 		self.assertEqual(1, len(allTeamMembers))
@@ -152,33 +155,3 @@ class ProjectsTest(TestCase):
 		self.assertEqual(0, len(fetched_joe.projects_applied_to.all()))
 		self.assertEqual(1, len(fetched_joe.current_projects.all()))
 		self.assertEqual(project1, fetched_joe.current_projects.all()[0])
-
-	# def test_add_project_applicants(self):
-	# 	project1 = Project.objects.create(
-	# 		title = "Test Title 1",
-	# 		description = "Test Description 1",
-	# 		owner = self.user,
-	# 		payment = 1,
-	# 		amount = 1,
-	# 		status = 1,
-	# 	)
-	# 	allApplicants = project1.applicants.all()
-	# 	self.assertEqual(0, len(allApplicants))
-
-	# 	applicant1 = User.objects.create_user(username='joe',
- #                                             email='joe@gmail.com',
- #                                             password='topsecret2')
-
-	# 	# Add applicant to project
-	# 	project1.applicants.add(applicant1)
-
-	# 	#check that applicant is in project's applicants
-	# 	fetched_project = Project.objects.filter()[0]
-	# 	allApplicants = fetched_project.applicants.all()
-	# 	self.assertEqual(1, len(allApplicants))
-	# 	self.assertEqual(applicant1, allApplicants[0])
-
-	# 	#check that project is in applicant's current_projects
-	# 	applicant = User.objects.get(id=applicant1.id)
-	# 	self.assertEqual(1, len(applicant.current_projects.all()))
-	# 	self.assertEqual(project1, applicant.current_projects.all()[0])
