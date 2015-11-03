@@ -209,6 +209,93 @@ class ProjectsTest(TestCase):
 		c = Client()
 		resp = c.get('/project/'+str(project1.id)+'/')
 		self.assertFalse(resp.context_data['logged_in'])
+		self.assertEqual(project1, resp.context_data['project'])
+		self.assertTrue(resp.context_data['user'].is_anonymous())
 
+	def test_project_detail_view_correct_context_when_owner_logged_in(self):
+		project1 = Project.objects.create(
+			title = "Test Title",
+			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		c = Client()
+		self.assertTrue(c.login(username= self.user.username, password='topsecret'))
+		resp = c.get('/project/'+str(project1.id)+'/')
+		self.assertTrue(resp.context_data['logged_in'])
+		self.assertEqual(project1, resp.context_data['project'])
+		self.assertEqual(self.user, resp.context_data['user'])
+		#TODO: test that owner is seeing correct stuff
 
-	#def test_project_detail_view_correct_context_when_user_logged_in(self):
+		#TODO: make sure that loggin is tested on User Profiles page too...
+		# I don't want my detail view test to be the only example of loggin in
+
+	def test_project_detail_view_correct_context_when_other_user_logged_in(self):
+		project1 = Project.objects.create(
+			title = "Test Title",
+			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		joe = User.objects.create_user(username='joe',
+                                       email='joe@gmail.com',
+                                       password='topsecret2')
+		c = Client()
+		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
+		resp = c.get('/project/'+str(project1.id)+'/')
+		self.assertTrue(resp.context_data['logged_in'])
+		self.assertEqual(project1, resp.context_data['project'])
+		self.assertEqual(joe, resp.context_data['user'])
+		#TODO: test that other user is seeing apply button
+
+	def test_project_detail_view_correct_context_when_applied_user_logged_in(self):
+		project1 = Project.objects.create(
+			title = "Test Title",
+			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		joe = User.objects.create_user(username='joe',
+                                       email='joe@gmail.com',
+                                       password='topsecret2')
+		project1.applicants.add(joe)
+		c = Client()
+		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
+		resp = c.get('/project/'+str(project1.id)+'/')
+		self.assertTrue(resp.context_data['logged_in'])
+		self.assertEqual(project1, resp.context_data['project'])
+		self.assertEqual(joe, resp.context_data['user'])
+		#TODO: test that user is not seeing apply button
+		#TODO: test that user sees message saying owner is reviewing application
+
+	def test_project_detail_view_correct_context_when_team_member_logged_in(self):
+		project1 = Project.objects.create(
+			title = "Test Title",
+			description = "Test Description",
+			owner = self.user,
+			payment = 1,
+			amount = 1,
+			status = 1,
+		)
+		joe = User.objects.create_user(username='joe',
+                                       email='joe@gmail.com',
+                                       password='topsecret2')
+		project1.applicants.add(joe)
+		project1.accept_applicant(joe)
+
+		c = Client()
+		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
+		resp = c.get('/project/'+str(project1.id)+'/')
+		self.assertTrue(resp.context_data['logged_in'])
+		self.assertEqual(project1, resp.context_data['project'])
+		self.assertEqual(joe, resp.context_data['user'])
+		#TODO: test that  user is not seeing apply button/message
+		#TODO: test that user can see owner and other team members contact info
+
+	#TODO: add tests for different stages a project can be in: complete, in_progess, accepting_appicants, canceled
