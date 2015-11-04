@@ -10,7 +10,7 @@
 	{% for applicant in project.applicants.all %}
 	    <li class='people_list_element'>{{ applicant.username }}, {{ applicant.email }}</li>
 	{% empty %}
-	    <li class='empty_people_list_element'>No Applicants yet</li>
+	    <li class='empty_people_list_element'>No applicants yet.</li>
 	{% endfor %}
 	</ul>
 	Team Members:
@@ -18,7 +18,7 @@
 	{% for member in project.team_members.all %}
 	    <li class='people_list_element'>{{ member.name }}, {{ member.email }}</li>
 	{% empty %}
-	    <li class='empty_people_list_element'>No Applicants yet</li>
+	    <li class='empty_people_list_element'>No team members yet.</li>
 	{% endfor %}
 	</ul>
 {% elif user in project.team_members.all %}
@@ -30,8 +30,6 @@
     <ul class='people_list'>
 	{% for member in project.team_members.all %}
 	    <li class='people_list_element'>{{ member.name }}, {{ member.email }}</li>
-	{% empty %}
-	    <li class='empty_people_list_element'>No Applicants yet</li>
 	{% endfor %}
 	</ul>
 {% elif user in project.applicants.all %}
