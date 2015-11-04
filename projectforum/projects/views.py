@@ -31,7 +31,7 @@ class CreateView(FormView):
         return kwargs
 
     def get(self, request):
-        context = super(CreateView, self).get_context_data(**kwargs)
+        context = super(CreateView, self).get_context_data()
         if self.request.user.is_authenticated() == False:
             return redirect("/profile/login")
 
