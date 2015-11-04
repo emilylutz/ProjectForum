@@ -29,3 +29,12 @@ class CreateView(FormView):
         kwargs = super(CreateView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+    def get(self, request):
+        context = super(CreateView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated() == False:
+            return redirect("/profile/login")
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(CreateView, self).get_context_data(**kwargs)
+    #     context['current_user'] =
