@@ -9,6 +9,14 @@ class ProjectsTest(TestCase):
                                              email='jacob@gmail.com',
                                              password='topsecret')
 
+	# Helper functions
+	def basicDetailViewTests(self, resp, project):
+		self.assertEqual(resp.status_code, 200)
+		self.assertEqual(project, resp.context['project'])
+		self.assertTemplateUsed(resp, 'project_detail.html')
+		self.assertContains(resp, project.title, 1)
+		self.assertContains(resp, project.description, 1)
+
 	def test_that_tests_work(self):
 		pass
 
@@ -190,7 +198,7 @@ class ProjectsTest(TestCase):
 		)
 		c = Client()
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertEqual(project1, resp.context_data['project'])
+		self.assertEqual(project1, resp.context['project'])
 
 	def test_project_detail_view_error_response_when_project_doesnt_exist(self):
 		c = Client()
@@ -208,9 +216,15 @@ class ProjectsTest(TestCase):
 		)
 		c = Client()
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertFalse(resp.context_data['logged_in'])
-		self.assertEqual(project1, resp.context_data['project'])
-		self.assertTrue(resp.context_data['user'].is_anonymous())
+		self.basicDetailViewTests(resp, project1)
+
+		# User specific tests
+		self.assertNotContains(resp, 'apply_button')
+		self.assertContains(resp, 'Log in to apply')
+		self.assertNotContains(resp, 'Applicants')
+		self.assertNotContains(resp, 'Team Members')
+		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_owner_logged_in(self):
 		project1 = Project.objects.create(
@@ -224,13 +238,21 @@ class ProjectsTest(TestCase):
 		c = Client()
 		self.assertTrue(c.login(username= self.user.username, password='topsecret'))
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertTrue(resp.context_data['logged_in'])
-		self.assertEqual(project1, resp.context_data['project'])
-		self.assertEqual(self.user, resp.context_data['user'])
-		#TODO: test that owner is seeing correct stuff
+		self.basicDetailViewTests(resp, project1)
 
-		#TODO: make sure that loggin is tested on User Profiles page too...
-		# I don't want my detail view test to be the only example of loggin in
+		self.assertTrue(resp.context['logged_in'])
+		self.assertEqual(self.user, resp.context['user'])
+
+		# User specific tests
+		self.assertNotContains(resp, 'apply_button')
+		self.assertNotContains(resp, 'Log in to apply')
+		self.assertContains(resp, 'Applicants')
+		self.assertContains(resp, 'Team Members')
+		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'reviewing your application')
+		#TODO: test that owner can see button for accepting applicants
+		#TODO: test that owner can cancel the project or mark it as complete
+		#TODO:maybe test specific cases for if there are applicants or team members vs not.
 
 	def test_project_detail_view_correct_context_when_other_user_logged_in(self):
 		project1 = Project.objects.create(
@@ -247,10 +269,18 @@ class ProjectsTest(TestCase):
 		c = Client()
 		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertTrue(resp.context_data['logged_in'])
-		self.assertEqual(project1, resp.context_data['project'])
-		self.assertEqual(joe, resp.context_data['user'])
-		#TODO: test that other user is seeing apply button
+		self.basicDetailViewTests(resp, project1)
+
+		self.assertTrue(resp.context['logged_in'])
+		self.assertEqual(joe, resp.context['user'])
+
+		# User specific tests
+		self.assertContains(resp, 'apply_button')
+		self.assertNotContains(resp, 'Log in to apply')
+		self.assertNotContains(resp, 'Applicants')
+		self.assertNotContains(resp, 'Team Members')
+		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_applied_user_logged_in(self):
 		project1 = Project.objects.create(
@@ -268,11 +298,18 @@ class ProjectsTest(TestCase):
 		c = Client()
 		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertTrue(resp.context_data['logged_in'])
-		self.assertEqual(project1, resp.context_data['project'])
-		self.assertEqual(joe, resp.context_data['user'])
-		#TODO: test that user is not seeing apply button
-		#TODO: test that user sees message saying owner is reviewing application
+		self.basicDetailViewTests(resp, project1)
+
+		self.assertTrue(resp.context['logged_in'])
+		self.assertEqual(joe, resp.context['user'])
+
+		# User specific tests
+		self.assertNotContains(resp, 'apply_button')
+		self.assertNotContains(resp, 'Log in to apply')
+		self.assertNotContains(resp, 'Applicants')
+		self.assertNotContains(resp, 'Team Members')
+		self.assertNotContains(resp, 'Owner')
+		self.assertContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_team_member_logged_in(self):
 		project1 = Project.objects.create(
@@ -292,10 +329,18 @@ class ProjectsTest(TestCase):
 		c = Client()
 		self.assertTrue(c.login(username=joe.username, password='topsecret2'))
 		resp = c.get('/project/'+str(project1.id)+'/')
-		self.assertTrue(resp.context_data['logged_in'])
-		self.assertEqual(project1, resp.context_data['project'])
-		self.assertEqual(joe, resp.context_data['user'])
-		#TODO: test that  user is not seeing apply button/message
-		#TODO: test that user can see owner and other team members contact info
+		self.basicDetailViewTests(resp, project1)
 
-	#TODO: add tests for different stages a project can be in: complete, in_progess, accepting_appicants, canceled
+		self.assertTrue(resp.context['logged_in'])
+		self.assertEqual(project1, resp.context['project'])
+		self.assertEqual(joe, resp.context['user'])
+
+		# User specific tests
+		self.assertNotContains(resp, 'apply_button')
+		self.assertNotContains(resp, 'Log in to apply')
+		self.assertNotContains(resp, 'Applicants')
+		self.assertContains(resp, 'Team Members')
+		self.assertContains(resp, 'Owner')
+		self.assertNotContains(resp, 'reviewing your application')
+
+	# Test project page when project is in different states: cancelled, completed, in progress, accepting applicants

@@ -42,6 +42,7 @@ class ProjectDetailView(TemplateView):
             self.project = Project.objects.get(id=kwargs['id'])
         except Project.DoesNotExist:
             raise Http404("Project with given id does not exist")
+        self.user = self.request.user
         self.logged_in = self.request.user.is_authenticated()
         return super(ProjectDetailView, self).get(request, *args, **kwargs)
 

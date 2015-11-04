@@ -1,1 +1,41 @@
 <h1>Projects Detail View</h1>
+<h3 class='detail_title'>{{ project.title }}</h3>
+<p class='detail_description'>{{ project.description }}</p>
+
+{% if not logged_in %}
+    <button>Log in to apply!</button>
+{% elif user == project.owner %}
+    Applicants:
+    <ul class='people_list'>
+	{% for applicant in project.applicants.all %}
+	    <li class='people_list_element'>{{ applicant.username }}, {{ applicant.email }}</li>
+	{% empty %}
+	    <li class='empty_people_list_element'>No Applicants yet</li>
+	{% endfor %}
+	</ul>
+	Team Members:
+    <ul class='people_list'>
+	{% for member in project.team_members.all %}
+	    <li class='people_list_element'>{{ member.name }}, {{ member.email }}</li>
+	{% empty %}
+	    <li class='empty_people_list_element'>No Applicants yet</li>
+	{% endfor %}
+	</ul>
+{% elif user in project.team_members.all %}
+    Owner:
+    <ul class='people_list'>
+	    <li class='people_list_element'>{{ project.owner.username }}, {{ applicant.email }}</li>
+	</ul>
+    Team Members:
+    <ul class='people_list'>
+	{% for member in project.team_members.all %}
+	    <li class='people_list_element'>{{ member.name }}, {{ member.email }}</li>
+	{% empty %}
+	    <li class='empty_people_list_element'>No Applicants yet</li>
+	{% endfor %}
+	</ul>
+{% elif user in project.applicants.all %}
+    The project owner is reviewing your application. Withdraw your application here.
+{% else %}
+    <button class='apply_button'>Apply Here!</button>
+{% endif %}
