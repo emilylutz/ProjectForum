@@ -10,6 +10,8 @@ urlpatterns = [
                               namespace="profile")),
     url(r'^project/', include('projectforum.projects.urls',
                               namespace="project")),
+    url(r'^ratings/', include('projectforum.ratings.urls',
+                              namespace="ratings")),
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="index"),
 ]
