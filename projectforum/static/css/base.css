@@ -1,33 +1,129 @@
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
 body {
-  min-width: 320px;
-  font: 1em "Helvetica Neue", Arial, sans-serif;
-  -webkit-text-size-adjust: 100%;
-  /* Stops Mobile Safari from auto-adjusting font-sizes */ }
+  background-color: #4298B5; }
 
-html {
-  box-sizing: border-box; }
+#siteWrapper {
+  background-color: #fff;
+  color: #000;
+  position: relative; }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit; }
-
-.content {
-  width: 95%;
-  margin: 0 2.5%; }
-
-.headerbackground {
+#header {
+  background-color: #4298B5;
+  left: 0;
+  line-height: 1em;
+  padding: 0 20px;
+  top: 0;
   width: 100%;
-  background-color: #2F9ED4;
-  min-height: 3em;
-  padding: 1em; }
+  z-index: 1000; }
 
-.banner {
-  font-size: 1.75em;
-  float: left;
-  vertical-align: middle; }
+#headerInner {
+  color: #fff;
+  padding: 20px 0;
+  display: table;
+  width: 100%; }
 
-.login {
-  float: right; }
+#headerLogo {
+  display: table-cell;
+  font-family: Cinzel, serif;
+  font-size: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+  width: 240px; }
+  #headerLogo > a {
+    color: #fff;
+    text-decoration: none; }
+
+#headerNav {
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+  white-space: nowrap; }
+  #headerNav > div {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0; }
+    #headerNav > div a {
+      color: #fff;
+      display: block;
+      padding: .75em 1em;
+      text-decoration: none; }
+      #headerNav > div a.active {
+        color: #ADC4CC; }
+  #headerNav .headerNavItemCircled {
+    -webkit-border-radius: 300px;
+    border-radius: 300px;
+    border: 2px solid #fff;
+    margin: 0 0 0 1em;
+    -webkit-transition: background-color 0.1s 0.1s ease-in-out;
+    -moz-transition: background-color 0.1s 0.1s ease-in-out;
+    -ms-transition: background-color 0.1s 0.1s ease-in-out;
+    -o-transition: background-color 0.1s 0.1s ease-in-out;
+    transition: background-color 0.1s 0.1s ease-in-out; }
+    #headerNav .headerNavItemCircled > a {
+      -webkit-transition: color 0.1s 0.1s ease-in-out;
+      -moz-transition: color 0.1s 0.1s ease-in-out;
+      -ms-transition: color 0.1s 0.1s ease-in-out;
+      -o-transition: color 0.1s 0.1s ease-in-out;
+      transition: color 0.1s 0.1s ease-in-out; }
+    #headerNav .headerNavItemCircled:hover {
+      background-color: #fff; }
+      #headerNav .headerNavItemCircled:hover > a {
+        color: #000; }
+  #headerNav .folder {
+    position: relative; }
+    #headerNav .folder .folder-menu {
+      background-color: #4298B5;
+      left: -0.5em;
+      margin-top: -1px;
+      padding: 0.5em;
+      position: absolute;
+      text-align: left;
+      -webkit-transform-origin: 0 0;
+      -moz-transform-origin: 0 0;
+      -ms-transform-origin: 0 0;
+      -o-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: scale(1, 0);
+      -moz-transform: scale(1, 0);
+      -ms-transform: scale(1, 0);
+      -o-transform: scale(1, 0);
+      transform: scale(1, 0);
+      -webkit-transition: -webkit-transform 0.2s 0s ease-in-out;
+      -moz-transition: -moz-transform 0.2s 0s ease-in-out;
+      -ms-transition: -ms-transform 0.2s 0s ease-in-out;
+      -o-transition: -o-transform 0.2s 0s ease-in-out;
+      transition: transform 0.2s 0s ease-in-out; }
+      #headerNav .folder .folder-menu.folder-menu-from-right {
+        left: inherit;
+        right: -0.5em; }
+      #headerNav .folder .folder-menu .folder-item {
+        opacity: 0;
+        -webkit-transition: opacity 0.1s 0.1s ease-in-out;
+        -moz-transition: opacity 0.1s 0.1s ease-in-out;
+        -ms-transition: opacity 0.1s 0.1s ease-in-out;
+        -o-transition: opacity 0.1s 0.1s ease-in-out;
+        transition: opacity 0.1s 0.1s ease-in-out; }
+    #headerNav .folder:hover .folder-menu {
+      -webkit-transform: scale(1, 1);
+      -moz-transform: scale(1, 1);
+      -ms-transform: scale(1, 1);
+      -o-transform: scale(1, 1);
+      transform: scale(1, 1); }
+      #headerNav .folder:hover .folder-menu .folder-item {
+        opacity: 1; }
+
+#content {
+  margin: auto;
+  max-width: 1000px;
+  padding: 96px 32px;
+  width: auto; }
+
+#footerHighlight {
+  background-color: #ADC4CC;
+  height: 64px; }
+
+#footer {
+  background-color: #4298B5;
+  height: 128px; }
 
 /*# sourceMappingURL=base.css.map */
