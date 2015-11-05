@@ -18,6 +18,7 @@ class ProjectsTest(TestCase):
 		self.assertTemplateUsed(resp, 'project_detail.html')
 		self.assertContains(resp, project.title, 1)
 		self.assertContains(resp, project.description, 1)
+		self.assertContains(resp, project.get_status_display(), 1)
 
 	def test_that_tests_work(self):
 		pass
@@ -223,9 +224,9 @@ class ProjectsTest(TestCase):
 		# User specific tests
 		self.assertNotContains(resp, 'apply_button')
 		self.assertContains(resp, 'Log in to apply')
-		self.assertNotContains(resp, 'Applicants')
-		self.assertNotContains(resp, 'Team Members')
-		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'applicant_list')
+		self.assertNotContains(resp, 'member_list')
+		self.assertNotContains(resp, 'owner_list')
 		self.assertNotContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_owner_logged_in(self):
@@ -248,9 +249,9 @@ class ProjectsTest(TestCase):
 		# User specific tests
 		self.assertNotContains(resp, 'apply_button')
 		self.assertNotContains(resp, 'Log in to apply')
-		self.assertContains(resp, 'Applicants')
-		self.assertContains(resp, 'Team Members')
-		self.assertNotContains(resp, 'Owner')
+		self.assertContains(resp, 'applicant_list')
+		self.assertContains(resp, 'member_list')
+		self.assertNotContains(resp, 'owner_list')
 		self.assertNotContains(resp, 'reviewing your application')
 		#TODO: test that owner can see button for accepting applicants
 		#TODO: test that owner can cancel the project or mark it as complete
@@ -279,9 +280,9 @@ class ProjectsTest(TestCase):
 		# User specific tests
 		self.assertContains(resp, 'apply_button')
 		self.assertNotContains(resp, 'Log in to apply')
-		self.assertNotContains(resp, 'Applicants')
-		self.assertNotContains(resp, 'Team Members')
-		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'applicant_list')
+		self.assertNotContains(resp, 'member_list')
+		self.assertNotContains(resp, 'owner_list')
 		self.assertNotContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_applied_user_logged_in(self):
@@ -308,9 +309,9 @@ class ProjectsTest(TestCase):
 		# User specific tests
 		self.assertNotContains(resp, 'apply_button')
 		self.assertNotContains(resp, 'Log in to apply')
-		self.assertNotContains(resp, 'Applicants')
-		self.assertNotContains(resp, 'Team Members')
-		self.assertNotContains(resp, 'Owner')
+		self.assertNotContains(resp, 'applicant_list')
+		self.assertNotContains(resp, 'member_list')
+		self.assertNotContains(resp, 'owner_list')
 		self.assertContains(resp, 'reviewing your application')
 
 	def test_project_detail_view_correct_context_when_team_member_logged_in(self):
@@ -340,9 +341,9 @@ class ProjectsTest(TestCase):
 		# User specific tests
 		self.assertNotContains(resp, 'apply_button')
 		self.assertNotContains(resp, 'Log in to apply')
-		self.assertNotContains(resp, 'Applicants')
-		self.assertContains(resp, 'Team Members')
-		self.assertContains(resp, 'Owner')
+		self.assertNotContains(resp, 'applicant_list')
+		self.assertContains(resp, 'member_list')
+		self.assertContains(resp, 'owner_list')
 		self.assertNotContains(resp, 'reviewing your application')
 
 	# Test project page when project is in different states: cancelled, completed, in progress, accepting applicants
