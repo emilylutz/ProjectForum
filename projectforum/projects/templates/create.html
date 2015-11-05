@@ -5,16 +5,12 @@
 <link href="{% static "css/jquery.tagit.css" %}" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="//cdn.jsdelivr.net/jquery.validation/1.14.0/additional-methods.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="{% static "js/tag-it.js" %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block content %}
-
-    {% if !user.is_authenticated %}
-        <script type="text/javascript">
-        window.location.href = "/profile/login?next=/project/create"
-        </script>
-    {% endif %}
 
 <form action="." method="post" id="create-project">
     {% csrf_token %}
@@ -23,17 +19,21 @@
         <div class="form-field title">
             <label>{{form.title.label}}</label>
             <br/>
+            {{form.title.errors}}
             {{form.title}}
         </div>
         <div class="form-field description">
             <label>{{form.description.label}}</label>
             <br/>
+            {{ form.description.errors }}
             {{form.description}}
         </div>
         <div class="form-field compensation">
             <label>Compensation</label>
             <br/>
+            {{ form.payment.errors }}
             {{form.payment}}
+            {{ form.amount.errors }}
             {{form.amount}}
         </div>
     </div>
