@@ -39,7 +39,7 @@ class UserProfilesTest(TestCase):
         auth_test = authenticate(username='nobody', password='topsecret')
         self.assertEqual(auth_test, None)
 
-    def test_manual_authentication_fail_wrong_username(self):
+    def test_manual_authentication_fail_inactive(self):
         user = self.user_model.objects.create_user(username='jacob',
                                                    email='jacob@gmail.com',
                                                    password='topsecret')
