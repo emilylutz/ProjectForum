@@ -86,7 +86,7 @@ class ProjectsTest(TestCase):
 			status = 1,
 		)
 		self.assertEqual(project1.__str__(), "Project: {title: Test Title 1}")
-	
+
 	def test_add_project_applicants(self):
 		project1 = Project.objects.create(
 			title = "Test Title 1",
@@ -102,7 +102,7 @@ class ProjectsTest(TestCase):
 		joe = User.objects.create_user(username='joe',
                                              email='joe@gmail.com',
                                              password='topsecret2')
-		
+
 		# Add applicant to project
 		project1.applicants.add(joe)
 
@@ -130,10 +130,10 @@ class ProjectsTest(TestCase):
 		joe = User.objects.create_user(username='joe',
                                              email='joe@gmail.com',
                                              password='topsecret2')
-		
+
 		# Check that you can't accept an applicant who isn't in applicants
 		self.assertFalse(project1.accept_applicant(joe))
-		
+
 		# Add applicant to project
 		project1.applicants.add(joe)
 
