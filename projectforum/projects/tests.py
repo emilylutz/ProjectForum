@@ -1,10 +1,12 @@
 from django.test import TestCase, Client
 from .models import Project
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class ProjectsTest(TestCase):
 	def setUp(self):
+		settings.DEBUG = True
 		self.user = User.objects.create_user(username='jacob',
                                              email='jacob@gmail.com',
                                              password='topsecret')
