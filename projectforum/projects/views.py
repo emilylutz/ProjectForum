@@ -18,8 +18,6 @@ class CreateView(FormView):
 
     def form_valid(self, form):
         project_instance = form.save(commit=False)
-        if self.request.user.is_authenticated() == False:
-            return redirect("/project/create/fail")
         setattr(project_instance, 'owner', self.request.user)
         project_instance.save()
         project_url = "/project/" + str(project_instance.id)

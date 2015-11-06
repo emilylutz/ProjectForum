@@ -1,11 +1,14 @@
 from django.test import TestCase, Client
 from .models import Project
 from django.contrib.auth.models import User
+from django.conf import settings
 from projectforum.user_profiles.models import UserProfile
+from .forms import *
 
 
 class ProjectsTest(TestCase):
 	def setUp(self):
+		settings.DEBUG = True
 		self.user = User.objects.create_user(username='jacob',
                                              email='jacob@gmail.com',
                                              password='topsecret')
@@ -155,3 +158,49 @@ class ProjectsTest(TestCase):
 		self.assertEqual(0, len(fetched_joe.projects_applied_to.all()))
 		self.assertEqual(1, len(fetched_joe.current_projects.all()))
 		self.assertEqual(project1, fetched_joe.current_projects.all()[0])
+
+
+	def test_valid_data(self):
+		form_data = {
+			'title' : "project1",
+			'description' : "project description 1",
+			'payment' : 1,
+			'amount' : 1
+		}
+		c = Client()
+		resp = c.post('/project/create/')
+		project_form = ProjectForm(data=form_data, request=resp)
+		self.assertTrue(project_form.is_valid())
+
+	#this tests the project creation form w/o implemented description page
+	def test_form_post(self):
+		form_data = {
+			'title' : "project1",
+			'description' : "project description 1",
+			'payment' : 1,
+			'amount' : 1
+		}
+		c = Client()
+		c.login(username="jacob", password="topsecret", email="jacob@gmail.com")
+		resp = c.post("/project/create/", data=form_data)
+		self.assertTrue(resp.status_code, 404)
+
+	def test_invalid_data(self):
+		form_data = {
+		'title': "project2"
+		}
+		c = Client()
+		resp = c.post('/project/create/')
+		project_form = ProjectForm(data=form_data, request=resp)
+		self.assertFalse(project_form.is_valid())
+
+	def test_redirect(self):
+		c= Client()
+		resp = c.get("/project/create/")
+		self.assertEqual(resp['Location'], 'http://testserver/profile/login?next=/project/create')
+
+	def test_no_redirect(self):
+		c = Client()
+		c.login(username="jacob", password="topsecret", email="jacob@gmail.com")
+		resp = c.get("/project/create/")
+		self.assertEqual(resp.status_code, 200)
