@@ -208,9 +208,9 @@ class ProjectsTest(TestCase):
         contents = json.loads(response.content)
         print contents
         self.assertEqual(1, contents['status'])
-        self.assertEqual('D', contents['projects'][0]['title'])
+        self.assertEqual('C', contents['projects'][0]['title'])
         self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('D', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
@@ -219,6 +219,6 @@ class ProjectsTest(TestCase):
         contents = json.loads(response.content)
         print contents
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
+        self.assertEqual('B', contents['projects'][0]['title'])
         self.assertEqual('D', contents['projects'][-1]['title'])
-        self.assertEqual('B', contents['projects'][3]['title'])
+        self.assertEqual('A', contents['projects'][3]['title'])
