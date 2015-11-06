@@ -13,7 +13,7 @@ def get_project_list(order, salary, ascending, starting_from, ending_at):
         if not ascending:
             amount = '-' + amount
         try:
-            return projects_JSON_response(Project.objects.all().order_by(order).order_by(amount))
+            return projects_JSON_response(Project.objects.all().order_by(order, amount))
         except:
             return errorMessage()
 
