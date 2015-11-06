@@ -163,3 +163,5 @@ class ProjectsTest(TestCase):
 
 		resp_projects = resp.context_data['project_list']
 		self.assertEqual(project1, resp_projects[0])
+
+
