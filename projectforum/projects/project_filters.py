@@ -16,7 +16,7 @@ def get_project_list(status, order, salary, ascending, starting_from, ending_at)
         if not ascending:
             amount = '-' + amount
         list_of_projects = project_list.order_by(order, amount)
-        quant_proj = check_length(starting_from, ending_at, list_of_projects) != -1
+        quant_proj = check_length(starting_from, ending_at, list_of_projects)
         if quant_proj == -1:
             return errorMessage(error="We cannot provide starting from minimum limit of projects")
         return projects_JSON_response(list_of_projects[starting_from-1: quant_proj-1])
@@ -25,7 +25,7 @@ def get_project_list(status, order, salary, ascending, starting_from, ending_at)
         # If I'm sorting by descending, add the negative to the query to denote it
         order = '-' + order
     list_of_projects = project_list.order_by(order)
-    quant_proj = check_length(starting_from, ending_at, list_of_projects) != -1
+    quant_proj = check_length(starting_from, ending_at, list_of_projects)
     if quant_proj == -1:
         return errorMessage(error="We cannot provide starting from minimum limit of projects")
     return projects_JSON_response(list_of_projects[starting_from-1: quant_proj-1])
