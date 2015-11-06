@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from projectforum.user_profiles.models import UserProfile
 
 import project_filters
+import test_create_projects
 
 
 class ProjectsTest(TestCase):
@@ -161,38 +162,8 @@ class ProjectsTest(TestCase):
         self.assertEqual(project1, fetched_joe.current_projects.all()[0])
 
     def test_list_projects(self):
-        Project.objects.create(
-            title = "A",
-            description = "I am the first Project",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
-        )
-        Project.objects.create(
-            title = "B",
-            description = "I am the second Project",
-            owner = self.user,
-            payment = 2,
-            amount = 10,
-            status = 1,
-        )
-        Project.objects.create(
-            title = "C",
-            description = "I am the third Project",
-            owner = self.user,
-            payment = 2,
-            amount = 1000,
-            status = 1,
-        )
-        Project.objects.create(
-            title = "D",
-            description = "I am the fourth Project",
-            owner = self.user,
-            payment = 1,
-            amount = 1000000,
-            status = 1,
-        )
-        print project_filters.get_project_list(order='title', salary='Lump Sum',
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='title', salary='Lump Sum',
                             ascending=False, starting_from = 0, ending_at = 10)
-        self.assertEqual(0, 0)
+        self.assertEqual(1, response.status)
+        self.assertEqual('F', response.projects[0].title)
