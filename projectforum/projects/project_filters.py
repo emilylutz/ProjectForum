@@ -22,7 +22,7 @@ def get_project_list(order, salary, ascending, starting_from, ending_at):
         # If I'm sorting by descending, add the negative to the query to denote it
         order = '-' + order
     # try:
-        return projects_JSON_response(list(Project.objects.all().order_by('timestamp')))
+    return projects_JSON_response(list(Project.objects.all().order_by('timestamp')))
     # except:
         # return errorMessage(error=Project.objects.all())
 
