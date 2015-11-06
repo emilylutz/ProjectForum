@@ -8,7 +8,7 @@ def get_project_list(status, order, salary, ascending, starting_from, ending_at)
     # try:
     project_list = Project.objects.all().filter(status=status)
     if order == 'payment':
-        if salary != 'Lump' or 'Hourly':
+        if salary != 'Lump' or salary != 'Hourly':
             return errorMessage()
         if salary == 'Hourly':
             order = '-' + order
