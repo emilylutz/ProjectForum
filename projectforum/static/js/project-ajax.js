@@ -7,7 +7,7 @@ $(document).ready(function() {
         var applicantusername;
         applicantusername = $(this).attr("data-applicantusername");
 
-         $.get('/project/'+projectid+'/accept-applicant/'+applicantusername, function(data){
+         $.get('/project/'+projectid+'/accept_applicant/'+applicantusername, function(data){
                    location.reload();
                });
     });

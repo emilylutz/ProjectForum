@@ -19,7 +19,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='create_fail.html'),
         name='create_fail'),
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view()),
-    url(r'^(?P<id>\d+)/accept-applicant/(?P<username>\w+)$', accept_applicant),
+    url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),
     url(r'^(?P<id>\d+)/withdraw_application/$', withdraw_application),
     url(r'^(?P<id>\d+)/mark_complete/$', mark_complete),
