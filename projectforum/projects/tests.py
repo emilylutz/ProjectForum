@@ -236,6 +236,7 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1, order='payment', salary='Hourly',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
+        print contents
         self.assertEqual(1, contents['status'])
         self.assertEqual('B', contents['projects'][0]['title'])
         self.assertEqual('D', contents['projects'][-1]['title'])
