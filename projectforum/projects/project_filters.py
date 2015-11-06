@@ -8,14 +8,14 @@ def get_project_list(status, order, salary, ascending, starting_from, ending_at)
     # try:
     project_list = Project.objects.all().filter(status=status)
     if order == 'payment':
-        if salary == 'Lump':
-            salary = 'Lump Sum'
+        if salary != 'Lump' or 'Hourly':
+            return errorMessage()
         if salary == 'Hourly':
             order = '-' + order
         amount = 'amount'
         if not ascending:
             amount = '-' + amount
-        list_of_projects = project_list.order_by(salary, amount)
+        list_of_projects = project_list.order_by(order, amount)
         quant_proj = check_length(starting_from, ending_at, list_of_projects)
         if quant_proj == -1:
             return errorMessage(error="We cannot provide starting from minimum limit of projects")
