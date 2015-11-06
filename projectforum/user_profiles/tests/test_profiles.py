@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth import authenticate, get_user_model
 from django.conf import settings
 
-from .models import UserProfile
+from ..models import UserProfile
 
 
 class UserProfilesTest(TestCase):
