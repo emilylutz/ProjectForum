@@ -63,3 +63,27 @@ def create_many_projects():
         amount = 120,
         status = 1,
     )
+    Project.objects.create(
+        title = "A2",
+        description = "I am the seventh Project",
+        owner = user,
+        payment = 1,
+        amount = 999,
+        status = 2,
+    )
+    Project.objects.create(
+        title = "A3",
+        description = "I am the eighth Project",
+        owner = user2,
+        payment = 2,
+        amount = 120,
+        status = 3,
+    )
+    Project.objects.create(
+        title = "A4",
+        description = "I am the ninth Project",
+        owner = user2,
+        payment = 2,
+        amount = 120,
+        status = 4,
+    )

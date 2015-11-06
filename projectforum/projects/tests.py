@@ -240,3 +240,23 @@ class ProjectsTest(TestCase):
         self.assertEqual('B', contents['projects'][0]['title'])
         self.assertEqual('D', contents['projects'][-1]['title'])
         self.assertEqual('A', contents['projects'][3]['title'])
+
+    def test_list_projects_status(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=2, order='payment', salary='Hourly',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(A2, contents['projects'][0]['title'])
+
+        response = project_filters.get_project_list(status=3, order='payment', salary='Hourly',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(A3, contents['projects'][0]['title'])
+
+        response = project_filters.get_project_list(status=4, order='payment', salary='Hourly',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(A4, contents['projects'][0]['title'])
