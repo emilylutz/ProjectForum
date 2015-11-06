@@ -16,19 +16,19 @@ def create_many_projects():
                                          email='bobicus@gmail.com',
                                          password='topsecretz')
     Project.objects.create(
-        title = "A",
-        description = "I am the first Project",
-        owner = user,
-        payment = 1,
-        amount = 1,
-        status = 1,
-    )
-    Project.objects.create(
         title = "B",
         description = "I am the second Project",
         owner = user1,
         payment = 2,
         amount = 10,
+        status = 1,
+    )
+    Project.objects.create(
+        title = "A",
+        description = "I am the first Project",
+        owner = user,
+        payment = 1,
+        amount = 1,
         status = 1,
     )
     Project.objects.create(
@@ -48,18 +48,18 @@ def create_many_projects():
         status = 1,
     )
     Project.objects.create(
-        title = "E",
-        description = "I am the fifth Project",
-        owner = user2,
-        payment = 2,
-        amount = 120,
-        status = 1,
-    )
-    Project.objects.create(
         title = "F",
-        description = "I am the sixth Project",
+        description = "I am the fifth Project",
         owner = user,
         payment = 1,
         amount = 999,
+        status = 1,
+    )
+    Project.objects.create(
+        title = "E",
+        description = "I am the sixth Project",
+        owner = user2,
+        payment = 2,
+        amount = 120,
         status = 1,
     )

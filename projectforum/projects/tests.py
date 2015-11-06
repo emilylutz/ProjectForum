@@ -161,10 +161,42 @@ class ProjectsTest(TestCase):
         self.assertEqual(1, len(fetched_joe.current_projects.all()))
         self.assertEqual(project1, fetched_joe.current_projects.all()[0])
 
-    def test_list_projects(self):
+    def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(order='title', salary='Lump Sum',
                             ascending=False, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('F', contents['projects'][0]['title'])
+        self.assertEqual('A', contents['projects'][-1]['title'])
+        self.assertEqual('C', contents['projects'][3]['title'])
+
+    def test_list_projects_by_title_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='title', salary='Lump Sum',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual('A', contents['projects'][0]['title'])
+        self.assertEqual('F', contents['projects'][-1]['title'])
+        self.assertEqual('D', contents['projects'][3]['title'])
+
+    def test_list_projects_by_created_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='title', salary='Lump Sum',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual('B', contents['projects'][0]['title'])
+        self.assertEqual('E', contents['projects'][-1]['title'])
+        self.assertEqual('D', contents['projects'][3]['title'])
+
+    def test_list_projects_by_created_down(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='title', salary='Lump Sum',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual('E', contents['projects'][0]['title'])
+        self.assertEqual('B', contents['projects'][-1]['title'])
+        self.assertEqual('C', contents['projects'][3]['title'])
