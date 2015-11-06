@@ -6,24 +6,24 @@ from django.http import HttpResponse
 # Ignore salary_type for now
 def get_project_list(status, order, salary, ascending, starting_from, ending_at):
     # Sorting is a little more complicated in the case of sort by payment
-    try:
-        project_list.filter(status=status)
-        if order == 'payment':
-            if salary == 'Lump':
-                salary = 'Lump Sum'
-            if salary == 'Hourly':
-                order = '-' + order
-            amount = 'amount'
-            if not ascending:
-                amount = '-' + amount
-                return projects_JSON_response(project_list.order_by(order, amount))
-        # For every other type of sorting
-        if not ascending:
-            # If I'm sorting by descending, add the negative to the query to denote it
+    # try:
+    project_list.filter(status=status)
+    if order == 'payment':
+        if salary == 'Lump':
+            salary = 'Lump Sum'
+        if salary == 'Hourly':
             order = '-' + order
-        return projects_JSON_response(project_list.order_by(order))
-    except:
-        return errorMessage()
+        amount = 'amount'
+        if not ascending:
+            amount = '-' + amount
+            return projects_JSON_response(project_list.order_by(order, amount))
+    # For every other type of sorting
+    if not ascending:
+        # If I'm sorting by descending, add the negative to the query to denote it
+        order = '-' + order
+    return projects_JSON_response(project_list.order_by(order))
+    # except:
+    #     return errorMessage()
 
 
 def projects_JSON_response(projects):
