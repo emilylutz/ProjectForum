@@ -27,9 +27,24 @@
 		    <li class='empty_people_list_element'>No team members currently.</li>
 		{% endfor %}
 		</ul>
+		
+		{% if project.status == 1 %}
+	    	<button id='close_applications' data-projectid="{{ project.id }}">Close Applicaitons</button>
+	    {% endif %}
 
-	    <button class='complete_button'>Mark as Complete</button>
+		{% if project.status == 2 %}
+		    <button id='reopen_applications' data-projectid="{{ project.id }}">Re-Open Applications</button>
+	    {% endif %}
 
+		{% if project.status == 3 or project.status == 4 %}
+		    <button id='reopen_project' data-projectid="{{ project.id }}">Re-Open Project</button>
+		{% endif %}
+
+		{% if project.status != 4 and project.status != 3%}
+	    	<button id='mark_complete' data-projectid="{{ project.id }}">Mark as Complete</button>
+
+	    	<button id='cancel_project' data-projectid="{{ project.id }}">Cancel Project</button>
+	    {% endif %}
 
 	{% elif user in project.team_members.all %}
 
@@ -53,14 +68,10 @@
 
 		    Your application has been submitted. The project owner is reviewing your application.
 
-		    <button class='withdraw_application_button'>Withdraw Application</button>
+		    <button id='withdraw_application_button'class='withdraw_application_button' data-projectid="{{ project.id }}">Withdraw Application</button>
 
 		{% else %}
-			<form action="#" method="get">
-			 <input type="text" value="8" name="mytextbox" size="1"/>
-			 <input type="submit" class="apply_button" value="Apply">
-			</form>
-		    <button class='apply_button'>Apply</button>
+		    <button id='apply_button' class='apply_button' data-projectid="{{ project.id }}">Apply</button>
 
 		{% endif %}
 

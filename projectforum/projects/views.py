@@ -3,7 +3,7 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import FormView
 from projectforum.projects.models import Project
 from projectforum.projects.forms import *
-from django.http import Http404
+from django.http import Http404, JsonResponse
 
 # Create your views here.
 class ProjectListView(ListView):
@@ -57,9 +57,10 @@ class ProjectDetailView(TemplateView):
 
 def accept_applicant(request, id, username):
     # TODO: make sure user is project owner!
-    print "accepting applicant"
     try:
         project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can accept applicant."]})
         applicant = User.objects.get(username=username)
         applicant_accepted = project.accept_applicant(applicant)
 
@@ -68,5 +69,91 @@ def accept_applicant(request, id, username):
     except User.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid applicant username"]})
     if applicant_accepted:
-        return redirect('/project/'+str(project.id)+'/')
+        return JsonResponse({'status': 1})
     return JsonResponse({'status': -1, 'errors': ["Unable to accept applicant."]})
+
+def apply_to_project(request, id):
+    # TODO: make sure user is project owner!
+    if not request.user.is_authenticated():
+        return JsonResponse({'status': -1, 'errors': ["User must be logged in to apply."]})
+    applicant = request.user
+    try:
+        project = Project.objects.get(id=id)
+        project.applicants.add(applicant)
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def withdraw_application(request, id):
+    # TODO: make sure user is project owner!
+    if not request.user.is_authenticated():
+        return JsonResponse({'status': -1, 'errors': ["User must be logged in to withdraw application."]})
+    applicant = request.user
+    try:
+        project = Project.objects.get(id=id)
+        if applicant not in project.applicants.all():
+            return JsonResponse({'status': -1, 'errors': ["User must be an applicant to withdraw application."]})
+        project.applicants.remove(applicant)
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def mark_complete(request, id):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can mark it as complete."]})
+        project.status = 4
+        project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def cancel_project(request, id):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can mark it as complete."]})
+        project.status = 3
+        project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def reopen_project(request, id):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can reopen project."]})
+        project.status = 2
+        project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def reopen_applications(request, id):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can reopen applications."]})
+        project.status = 1
+        project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
+
+def close_applications(request, id):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        if request.user != project.owner:
+            return JsonResponse({'status': -1, 'errors': ["Only the project owner can reopen applications."]})
+        project.status = 2
+        project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    return JsonResponse({'status': 1})
