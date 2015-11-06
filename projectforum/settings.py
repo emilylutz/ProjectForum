@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'projectforum.lib',
     'projectforum.mailgun',
     'projectforum.projects',
     'projectforum.user_profiles',
@@ -43,7 +44,6 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -114,11 +114,11 @@ import dj_database_url
 DATABASES = {}
 DATABASES['default'] =  dj_database_url.config(default='postgres://:@localhost/projectforum_db')
 
-# TEST_DATABASES = {
-#     'default': dj_database_url.config(env='TEST_DATABASE_URL')
-# }
+TEST_DATABASES = {
+    'default': dj_database_url.config(env='TEST_DATABASE_URL')
+}
 
-# TEST_RUNNER = 'projectforum.heroku_test_runner.HerokuTestSuiteRunner'
+TEST_RUNNER = 'projectforum.heroku_test_runner.HerokuTestSuiteRunner'
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

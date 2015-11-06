@@ -10,12 +10,6 @@
 
 {% block content %}
 
-    {% if !user.is_authenticated %}
-        <script type="text/javascript">
-        window.location.href = "/profile/login?next=/project/create"
-        </script>
-    {% endif %}
-
 <form action="." method="post" id="create-project">
     {% csrf_token %}
     <div id="project-defaults">
@@ -23,17 +17,21 @@
         <div class="form-field title">
             <label>{{form.title.label}}</label>
             <br/>
+            {{form.title.errors}}
             {{form.title}}
         </div>
         <div class="form-field description">
             <label>{{form.description.label}}</label>
             <br/>
+            {{ form.description.errors }}
             {{form.description}}
         </div>
         <div class="form-field compensation">
             <label>Compensation</label>
             <br/>
+            {{ form.payment.errors }}
             {{form.payment}}
+            {{ form.amount.errors }}
             {{form.amount}}
         </div>
     </div>
@@ -47,7 +45,7 @@
         <input type="checkbox" name="ios" value="ios" onclick="calc(this)">iOS<br/>
         <input type="checkbox" name="webapp" value="webapp" onclick="calc(this)">Web Application<br/>
         <div id="form-field-options">
-            <label>Tags:</label>
+            <label>Tags: </label> (separate by commas)
             <br/>
             <script type="text/javascript">
                 $(document).ready(function() {
@@ -62,7 +60,6 @@
             <br/>
         </div>
     </div>
-    <!-- {{form.tags}} -->
     <input type="submit" value="Post!" />
 </form>
 
