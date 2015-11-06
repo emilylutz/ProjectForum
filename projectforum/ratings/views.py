@@ -10,6 +10,8 @@ def make_review(request, id):
             project = Project.objects.get(id=id)
         except Project.DoesNotExist:
             raise Http404("Projct with given id does not exist")
+        if request.user.is_authenticated() == False:
+            return redirect("/profile/login")
         rating_form = ReviewForm(data=request.POST)
         rating = rating_form.save(commit=False)
         rating.reviewer = request.user
@@ -19,6 +21,3 @@ def make_review(request, id):
         # Refreshes project page after posting a comment
         url = "/project/" + str(id)
         return redirect(url)
-    else:
-        rating_form = ReviewForm()
-    return render(request, 'reviews.html', {'form': rating_form})

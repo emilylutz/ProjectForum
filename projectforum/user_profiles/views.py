@@ -7,6 +7,7 @@ from django.views.generic.edit import FormView, UpdateView
 
 from .forms import ProfileEditForm, RegisterForm, UserNamesEditForm
 from .models import RegistrationLink, UserProfile
+from projectforum.ratings.models import UserReview
 
 
 class ActivateView(TemplateView):
@@ -86,6 +87,13 @@ class ProfileEditView(UpdateView):
         user_form.is_valid()
         return super(ProfileEditView, self).form_invalid(form)
 
+def get_html_user_reviews(user):
+    user_reviews = UserReview.objects.filter(recipient=user)
+    user_review_html_list = []
+    for x in user_reviews:
+        html_string = '<hr><div class=\"project-review\"><div class=\"review-score\" data-score=\"' + str(x.score) + '\"></div><br/>' + '<div class=\"review-comment\">' + x.comment + '</div><br/>' + x.reviewer.username + '</div><br>'
+        user_review_html_list.append(html_string)
+    return user_review_html_list
 
 class ProfileView(TemplateView):
     """
@@ -107,9 +115,11 @@ class ProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        user_reviews = get_html_user_reviews(self.user_profile.user)
         context.update({
             'can_edit': self.can_edit,
-            'user_profile': self.user_profile
+            'user_profile': self.user_profile,
+            'user_reviews': user_reviews
         })
         return context
 
