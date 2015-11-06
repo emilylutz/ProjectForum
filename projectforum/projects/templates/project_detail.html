@@ -86,17 +86,25 @@
 
 	{% endif %}
 
+	{% if project.status == 3 or project.status == 4 %}
+		<br/>
+		<br/>
+		<label>Reviews:</label>
+		<br/>
+		<form action="/ratings/review/{{project.id}}" method="post">
+		    {% csrf_token %}
+		    <div id="rating"></div>
+		    Comments:
+		    <br/>
+		    {{form.comment}}
+		    <br/>
+		    <input type="submit" value="Submit" />
 
-<form action="/ratings/review/{{project.id}}" method="post">
-    {% csrf_token %}
-    <div id="rating"></div>
-    Comments:
-    <br/>
-    {{form.comment}}
-    <br/>
-    <input type="submit" value="Submit" />
+		</form>
+	{% endif %}
 
-</form>
+
+
 
 <script type="text/javascript">
     $(document).ready(function (){
