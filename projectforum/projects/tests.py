@@ -268,3 +268,19 @@ class ProjectsTest(TestCase):
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual(3, len(contents['projects']))
+
+    def test_list_projects_by_length2(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=1, order='payment', salary='Hourly',
+                            ascending=True, starting_from = 4, ending_at = 6)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(3, len(contents['projects']))
+
+    def test_list_projects_by_length2(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=1, order='payment', salary='Hourly',
+                            ascending=True, starting_from = 4, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(3, len(contents['projects']))
