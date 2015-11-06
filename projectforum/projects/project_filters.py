@@ -6,8 +6,7 @@ from django.http import HttpResponse
 # Ignore salary_type for now
 def get_project_list(order, salary, ascending, starting_from, ending_at):
     # Sorting is a little more complicated in the case of sort by payment
-    if order == 'salary_type':
-        order = 'payment'
+    if order == 'payment':
         if salary == 'Lump Sum':
             order = '-' + order
         amount = 'amount'

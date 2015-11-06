@@ -19,7 +19,7 @@ Returns a JSON list of projects accempting applicants based on parameters:
       '*' marks the default value
 order: How the results should be sorted:
     *timestamp: When was the project created?
-    salary_type: Whether we sort by salary.  Will subsort ascending descending based on type
+    payment: Whether we sort by salary.  Will subsort ascending descending based on type
     title: Sort by the titles in alphabetical order
 salary:
     *Lump Sum

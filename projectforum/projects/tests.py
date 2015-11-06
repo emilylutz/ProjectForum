@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase, Client
 from .models import Project
 from django.contrib.auth.models import User
@@ -191,4 +193,6 @@ class ProjectsTest(TestCase):
             amount = 1000000,
             status = 1,
         )
-        print project_filters.get_project_list(order = 'timestamp', ascending = True)
+        print project_filters.get_project_list(order='timestamp', salary='Lump Sum'
+                            ascending=True, starting_from = 0, ending_at = 10)
+        self.assertEqual(0, 0)
