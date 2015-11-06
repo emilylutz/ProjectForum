@@ -9,6 +9,15 @@ $theme-col-background: #fff;
 $theme-col-text-ondark: #fff;
 $theme-col-text-onbackground: #000;
 
+// Shades of grey
+$theme-col-grey: #ccc;
+$theme-col-grey-light: #fafafa;
+
+// Shades of error
+$theme-col-error-light: #F5D0D0;
+$theme-col-error: #E8AAB4;
+$theme-col-error-dark: #A94442;
+
 // Mixin for Experimental css from compass
 $experimental-support-for-mozilla      : true !default;
 $experimental-support-for-webkit       : true !default;

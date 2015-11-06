@@ -1,9 +1,10 @@
 // The base css for the website.
 
 @import 'common';
+@import 'forms';
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
-// Base styles.
+// Wrappers
 body {
     background-color: $theme-col-main-dark;
 }

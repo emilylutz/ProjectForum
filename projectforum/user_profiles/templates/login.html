@@ -1,14 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h2>Log in</h2>
     <form method="post" action=".">
-      {{ form.as_p }}
-      {% csrf_token %}
+        {{ form.non_field_errors }}
+        <p>
+            {{ form.username.label_tag }}
+            {{ form.username.errors }}
+            {{ form.username }}
+        </p>
+        <p>
+            {{ form.password.label_tag }}
+            {{ form.password.errors }}
+            {{ form.password }}
+        </p>
+        {% csrf_token %}
 
-      <input type="submit" value="Log in" />
-      <input type="hidden" name="next" value="{{ next }}" />
+        <input type="submit" value="Log in" />
+        <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
-    <p>Forgot your password? <a href="{% url "profile:password_reset" %}">Reset it</a>!</p>
-    <p>Not a member? <a href="{% url "profile:register" %}">Register</a>!</p>
+    <p>
+        Forgot your password?
+        <a href="{% url 'profile:password_reset' %}">Reset it</a>
+    </p>
+    <p>
+        Not a member?
+        <a href="{% url 'profile:register' %}">Register</a>
+    </p>
 {% endblock %}
