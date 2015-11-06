@@ -163,7 +163,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='title', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='title', salary='Lump',
                             ascending=False, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -173,7 +173,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_title_up(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='title', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='title', salary='Lump',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -183,7 +183,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_created_up(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='timestamp', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='timestamp', salary='Lump',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -193,7 +193,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_created_down(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='timestamp', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='timestamp', salary='Lump',
                             ascending=False, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -203,7 +203,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_pay_lump_down(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='payment', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='payment', salary='Lump',
                             ascending=False, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -213,7 +213,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='payment', salary='Lump',
+        response = project_filters.get_project_list(status=1, order='payment', salary='Lump',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -223,7 +223,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_pay_hourly_down(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='payment', salary='Hourly',
+        response = project_filters.get_project_list(status=1, order='payment', salary='Hourly',
                             ascending=False, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -233,7 +233,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_pay_hourly_up(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='payment', salary='Hourly',
+        response = project_filters.get_project_list(status=1, order='payment', salary='Hourly',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])

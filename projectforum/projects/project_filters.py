@@ -4,8 +4,12 @@ from .models import Project
 from django.http import HttpResponse
 
 # Ignore salary_type for now
-def get_project_list(order, salary, ascending, starting_from, ending_at):
+def get_project_list(status, order, salary, ascending, starting_from, ending_at):
     # Sorting is a little more complicated in the case of sort by payment
+    try:
+        project_list.filter(status=status)
+    except:
+        return errorMessage()
     if order == 'payment':
         if salary == 'Lump':
             salary = 'Lump Sum'
@@ -15,7 +19,7 @@ def get_project_list(order, salary, ascending, starting_from, ending_at):
         if not ascending:
             amount = '-' + amount
         try:
-            return projects_JSON_response(Project.objects.all().order_by(order, amount))
+            return projects_JSON_response(project_list.order_by(order, amount))
         except:
             return errorMessage()
 
@@ -24,9 +28,9 @@ def get_project_list(order, salary, ascending, starting_from, ending_at):
         # If I'm sorting by descending, add the negative to the query to denote it
         order = '-' + order
     try:
-        return projects_JSON_response(list(Project.objects.all().order_by(order)))
+        return projects_JSON_response(project_list.order_by(order))
     except:
-        return errorMessage(error=Project.objects.all())
+        return errorMessage(error)
 
 
 def projects_JSON_response(projects):

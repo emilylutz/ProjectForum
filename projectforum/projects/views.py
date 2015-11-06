@@ -17,6 +17,12 @@ class ProjectListView(ListView):
 """
 Returns a JSON list of projects accempting applicants based on parameters:
       '*' marks the default value
+status: The current state of the project
+    *1: Accepting Applicants
+    2: In progress
+    3: Canceled
+    4: Finished
+
 order: How the results should be sorted:
     *timestamp: When was the project created?
     payment: Whether we sort by salary.  Will subsort ascending descending based on type
@@ -32,12 +38,13 @@ ending_at: Integer Default is 10. Stop returning projects at this number
 """
 class ProjectView(View):
     def get(self, request, *args, **kwargs):
+        status = int(request.GET.get('status', 1))
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'Lump')
         ascending = bool(request.GET.get('ascending', True))
         starting_from = int(request.GET.get('starting_from', 0))
         ending_at = int(request.GET.get('ending_at', 10))
-        return project_filters.get_project_list(order = order, salary = salary,
+        return project_filters.get_project_list(status = status, order = order, salary = salary,
                 ascending = ascending, starting_from = starting_from, ending_at = ending_at)
 
 class CreateView(FormView):
