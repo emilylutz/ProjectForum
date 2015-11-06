@@ -13,9 +13,9 @@
 	    <h4>Applicants:</h4>
 	    <ul class='applicant_list people_list'>
 		{% for applicant in project.applicants.all %}
-		    <li class='people_list_element'>{{ applicant.username }}, {{ applicant.email }} <button class='accept_button' title="Accepting an applicant adds them to your project's team." data-projectid="{{project.id}}" >Accept Applicant</button> </li>
+		    <li class='people_list_element'>{{ applicant.username }}, {{ applicant.email }} <button id='accept_applicant' class='accept_button' title="Accepting an applicant adds them to your project's team." data-projectid="{{ project.id }}" data-applicantusername="{{ applicant.username }}" >Accept Applicant</button> </li>
 		{% empty %}
-		    <li class='empty_people_list_element'>No applicants yet.</li>
+		    <li class='empty_people_list_element'>No applicants currently.</li>
 		{% endfor %}
 		</ul>
 
@@ -24,7 +24,7 @@
 		{% for member in project.team_members.all %}
 		    <li class='member_list people_list_element'>{{ member.username }}, {{ member.email }}</li>
 		{% empty %}
-		    <li class='empty_people_list_element'>No team members yet.</li>
+		    <li class='empty_people_list_element'>No team members currently.</li>
 		{% endfor %}
 		</ul>
 
