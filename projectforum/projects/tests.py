@@ -172,6 +172,19 @@ class ProjectsTest(TestCase):
 		project_form = ProjectForm(data=form_data, request=resp)
 		self.assertTrue(project_form.is_valid())
 
+	#this tests the project creation form w/o implemented description page
+	def test_form_post(self):
+		form_data = {
+			'title' : "project1",
+			'description' : "project description 1",
+			'payment' : 1,
+			'amount' : 1
+		}
+		c = Client()
+		c.login(username="jacob", password="topsecret", email="jacob@gmail.com")
+		resp = c.post("/project/create/", data=form_data)
+		self.assertTrue(resp.status_code, 404)
+
 	def test_invalid_data(self):
 		form_data = {
 		'title': "project2"
