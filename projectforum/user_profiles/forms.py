@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 
+from .fields import TagsField
 from .models import UserProfile
 
 
@@ -21,6 +23,8 @@ class ProfileEditForm(forms.ModelForm):
     Form for editing a user account's profile.
     """
     required_css_class = 'required'
+
+    skills = TagsField()
 
     class Meta:
         model = UserProfile
