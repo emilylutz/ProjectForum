@@ -183,7 +183,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_created_up(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='title', salary='Lump Sum',
+        response = project_filters.get_project_list(order='timestamp', salary='Lump Sum',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
@@ -193,7 +193,7 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_by_created_down(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(order='title', salary='Lump Sum',
+        response = project_filters.get_project_list(order='timestamp', salary='Lump Sum',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])

@@ -17,7 +17,7 @@ def create_many_projects():
                                          password='topsecretz')
     Project.objects.create(
         title = "B",
-        description = "I am the second Project",
+        description = "I am the first Project",
         owner = user1,
         payment = 2,
         amount = 10,
@@ -25,7 +25,7 @@ def create_many_projects():
     )
     Project.objects.create(
         title = "A",
-        description = "I am the first Project",
+        description = "I am the second Project",
         owner = user,
         payment = 1,
         amount = 1,
