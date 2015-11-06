@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import Http404
 from .forms import *
 from projectforum.projects.models import Project
 
