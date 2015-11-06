@@ -60,6 +60,9 @@ heroku run python manage.py syncdb
 
 # Running the Tests
 
+ProjectForum requires the python module mock to run. Just pip install it to get
+it working.
+
 ## Running Locally
 
 1. Comment out the lines for `TEST_DATABASES` and `TEST_RUNNER` in `settings.py`
