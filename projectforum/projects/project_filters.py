@@ -21,10 +21,10 @@ def get_project_list(order, salary, ascending, starting_from, ending_at):
     if not ascending:
         # If I'm sorting by descending, add the negative to the query to denote it
         order = '-' + order
-    try:
+    # try:
         return projects_JSON_response(list(Project.objects.all().order_by('timestamp')))
-    except:
-        return errorMessage(error=Project.objects.all())
+    # except:
+        # return errorMessage(error=Project.objects.all())
 
 
 def projects_JSON_response(projects):
@@ -52,6 +52,6 @@ def projects_JSON_response(projects):
 def errorMessage(error="Apologies, we could not process the request you've made."):
     response = {
         "status": -1,
-        "errors": error
+        "errors": str(error)
     }
     return HttpResponse(json.dumps(response), content_type='application/json')
