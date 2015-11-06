@@ -10,6 +10,6 @@ class UserReview(models.Model):
     reviewer = models.ForeignKey(User, related_name="user_review")
     recipient = models.ForeignKey(User, related_name="reviewed_user")
     score = models.IntegerField()
-    comment = models.TextField(max_length=2048)
+    comment = models.CharField(max_length=2048)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

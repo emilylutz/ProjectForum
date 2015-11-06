@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from projectforum.ratings.models import *
 
 # Create your tests here.
 
@@ -12,10 +13,10 @@ class RatingsTest(TestCase):
     """docstring for RatingsTest"""
     def test_ratings_can_be_created(self):
         rating1 = UserReview.objects.create(
-            reviewer=self.reviewer,
-            recipient=self.user,
-            score=5
-            comment="nice",
+            reviewer = self.reviewer,
+            recipient = self.user,
+            score = 5,
+            comment = "nice",
         )
         self.assertEqual(rating1.comment, "nice")
         self.assertEqual(rating1.score, 5)
