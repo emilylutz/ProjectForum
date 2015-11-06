@@ -523,7 +523,7 @@ class ProjectsDetailViewTest(TestCase):
 
     # test cancel project
 
-    def test_owner_marking_project_as_complete(self):
+    def test_owner_canceling_project(self):
         project1 = Project.objects.create(
             title = "Test Title",
             description = "Test Description",
@@ -542,7 +542,7 @@ class ProjectsDetailViewTest(TestCase):
         project1 = Project.objects.get(id=project1.id)
         self.assertEqual(3, project1.status)
 
-    def test_non_owner_marking_project_as_complete(self):
+    def test_non_owner_canceling_project(self):
         project1 = Project.objects.create(
             title = "Test Title",
             description = "Test Description",
@@ -563,7 +563,7 @@ class ProjectsDetailViewTest(TestCase):
         project = Project.objects.get(id=project1.id)
         self.assertEqual(project1.status, project.status)
 
-    def test_owner_marking_bad_project_as_complete(self):
+    def test_owner_canceling_bad_project(self):
         project1 = Project.objects.create(
             title = "Test Title",
             description = "Test Description",
