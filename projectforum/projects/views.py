@@ -22,7 +22,7 @@ order: How the results should be sorted:
     payment: Whether we sort by salary.  Will subsort ascending descending based on type
     title: Sort by the titles in alphabetical order
 salary:
-    *Lump Sum
+    *Lump: Lump Sum
     Hourly
 ascending: Whether or not we sort by ascending or descending order
     *True: Ascending order
@@ -33,7 +33,7 @@ ending_at: Integer Default is 10. Stop returning projects at this number
 def list_projects(request):
     if request.method == 'GET':
         order = request.GET.get('order', 'timestamp')
-        salary = request.GET.get('salary', 'Lump Sum')
+        salary = request.GET.get('salary', 'Lump')
         ascending = bool(request.GET.get('ascending', True))
         starting_from = int(request.GET.get('starting_from', 0))
         ending_at = int(request.GET.get('ending_at', 10))
