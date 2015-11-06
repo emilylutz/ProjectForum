@@ -23,7 +23,7 @@ def get_project_list(status, order, salary, ascending, starting_from, ending_at)
             order = '-' + order
         return projects_JSON_response(project_list.order_by(order))
     except:
-        return errorMessage(error)
+        return errorMessage()
 
 
 def projects_JSON_response(projects):
