@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 
 from .forms import ProfileEditForm, RegisterForm, UserNamesEditForm
-from projectforum.ratings.forms import *
 from .models import RegistrationLink, UserProfile
 
 

@@ -4,6 +4,8 @@ from django.views.generic.edit import FormView
 from projectforum.projects.models import Project
 from projectforum.projects.forms import *
 from django.http import Http404, JsonResponse
+from projectforum.ratings.forms import ReviewForm
+from projectforum.ratings.models import UserReview
 
 import project_filters
 
@@ -87,10 +89,12 @@ class ProjectDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        form = ReviewForm(self.request.POST or None)
         context.update({
             'project': self.project,
             'logged_in': self.logged_in,
             'user': self.request.user,
+            'form': form
         })
         return context
 

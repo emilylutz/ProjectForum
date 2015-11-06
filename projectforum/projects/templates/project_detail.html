@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block header %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.css">
+<script src="{% static "js/jquery.raty.js" %}" type="text/javascript" charset="utf-8"></script>
+
+{% endblock %}
+
 {% block content %}
 
 	<h1>Projects Detail View</h1>
@@ -27,7 +36,7 @@
 		    <li class='empty_people_list_element'>No team members currently.</li>
 		{% endfor %}
 		</ul>
-		
+
 		{% if project.status == 1 %}
 	    	<button id='close_applications' data-projectid="{{ project.id }}">Close Applicaitons</button>
 	    {% endif %}
@@ -76,5 +85,26 @@
 		{% endif %}
 
 	{% endif %}
+
+
+<form action="/ratings/review/{{project.id}}" method="post">
+    {% csrf_token %}
+    <div id="rating"></div>
+    Comments:
+    <br/>
+    {{form.comment}}
+    <br/>
+    <input type="submit" value="Submit" />
+
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $("#rating").raty({
+            path:'/static/images',
+        });
+    });
+</script>
+
 
 {% endblock %}

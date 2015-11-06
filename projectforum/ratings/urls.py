@@ -5,5 +5,5 @@ from django.conf.urls import include, patterns, url
 from .views import *
 
 urlpatterns = [
-    url(r'^review/$', make_review)
+    url(r'^review/(?P<id>\d+)$', make_review)
 ]
