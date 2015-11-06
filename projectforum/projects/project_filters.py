@@ -33,7 +33,7 @@ def projects_JSON_response(projects):
         "projects": []
     }
 
-    for the_project in projects_json:
+    for the_project in projects:
         projects_json['projects'].append({
             'title': the_project.title,
             'description': the_project.description,

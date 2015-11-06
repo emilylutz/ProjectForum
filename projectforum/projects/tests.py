@@ -171,7 +171,7 @@ class ProjectsTest(TestCase):
         )
         Project.objects.create(
             title = "B",
-            description = "I am the first Project",
+            description = "I am the second Project",
             owner = self.user,
             payment = 2,
             amount = 10,
@@ -179,7 +179,7 @@ class ProjectsTest(TestCase):
         )
         Project.objects.create(
             title = "C",
-            description = "I am the first Project",
+            description = "I am the third Project",
             owner = self.user,
             payment = 2,
             amount = 1000,
@@ -187,7 +187,7 @@ class ProjectsTest(TestCase):
         )
         Project.objects.create(
             title = "D",
-            description = "I am the first Project",
+            description = "I am the fourth Project",
             owner = self.user,
             payment = 1,
             amount = 1000000,
