@@ -247,16 +247,16 @@ class ProjectsTest(TestCase):
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual(A2, contents['projects'][0]['title'])
+        self.assertEqual('A2', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=3, order='payment', salary='Hourly',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual(A3, contents['projects'][0]['title'])
+        self.assertEqual('A3', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=4, order='payment', salary='Hourly',
                             ascending=True, starting_from = 0, ending_at = 10)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual(A4, contents['projects'][0]['title'])
+        self.assertEqual('A4', contents['projects'][0]['title'])
