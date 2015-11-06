@@ -58,6 +58,10 @@ def projects_JSON_response(projects):
 def format_time(database_time):
     return database_time.strftime("%b %d %Y at %I:%M")
 
+"""
+Pass in a list of people (User Model)
+It will then translate it into list form, showing only the username
+"""
 def convert_people_to_list(peoples):
     people_JSON = []
     for person in peoples:
@@ -71,6 +75,10 @@ def errorMessage(error="Apologies, we could not process the request you've made.
     }
     return HttpResponse(json.dumps(response), content_type='application/json')
 
+"""
+Make sure the length is within confines.  Will throw an error if I can't get any
+projects based on the limits, otherwise will make sure I don't overflow
+"""
 def check_length(start, end, projects):
     length_projects = len(projects)
     if length_projects < start:
