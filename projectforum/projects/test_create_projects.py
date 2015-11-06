@@ -1,3 +1,6 @@
+from .models import Project
+from django.contrib.auth.models import User
+
 """
 Build a bunch of mock projects in case we're testing with a situation
 that needs to look at many different projects.
