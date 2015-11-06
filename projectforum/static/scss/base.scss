@@ -67,22 +67,34 @@ body {
                 color: $theme-col-main;
             }
         }
+        > a {
+            @include experimental-unquote(transition, 'background-color .1s .1s ease-in-out, color .1s .1s ease-in-out');
+
+            &:hover {
+                background-color: $theme-col-main;
+
+                &.active {
+                    color: $theme-col-text-ondark;
+                }
+            }
+            
+        }
     }
     .headerNavItemCircled {
         -webkit-border-radius: 300px;
         border-radius: 300px;
         border: 2px solid $theme-col-text-ondark;
-        margin: 0 0 0 1em;
+        margin: 0 0 1px 1em;
         @include experimental(transition, background-color .1s .1s ease-in-out);
 
         > a {
             @include experimental(transition, color .1s .1s ease-in-out);
         }
         &:hover {
-            background-color: $theme-col-text-ondark;
+            background-color: $theme-col-main;
 
             > a {
-                color: $theme-col-text-onbackground;
+                // color: $theme-col-text-onbackground;
             }
         }
     }
@@ -93,7 +105,7 @@ body {
             background-color: $theme-col-main-dark;
             left: -0.5em;
             margin-top: -1px;
-            padding: 0.5em;
+            padding: 1em 0;
             position: absolute;
             text-align: left;
             @include experimental(transform-origin, 0 0);
@@ -106,7 +118,12 @@ body {
             }
             .folder-item {
                 opacity: 0;
-                @include experimental(transition, opacity .1s .1s ease-in-out);
+                padding: 0 0.5em;
+                @include experimental-unquote(transition, 'opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out');
+                
+                &:hover {
+                    background-color: $theme-col-main;
+                }
             }
         }
         &:hover .folder-menu {

@@ -38,6 +38,28 @@ $experimental-support-for-khtml        : false !default;
                                             {         #{$property} : $value; }
 }
 
+@mixin experimental-unquote($property, $value,
+  $moz      : $experimental-support-for-mozilla,
+  $webkit   : $experimental-support-for-webkit,
+  $o        : $experimental-support-for-opera,
+  $ms       : $experimental-support-for-microsoft,
+  $khtml    : $experimental-support-for-khtml,
+  $official : true
+) {
+  @if $webkit  and $experimental-support-for-webkit
+                                            { -webkit-#{$property} : unquote($value); }
+  @if $khtml   and $experimental-support-for-khtml
+                                            {  -khtml-#{$property} : unquote($value); }
+  @if $moz     and $experimental-support-for-mozilla
+                                            {    -moz-#{$property} : unquote($value); }
+  @if $ms      and $experimental-support-for-microsoft
+                                            {     -ms-#{$property} : unquote($value); }
+  @if $o       and $experimental-support-for-opera
+                                            {      -o-#{$property} : unquote($value); }
+  @if $official
+                                            {         #{$property} : unquote($value); }
+}
+
 @mixin experimental-val($property, $value,
   $moz      : $experimental-support-for-mozilla,
   $webkit   : $experimental-support-for-webkit,

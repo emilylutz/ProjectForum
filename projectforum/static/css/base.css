@@ -49,11 +49,21 @@ body {
       text-decoration: none; }
       #headerNav > div a.active {
         color: #ADC4CC; }
+    #headerNav > div > a {
+      -webkit-transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
+      -moz-transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
+      -ms-transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
+      -o-transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
+      transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out; }
+      #headerNav > div > a:hover {
+        background-color: #ADC4CC; }
+        #headerNav > div > a:hover.active {
+          color: #fff; }
   #headerNav .headerNavItemCircled {
     -webkit-border-radius: 300px;
     border-radius: 300px;
     border: 2px solid #fff;
-    margin: 0 0 0 1em;
+    margin: 0 0 1px 1em;
     -webkit-transition: background-color 0.1s 0.1s ease-in-out;
     -moz-transition: background-color 0.1s 0.1s ease-in-out;
     -ms-transition: background-color 0.1s 0.1s ease-in-out;
@@ -66,16 +76,14 @@ body {
       -o-transition: color 0.1s 0.1s ease-in-out;
       transition: color 0.1s 0.1s ease-in-out; }
     #headerNav .headerNavItemCircled:hover {
-      background-color: #fff; }
-      #headerNav .headerNavItemCircled:hover > a {
-        color: #000; }
+      background-color: #ADC4CC; }
   #headerNav .folder {
     position: relative; }
     #headerNav .folder .folder-menu {
       background-color: #4298B5;
       left: -0.5em;
       margin-top: -1px;
-      padding: 0.5em;
+      padding: 1em 0;
       position: absolute;
       text-align: left;
       -webkit-transform-origin: 0 0;
@@ -98,11 +106,14 @@ body {
         right: -0.5em; }
       #headerNav .folder .folder-menu .folder-item {
         opacity: 0;
-        -webkit-transition: opacity 0.1s 0.1s ease-in-out;
-        -moz-transition: opacity 0.1s 0.1s ease-in-out;
-        -ms-transition: opacity 0.1s 0.1s ease-in-out;
-        -o-transition: opacity 0.1s 0.1s ease-in-out;
-        transition: opacity 0.1s 0.1s ease-in-out; }
+        padding: 0 0.5em;
+        -webkit-transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
+        -moz-transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
+        -ms-transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
+        -o-transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
+        transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out; }
+        #headerNav .folder .folder-menu .folder-item:hover {
+          background-color: #ADC4CC; }
     #headerNav .folder:hover .folder-menu {
       -webkit-transform: scale(1, 1);
       -moz-transform: scale(1, 1);
