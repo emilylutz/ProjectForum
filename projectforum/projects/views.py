@@ -18,21 +18,21 @@ class ProjectListView(ListView):
 Returns a JSON list of projects accempting applicants based on parameters:
       '*' marks the default value
 order: How the results should be sorted:
-    *date: When was the project created?
+    *timestamp: When was the project created?
     salary_type: Whether we sort by salary.  Will subsort ascending descending based on type
     title: Sort by the titles in alphabetical order
 salary:
     *Lump Sum
     Hourly
 ascending: Whether or not we sort by ascending or descending order
-    *true: Ascending order
-    false: Descending order
+    *True: Ascending order
+    False: Descending order
 starting_from: Integer Default is 0.  Return projects starting from this number
 ending_at: Integer Default is 10. Stop returning projects at this number
 """
 def list_projects(request):
     if request.method == 'GET':
-        order = request.GET.get('order', 'date')
+        order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'Lump Sum')
         ascending = bool(request.GET.get('ascending', True))
         starting_from = int(request.GET.get('starting_from', 0))
