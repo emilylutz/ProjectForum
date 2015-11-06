@@ -347,13 +347,6 @@ class ProjectsTest(TestCase):
     def test_list_projects_error2(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1, order='payment', salary='apples',
-                            ascending=True, starting_from = 4, ending_at = 10)
-        contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
-
-    def test_list_projects_error3(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1, order='payment', salary='apples',
                             ascending=True, starting_from = 100, ending_at = 101)
         contents = json.loads(response.content)
         self.assertEqual(-1, contents['status'])
