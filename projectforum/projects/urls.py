@@ -20,7 +20,7 @@ urlpatterns = [
         name='create_fail'),
 
     url(r'^list/filter_by',
-        '.views.list_projects',
+        ProjectView.as_view(),
         name='list_projects')
     #add more urls here
 ]

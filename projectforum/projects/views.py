@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.views.generic.edit import FormView
 from projectforum.projects.models import Project
 from projectforum.projects.forms import *
@@ -30,8 +30,8 @@ ascending: Whether or not we sort by ascending or descending order
 starting_from: Integer Default is 0.  Return projects starting from this number
 ending_at: Integer Default is 10. Stop returning projects at this number
 """
-def list_projects(request):
-    if request.method == 'GET':
+class ProjectView(View):
+    def get(self, request, *args, **kwargs):
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'Lump')
         ascending = bool(request.GET.get('ascending', True))
