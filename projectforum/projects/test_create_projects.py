@@ -2,7 +2,7 @@
 Build a bunch of mock projects in case we're testing with a situation
 that needs to look at many different projects.
 """
-def create_many projects():
+def create_many_projects():
     user = User.objects.create_user(username='Job',
                                      email='Job@gmail.com',
                                      password='topsecret')
