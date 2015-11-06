@@ -1,38 +1,88 @@
+{% load navactive %}
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" type="text/css"
         href="{% static 'css/external/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
     <script src="{% static 'js/project-ajax.js' %}"></script>
     {% block header %}{% endblock %}
 </head>
 <body>
-    <div class="clearfix headerbackground">
-        <div class="col-xs-6 col-sm-6">
-            <div class="banner">
-                Project Forum
+    <div id="siteWrapper" class="clearfix">
+        <header id="header">
+            <div id="headerInner">
+                <div id="headerLogo">
+                    <a href="{% url 'index' %}">
+                        Project Forum
+                    </a>
+                </div>
+                <div id="headerNav">
+                    <div>
+                        <a href="{% url 'index' %}"{% navactive request ' class="active"' 'index' %}>
+                            Home
+                        </a>
+                    </div>
+                    <div class="folder">
+                        <a href="{% url 'project:list' %}"
+                           class="folder-label{% navactive request ' active' 'project:list' %}">
+                            Projects
+                        </a>
+                        <div class="folder-menu">
+                            <div class="folder-item">
+                                <a href="{% url 'project:list' %}">
+                                    View All Projects
+                                </a>
+                            </div>
+                            <div class="folder-item">
+                                <a href="{% url 'project:create' %}">
+                                    Create New Project
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'about' %}"{% navactive request ' class="active"' 'about' %}>
+                            About
+                        </a>
+                    </div>
+                    <div class="headerNavItemCircled folder">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile:view' user.username %}">{{ user.username }}</a>
+                            <div class="folder-menu folder-menu-from-right">
+                                <div class="folder-item">
+                                    <a href="{% url 'profile:view' user.username %}">
+                                        View Profile
+                                    </a>
+                                </div>
+                                <div class="folder-item">
+                                    <a href="{% url 'profile:password_change' %}">
+                                        Change password
+                                    </a>
+                                </div>
+                                <div class="folder-item">
+                                    <a href="{% url 'profile:logout' %}">
+                                        Log out
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'profile:login' %}">Log in</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-xs-6 col-sm-6">
-            <div class="login">
-                {% if user.is_authenticated %}
-                    Logged in:
-                    <a href="{% url "profile:view" user.username %}">{{ user.username }}</a>
-                    (<a href="{% url "profile:logout" %}">Log out</a> |
-                    <a href="{% url "profile:password_change" %}">Change password</a>)
-                {% else %}
-                    <a href="{% url "profile:login" %}">Log in</a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+        </header>
 
-    <div id="content">
-        {% block content %}{% endblock %}
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div id="footerHighlight"></div>
+        <footer id="footer"></footer>
     </div>
 </body>
 </html>
