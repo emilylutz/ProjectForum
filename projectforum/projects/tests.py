@@ -200,3 +200,23 @@ class ProjectsTest(TestCase):
         self.assertEqual('E', contents['projects'][0]['title'])
         self.assertEqual('B', contents['projects'][-1]['title'])
         self.assertEqual('C', contents['projects'][3]['title'])
+
+    def test_list_projects_by_pay_lump_down(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='payment', salary='Lump Sum',
+                            ascending=False, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual('E', contents['projects'][0]['title'])
+        self.assertEqual('B', contents['projects'][-1]['title'])
+        self.assertEqual('C', contents['projects'][3]['title'])
+
+    def test_list_projects_by_pay_lump_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(order='payment', salary='Lump Sum',
+                            ascending=True, starting_from = 0, ending_at = 10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual('E', contents['projects'][0]['title'])
+        self.assertEqual('B', contents['projects'][-1]['title'])
+        self.assertEqual('C', contents['projects'][3]['title'])
