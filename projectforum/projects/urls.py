@@ -21,6 +21,15 @@ urlpatterns = [
 
     url(r'^list/filter_by',
         ProjectView.as_view(),
-        name='list_projects')
+        name='list_projects'),
     #add more urls here
+    url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view()),
+    url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
+    url(r'^(?P<id>\d+)/apply/$', apply_to_project),
+    url(r'^(?P<id>\d+)/withdraw_application/$', withdraw_application),
+    url(r'^(?P<id>\d+)/mark_complete/$', mark_complete),
+    url(r'^(?P<id>\d+)/cancel_project/$', cancel_project),
+    url(r'^(?P<id>\d+)/reopen_project/$', reopen_project),
+    url(r'^(?P<id>\d+)/reopen_applications/$', reopen_applications),
+    url(r'^(?P<id>\d+)/close_applications/$', close_applications),
 ]

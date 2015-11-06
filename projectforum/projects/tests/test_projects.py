@@ -1,9 +1,10 @@
 import json
 
 from django.test import TestCase, Client
-from .models import Project
+from projectforum.projects.models import Project
 from django.contrib.auth.models import User
-from projectforum.user_profiles.models import UserProfile
+from django.conf import settings
+from projectforum.projects.forms import *
 
 import project_filters
 import test_create_projects
@@ -11,6 +12,7 @@ import test_create_projects
 
 class ProjectsTest(TestCase):
     def setUp(self):
+        settings.DEBUG = True
         self.user = User.objects.create_user(username='jacob',
                                              email='jacob@gmail.com',
                                              password='topsecret')
@@ -18,6 +20,9 @@ class ProjectsTest(TestCase):
     def test_that_tests_work(self):
         pass
 
+    ##############
+    # Model tests
+    ##############
     def test_projects_can_be_created(self):
         project1 = Project.objects.create(
             title = "Test Title",
@@ -36,50 +41,6 @@ class ProjectsTest(TestCase):
         fetched_projects = Project.objects.filter()
         self.assertEqual(1, len(fetched_projects))
         self.assertEqual(fetched_projects[0].title, "Test Title")
-
-    def test_list_page_exists(self):
-        c = Client()
-        resp = c.get('/project/list/')
-        self.assertTrue(resp.is_rendered)
-        self.assertEqual(0, len(resp.context_data['project_list']))
-
-    def test_list_page_gets_projects_in_database(self):
-        project1 = Project.objects.create(
-            title = "Test Title 1",
-            description = "Test Description 1",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
-        )
-        project2 = Project.objects.create(
-            title = "Test Title 2",
-            description = "Test Description 2",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
-        )
-        c = Client()
-        resp = c.get('/project/list/')
-
-        resp_projects = resp.context_data['project_list']
-        self.assertEqual(2, len(resp_projects))
-
-    def test_list_page_gets_projects_in_database(self):
-        project1 = Project.objects.create(
-            title = "Test Title 1",
-            description = "Test Description 1",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
-        )
-        c = Client()
-        resp = c.get('/project/list/')
-
-        resp_projects = resp.context_data['project_list']
-        self.assertEqual(project1, resp_projects[0])
 
     def test_project_to_string(self):
         project1 = Project.objects.create(
@@ -160,6 +121,90 @@ class ProjectsTest(TestCase):
         self.assertEqual(0, len(fetched_joe.projects_applied_to.all()))
         self.assertEqual(1, len(fetched_joe.current_projects.all()))
         self.assertEqual(project1, fetched_joe.current_projects.all()[0])
+
+    def test_project_to_string(self):
+        project1 = Project.objects.create(
+            title = "Test Title 1",
+            description = "Test Description 1",
+            owner = self.user,
+            payment = 1,
+            amount = 1,
+            status = 1,
+        )
+        self.assertEqual(project1.__str__(), "Project: {title: Test Title 1}")
+
+    #################
+    # List Page Tests
+    #################
+
+    def test_list_page_exists(self):
+        c = Client()
+        resp = c.get('/project/list/')
+        self.assertTrue(resp.is_rendered)
+        self.assertEqual(0, len(resp.context_data['project_list']))
+
+    def test_list_page_gets_projects_in_database(self):
+        project1 = Project.objects.create(
+            title = "Test Title 1",
+            description = "Test Description 1",
+            owner = self.user,
+            payment = 1,
+            amount = 1,
+            status = 1,
+        )
+        project2 = Project.objects.create(
+            title = "Test Title 2",
+            description = "Test Description 2",
+            owner = self.user,
+            payment = 1,
+            amount = 1,
+            status = 1,
+        )
+        c = Client()
+        resp = c.get('/project/list/')
+
+        resp_projects = resp.context_data['project_list']
+        self.assertEqual(2, len(resp_projects))
+
+    def test_list_page_gets_project_in_database(self):
+        project1 = Project.objects.create(
+            title = "Test Title 1",
+            description = "Test Description 1",
+            owner = self.user,
+            payment = 1,
+            amount = 1,
+            status = 1,
+        )
+        c = Client()
+        resp = c.get('/project/list/')
+
+        resp_projects = resp.context_data['project_list']
+        self.assertEqual(project1, resp_projects[0])
+
+    # Create Tests
+    def test_valid_data(self):
+        form_data = {
+            'title' : "project1",
+            'description' : "project description 1",
+            'payment' : 1,
+            'amount' : 1
+        }
+        c = Client()
+        resp = c.post('/project/create/')
+        project_form = ProjectForm(data=form_data, request=resp)
+        self.assertTrue(project_form.is_valid())
+
+    def test_redirect(self):
+        c= Client()
+        resp = c.get("/project/create/")
+        self.assertEqual(resp['Location'], 'http://testserver/profile/login?next=/project/create')
+
+    def test_no_redirect(self):
+        c = Client()
+        c.login(username="jacob", password="topsecret", email="jacob@gmail.com")
+        resp = c.get("/project/create/")
+        self.assertEqual(resp.status_code, 200)
+
 
     def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()

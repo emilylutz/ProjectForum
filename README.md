@@ -90,6 +90,14 @@ Finally run this command to run the tests.
 $ heroku run python manage.py test --app *app name*
 ```
 
+## Test Coverage
+
+To get a report on test coverage, you can run the following command:
+
+```
+heroku run "coverage run --source='./projectforum/' manage.py test; coverage report" --app *app name*
+```
+
 ## Pull-Request Checklist:
 * Add tests for at least the main functionality of your code. This way if you or someone else accidentaly breaks your code, they will know.
 * Run the tests, make sure they all pass.
