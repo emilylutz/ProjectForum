@@ -18,6 +18,11 @@ urlpatterns = [
     url(r'^create/fail/$',
         TemplateView.as_view(template_name='create_fail.html'),
         name='create_fail'),
+
+    url(r'^list/filter_by',
+        ProjectView.as_view(),
+        name='list_projects'),
+    #add more urls here
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view()),
     url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),
