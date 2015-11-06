@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from projectforum.projects.forms import *
 
-import project_filters
+import projectforum.projects.project_filters
 import test_create_projects
 
 
