@@ -165,5 +165,5 @@ class ProjectsTest(TestCase):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(order='title', salary='Lump Sum',
                             ascending=False, starting_from = 0, ending_at = 10)
-        self.assertEqual(1, response['status'])
-        self.assertEqual('F', response['projects'][0]['title'])
+        self.assertEqual(1, response.content.status)
+        self.assertEqual('F', response.content.projects[0].title)
