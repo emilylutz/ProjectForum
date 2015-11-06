@@ -7,7 +7,7 @@ from django.http import HttpResponse
 def get_project_list(status, order, salary, ascending, starting_from, ending_at):
     # Sorting is a little more complicated in the case of sort by payment
     # try:
-    project_list.filter(status=status)
+    project_list = Project.objects.all().filter(status=status)
     if order == 'payment':
         if salary == 'Lump':
             salary = 'Lump Sum'
