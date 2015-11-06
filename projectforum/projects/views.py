@@ -55,3 +55,17 @@ class ProjectDetailView(TemplateView):
         })
         return context
 
+def accept_applicant(request, id, username):
+    # TODO: make sure user is project owner!
+    try:
+        project = Project.objects.get(id=id)
+        applicant = User.objects.get(username=username)
+        applicant_accepted = project.accept_applicant(applicant)
+
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    except User.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid applicant username"]})
+    if applicant_accepted:
+        return redirect('/project/'+project.id+'/')
+    return JsonResponse({'status': -1, 'errors': ["Unable to accept applicant."]})
