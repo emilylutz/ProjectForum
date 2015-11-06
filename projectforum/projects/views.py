@@ -33,7 +33,7 @@ salary:
 ascending: Whether or not we sort by ascending or descending order
     *True: Ascending order
     False: Descending order
-starting_from: Integer Default is 0.  Return projects starting from this number
+starting_from: Integer Default is 1.  Return projects starting from this number
 ending_at: Integer Default is 10. Stop returning projects at this number
 """
 class ProjectView(View):
