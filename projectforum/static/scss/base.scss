@@ -1,41 +1,139 @@
-$font-stack: 1em "Helvetica Neue", Arial, sans-serif;
-$window-size: 95%;
-$margin-size: 0 (100% - $window-size) / 2;
-$mobile-size: 320px;
-$header-color: #2F9ED4;
+// The base css for the website.
 
+@import 'common';
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
+
+// Base styles.
 body {
-  min-width: $mobile-size;
-  font: $font-stack;
-  -webkit-text-size-adjust: 100%; /* Stops Mobile Safari from auto-adjusting font-sizes */
-}
-html {
-  box-sizing: border-box;
+    background-color: $theme-col-main-dark;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+#siteWrapper {
+    background-color: $theme-col-background;
+    color: $theme-col-text-onbackground;
+    position: relative;
 }
 
-.content {
-  width: $window-size;
-  margin: $margin-size;
+// Header
+#header {
+    background-color: $theme-col-main-dark;
+    left: 0;
+    line-height: 1em;
+    padding: 0 20px;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
-.headerbackground {
-  width: 100%;
-  background-color: $header-color;
-  min-height: 3em;
-  padding: 1em;
+#headerInner {
+    color: $theme-col-text-ondark;
+    padding: 20px 0;
+    display: table;
+    width: 100%;
+}
 
+#headerLogo {
+    display: table-cell;
+    font-family: Cinzel, serif;
+    font-size: 2em;
+    line-height: 2em;
+    vertical-align: middle;
+    width: 240px;
+
+    > a {
+        color: $theme-col-text-ondark;
+        text-decoration: none;
+    }
 }
-.banner {
-  font-size: 1.75em;
-  float: left;
-  vertical-align: middle;
+
+#headerNav {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    > div {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+
+        a {
+            color: $theme-col-text-ondark;
+            display: block;
+            padding: .75em 1em;
+            text-decoration: none;
+
+            &.active {
+                color: $theme-col-main;
+            }
+        }
+    }
+    .headerNavItemCircled {
+        -webkit-border-radius: 300px;
+        border-radius: 300px;
+        border: 2px solid $theme-col-text-ondark;
+        margin: 0 0 0 1em;
+        @include experimental(transition, background-color .1s .1s ease-in-out);
+
+        > a {
+            @include experimental(transition, color .1s .1s ease-in-out);
+        }
+        &:hover {
+            background-color: $theme-col-text-ondark;
+
+            > a {
+                color: $theme-col-text-onbackground;
+            }
+        }
+    }
+    .folder {
+        position: relative;
+
+        .folder-menu {
+            background-color: $theme-col-main-dark;
+            left: -0.5em;
+            margin-top: -1px;
+            padding: 0.5em;
+            position: absolute;
+            text-align: left;
+            @include experimental(transform-origin, 0 0);
+            @include experimental(transform, scale(1,0));
+            @include experimental-val(transition, transform .2s 0s ease-in-out);
+
+            &.folder-menu-from-right {
+                left: inherit;
+                right: -0.5em;
+            }
+            .folder-item {
+                opacity: 0;
+                @include experimental(transition, opacity .1s .1s ease-in-out);
+            }
+        }
+        &:hover .folder-menu {
+            @include experimental(transform, scale(1,1));
+
+            .folder-item {
+                opacity: 1;
+            }
+        }
+    }
 }
-.login {
-  float: right;
+
+// Content
+#content {
+    margin: auto;
+    max-width: 1000px;
+    padding: 96px 32px;
+    width: auto;
+}
+
+// Footer
+#footerHighlight {
+    background-color: $theme-col-main;
+    height: 64px;
+}
+
+#footer {
+    background-color: $theme-col-main-dark;
+    height: 128px;
 }
