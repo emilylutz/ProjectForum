@@ -15,17 +15,21 @@ class ProjectListView(ListView):
 class CreateView(FormView):
     template_name = 'create.html'
     form_class = ProjectForm
-    success_url = '/project/create/complete/'
 
     def form_valid(self, form):
         project_instance = form.save(commit=False)
-        if self.request.user.is_authenticated() == False:
-            return redirect("/project/create/fail")
         setattr(project_instance, 'owner', self.request.user)
         project_instance.save()
-        return redirect(self.success_url)
+        project_url = "/project/" + str(project_instance.id)
+        return redirect(project_url)
 
     def get_form_kwargs(self):
         kwargs = super(CreateView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        if request.user.is_authenticated() == False:
+            return redirect("/profile/login?next=/project/create")
+        return super(CreateView, self).get(request, *args, **kwargs)

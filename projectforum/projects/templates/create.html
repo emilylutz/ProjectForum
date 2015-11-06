@@ -1,17 +1,15 @@
 {% extends "base.html" %}
 <!-- {% load staticfiles %} -->
-{% block extra_css %}
+{% block header %}
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 <link href="{% static "css/jquery.tagit.css" %}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block extra_js %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="{% static "js/tag-it.js" %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block content %}
+
 <form action="." method="post" id="create-project">
     {% csrf_token %}
     <div id="project-defaults">
@@ -19,17 +17,21 @@
         <div class="form-field title">
             <label>{{form.title.label}}</label>
             <br/>
+            {{form.title.errors}}
             {{form.title}}
         </div>
         <div class="form-field description">
             <label>{{form.description.label}}</label>
             <br/>
+            {{ form.description.errors }}
             {{form.description}}
         </div>
         <div class="form-field compensation">
             <label>Compensation</label>
             <br/>
+            {{ form.payment.errors }}
             {{form.payment}}
+            {{ form.amount.errors }}
             {{form.amount}}
         </div>
     </div>
@@ -43,7 +45,7 @@
         <input type="checkbox" name="ios" value="ios" onclick="calc(this)">iOS<br/>
         <input type="checkbox" name="webapp" value="webapp" onclick="calc(this)">Web Application<br/>
         <div id="form-field-options">
-            <label>Tags:</label>
+            <label>Tags: </label> (separate by commas)
             <br/>
             <script type="text/javascript">
                 $(document).ready(function() {
@@ -58,7 +60,6 @@
             <br/>
         </div>
     </div>
-    <!-- {{form.tags}} -->
     <input type="submit" value="Post!" />
 </form>
 
