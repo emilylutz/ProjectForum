@@ -193,6 +193,6 @@ class ProjectsTest(TestCase):
             amount = 1000000,
             status = 1,
         )
-        print project_filters.get_project_list(order='timestamp', salary='Lump Sum',
-                            ascending=True, starting_from = 0, ending_at = 10)
+        print project_filters.get_project_list(order='title', salary='Lump Sum',
+                            ascending=False, starting_from = 0, ending_at = 10)
         self.assertEqual(0, 0)
