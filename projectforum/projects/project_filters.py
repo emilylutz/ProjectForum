@@ -37,7 +37,7 @@ def projects_JSON_response(projects):
         projects_json['projects'].append({
             'title': the_project.title,
             'description': the_project.description,
-            'owner': the_project.owner,
+            'owner': the_project.owner.username,
             'payment': the_project.payment,
             'amount': the_project.amount,
             'status': the_project.status,
@@ -55,7 +55,8 @@ def format_time(database_time):
 def convert_people_to_list(peoples):
     people_JSON = []
     for person in peoples:
-        people_JSON.append(person.first_name + " " + person.last_name)
+        people_JSON.append(person.username)
+    return people_JSON
 
 def errorMessage(error="Apologies, we could not process the request you've made."):
     response = {
