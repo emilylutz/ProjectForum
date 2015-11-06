@@ -32,7 +32,7 @@ def projects_JSON_response(projects):
         "status": 1,
         "projects": []
     }
-
+    # Go through each individual project and JSONify it.
     for the_project in projects:
         projects_json['projects'].append({
             'title': the_project.title,
@@ -42,7 +42,7 @@ def projects_JSON_response(projects):
             'amount': the_project.amount,
             'status': the_project.status,
             'tags': the_project.tags,
-            'timestamp': the_project.timestamp,
+            # 'timestamp': the_project.timestamp,
             'team_members': the_project.team_members,
             'applicants': the_project.applicants
         })
