@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from .models import Project
+from projectforum.projects.models import Project
 from django.contrib.auth.models import User
 from django.conf import settings
 
