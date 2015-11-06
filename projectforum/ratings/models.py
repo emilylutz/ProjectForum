@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class UserReview(models.Model):
     """docstring for UserReview"""
-    user = models.ForeignKey(User, related_name="user_review")
+    reviewer = models.ForeignKey(User, related_name="user_review")
     recipient = models.ForeignKey(User, related_name="reviewed_user")
     score = models.IntegerField()
     comment = models.TextField(max_length=2048)
