@@ -42,12 +42,20 @@ def projects_JSON_response(projects):
             'amount': the_project.amount,
             'status': the_project.status,
             'tags': the_project.tags,
-            # 'timestamp': the_project.timestamp,
-            'team_members': the_project.team_members,
-            'applicants': the_project.applicants
+            'timestamp': format_time(the_project.timestamp),
+            'team_members': convert_people_to_list(the_project.team_members.all()),
+            'applicants': convert_people_to_list(the_project.applicants.all())
         })
     return HttpResponse(json.dumps(projects_json),
                         content_type='application/json')
+
+def format_time(database_time):
+    return database_time.strftime("%b %d %Y at %I: %M")
+
+def convert_people_to_list(peoples):
+    people_JSON = []
+    for person in peoples:
+        people_JSON.append(person.first_name + " " + person.last_name)
 
 def errorMessage(error="Apologies, we could not process the request you've made."):
     response = {
