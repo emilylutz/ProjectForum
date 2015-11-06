@@ -18,5 +18,9 @@ urlpatterns = [
     url(r'^create/fail/$',
         TemplateView.as_view(template_name='create_fail.html'),
         name='create_fail'),
+
+    url(r'^/list/filter_by',
+        '.views.list_projects',
+        name='list_projects')
     #add more urls here
 ]
