@@ -30,7 +30,6 @@ class RatingsTest(TestCase):
         )
         self.assertEqual(rating1.comment, "nice")
         self.assertEqual(rating1.score, 5)
-        # pass
 
     def test_post_ratings(self):
         form_data = {
@@ -43,3 +42,23 @@ class RatingsTest(TestCase):
         project_url = 'http://testserver/project/' + str(self.project1.id)
         resp = c.post(url, data=form_data)
         self.assertEqual(resp['Location'], project_url)
+
+    def test_not_logged_in(self):
+        form_data = {
+            'score': 5,
+            'comment': "nice"
+        }
+        c = Client()
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp['Location'], "http://testserver/profile/login")
+
+    def test_invalid_project(self):
+        form_data = {
+            'score': 5,
+            'comment': "nice"
+        }
+        c = Client()
+        url = '/ratings/review/' + str(2)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp.status_code, 404)
