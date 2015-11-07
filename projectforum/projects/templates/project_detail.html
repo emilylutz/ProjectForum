@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block header %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/jquery.raty.min.css' %}">
+<script src="{% static "js/jquery.raty.js" %}" type="text/javascript" charset="utf-8"></script>
+
+{% endblock %}
+
 {% block content %}
 
 	<h1>Projects Detail View</h1>
@@ -27,7 +35,7 @@
 		    <li class='empty_people_list_element'>No team members currently.</li>
 		{% endfor %}
 		</ul>
-		
+
 		{% if project.status == 1 %}
 	    	<button id='close_applications' data-projectid="{{ project.id }}">Close Applicaitons</button>
 	    {% endif %}
@@ -75,6 +83,28 @@
 
 		{% endif %}
 
+	{% endif %}
+
+	{% if project.status == 3 or project.status == 4 %}
+		<br/>
+		<br/>
+		<label>Reviews:</label>
+		<br/>
+		{% if user in project.team_members.all %}
+			<form action="/ratings/review/{{project.id}}" method="post">
+			    {% csrf_token %}
+			    <div id="rating"></div>
+			    Comments:
+			    <br/>
+			    {{form.comment}}
+			    <br/>
+			    <input type="submit" value="Submit" />
+
+			</form>
+		{% endif %}
+		{% for review in project_reviews %}
+			{{ review | safe}}
+		{% endfor %}
 	{% endif %}
 
 {% endblock %}

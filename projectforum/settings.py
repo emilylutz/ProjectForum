@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'projectforum.mailgun',
     'projectforum.projects',
     'projectforum.user_profiles',
+    'projectforum.ratings',
 )
 
 MIDDLEWARE_CLASSES = (

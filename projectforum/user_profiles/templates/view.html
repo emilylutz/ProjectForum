@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block header %}
+{% load static %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.css">
+<script src="{% static "js/jquery.raty.js" %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
 {% block content %}
     {% if user_profile %}
         <h2>User profile for {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</h2>
@@ -37,8 +44,25 @@
 
         {% if user_profile.showRatings %}
             <p>Ratings Here</p>
+            {% for review in user_reviews %}
+                {{ review | safe}}
+            {% endfor %}
         {% endif %}
     {% else %}
         <p>No such user exists.</p>
     {% endif %}
+
+    <!-- for static reviews  and input reviews-->
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".review-score").raty({
+            score: function() {
+                return $(this).attr('data-score');
+            },
+            readOnly: true,
+            path:'/static/images',
+        });
+    });
+</script>
+
 {% endblock %}

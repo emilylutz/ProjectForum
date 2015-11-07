@@ -4,6 +4,8 @@ from django.views.generic.edit import FormView
 from projectforum.projects.models import Project
 from projectforum.projects.forms import *
 from django.http import Http404, JsonResponse
+from projectforum.ratings.forms import ReviewForm
+from projectforum.ratings.models import UserReview
 
 import project_filters
 
@@ -70,6 +72,15 @@ class CreateView(FormView):
             return redirect("/profile/login?next=/project/create")
         return super(CreateView, self).get(request, *args, **kwargs)
 
+def get_html_project_reviews(project):
+    project_reviews = UserReview.objects.filter(project=project)
+    project_html_list = []
+    for x in project_reviews:
+        html_string = '<hr><div class=\"project-review\"><div class=\"review-score\" data-score=\"' + str(x.score) + '\"></div><br/>' + '<div class=\"review-comment\">' + x.comment + '</div><br/>' + x.reviewer.username + '</div><br>'
+        project_html_list.append(html_string)
+    return project_html_list
+
+
 class ProjectDetailView(TemplateView):
     """
     Project list view.
@@ -87,10 +98,14 @@ class ProjectDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        form = ReviewForm(self.request.POST or None)
+        project_reviews = get_html_project_reviews(self.project)
         context.update({
             'project': self.project,
             'logged_in': self.logged_in,
             'user': self.request.user,
+            'form': form,
+            'project_reviews': project_reviews
         })
         return context
 

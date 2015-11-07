@@ -75,4 +75,16 @@ $(document).ready(function() {
                 });
     });
 
+    $(".review-score").raty({
+            score: function() {
+                return $(this).attr('data-score');
+            },
+            readOnly: true,
+            path:'/static/images',
+        });
+
+    $("#rating").raty({
+            path:'/static/images',
+        });
+
 });

@@ -1,7 +1,7 @@
 <h1>Projects</h1>
 <ul>
 {% for project in object_list %}
-    <li>{{ project.title }} - {{ project.description }}</li>
+    <li><a href= "{% url 'project:detail' project.id %}">{{ project.title }}</a> - {{ project.description }}</li>
 {% empty %}
     <li>No projects yet.</li>
 {% endfor %}
