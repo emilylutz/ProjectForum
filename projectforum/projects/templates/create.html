@@ -10,33 +10,33 @@
 
 {% block content %}
 
-<form action="." method="post" id="create-project">
-    {% csrf_token %}
-    <div id="project-defaults">
-        <br/>
-        <div class="form-field title">
-            <label>{{form.title.label}}</label>
-            <br/>
-            {{form.title.errors}}
-            {{form.title}}
-        </div>
-        <div class="form-field description">
-            <label>{{form.description.label}}</label>
-            <br/>
-            {{ form.description.errors }}
-            {{form.description}}
-        </div>
-        <div class="form-field compensation">
-            <label>Compensation</label>
-            <br/>
-            {{ form.payment.errors }}
-            {{form.payment}}
-            {{ form.amount.errors }}
-            {{form.amount}}
-        </div>
-    </div>
+<form action="." method="post" id="create-project">   
+    <h2>Post a project</h2> 
+    {{ form.non_field_errors }}
+
+    <p>
+        {{ form.title.label_tag }}
+        {{ form.title.errors }}
+        {{ form.title }}
+    </p>
+    <p>
+        {{ form.description.label_tag }}
+        {{ form.description.errors }}
+        {{ form.description }}
+    </p>
+    <p>
+        {{ form.payment.label_tag }}
+        {{ form.payment.errors }}
+        {{ form.payment }}
+    </p>
+    <p>
+        {{ form.amount.label_tag }}
+        {{ form.amount.errors }}
+        {{ form.amount }}
+    </p>
+
+    <h2>Optional Information</h2>
     <div id="project-options">
-        <label>Optional:</label>
         Questions<br/>
         Help us help you!<br/>
         Are you looking for ... <br/>
@@ -47,30 +47,11 @@
         <div id="form-field-options">
             <label>Tags: </label> (separate by commas)
             <br/>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("#myTags").tagit({
-                        'singleField': true
-                    });
-                });
-            </script>
-
-            <ul id="myTags">
-            </ul>
-            <br/>
         </div>
     </div>
+
+    {% csrf_token %}
+
     <input type="submit" value="Post!" />
 </form>
-
-<script type="text/javascript">
-    function calc (event) {
-        if (event.checked == true) {
-            $("#myTags").tagit("createTag", event.value);
-        } else {
-            $("#myTags").tagit("removeTagByLabel", event.value);
-        }
-    }
-
-</script>
 {% endblock %}
