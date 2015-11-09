@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 
-from .fields import TagsField
-from .models import UserProfile
+from projectforum.user_profiles.fields import TagsField
+from projectforum.user_profiles.models import UserProfile
 
 
 class UserNamesEditForm(forms.ModelForm):
@@ -49,5 +49,6 @@ class RegisterForm(UserCreationForm):
         """
         model = get_user_model()
         if model.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError("This email address is already in use.")
+            raise forms.ValidationError("This email address is already in "
+                                        "use.")
         return self.cleaned_data['email']

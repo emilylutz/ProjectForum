@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import RegistrationLink, UserProfile, UserSkillTag
+from projectforum.user_profiles.models import (
+    RegistrationLink,
+    UserProfile,
+    UserSkillTag
+)
 
 
 class RegistrationLinkAdmin(admin.ModelAdmin):

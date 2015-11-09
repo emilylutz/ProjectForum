@@ -8,7 +8,7 @@ form .errorlist {
   color: #A94442;
   padding: 10px 0 10px 30px; }
 form input[type="email"],
-form input[type="text"],
+form input[type="text"]:not(.token-input),
 form input[type="password"] {
   background-color: #fafafa;
   border-radius: 2px;
@@ -22,7 +22,7 @@ form input[type="password"] {
   -o-transition: background-color 0.1s ease;
   transition: background-color 0.1s ease; }
   form input[type="email"]:focus,
-  form input[type="text"]:focus,
+  form input[type="text"]:not(.token-input):focus,
   form input[type="password"]:focus {
     background-color: #fff; }
 form input[type="submit"] {

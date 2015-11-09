@@ -1,5 +1,7 @@
 from django import forms
+
 from projectforum.projects.models import *
+
 
 class ProjectForm(forms.ModelForm):
     class Meta:

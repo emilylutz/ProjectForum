@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
 from django.http import Http404
-from .forms import *
-from projectforum.projects.models import Project
+from django.shortcuts import render, redirect
 
-# Create your views here.
+from projectforum.projects.models import Project
+from projectforum.ratings.forms import *
+
 
 def make_review(request, id):
     if request.method == 'POST':

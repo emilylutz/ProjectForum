@@ -3,10 +3,12 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css"
-        href="{% static 'css/bootstrap-tokenfield.min.css' %}">
+        href="{% static 'external/tokenfield/bootstrap-tokenfield.min.css' %}">
     <link rel="stylesheet" type="text/css"
-        href="{% static 'css/tokenfield-typeahead.min.css' %}">
-    <script src="{% static 'js/bootstrap-tokenfield.min.js' %}"></script>
+        href="{% static 'external/tokenfield/tokenfield-typeahead.min.css' %}">
+    <script
+        src="{% static 'external/tokenfield/bootstrap-tokenfield.min.js' %}">
+    </script>
 {% endblock %}
 
 {% block content %}

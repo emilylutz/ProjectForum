@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
 import os
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -57,7 +58,9 @@ ROOT_URLCONF = 'projectforum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(os.path.abspath(BASE_DIR), 'projectforum/templates') ],
+        'DIRS': [
+            os.path.join(os.path.abspath(BASE_DIR), 'projectforum/templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,9 +114,10 @@ MAILGUN_SERVER_NAME = os.environ.get('MAILGUN_SERVER_NAME')
 # https://devcenter.heroku.com/articles/getting-started-with-django
 
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
 DATABASES = {}
-DATABASES['default'] =  dj_database_url.config(default='postgres://:@localhost/projectforum_db')
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://:@localhost/projectforum_db'
+)
 
 TEST_DATABASES = {
     'default': dj_database_url.config(env='TEST_DATABASE_URL')
@@ -128,7 +132,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
@@ -148,7 +151,8 @@ LOGGING = {
     },
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s',
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thre'
+                      'ad)d %(message)s',
         },
         'simple': {
             'format': '%(levelname)s %(message)s',

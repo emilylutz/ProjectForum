@@ -1,16 +1,19 @@
-from django.test import TestCase, Client
-from projectforum.projects.models import Project
-from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.test import TestCase, Client
+
 import json
+
+from projectforum.projects.models import Project
 
 
 class ProjectsDetailViewTest(TestCase):
     def setUp(self):
         settings.DEBUG = True
-        self.user = User.objects.create_user(username='jacob',
-                                             email='jacob@gmail.com',
-                                             password='topsecret')
+        self.user_model = get_user_model()
+        self.user = self.user_model.objects.create_user(username='jacob',
+                                                        email='jacob@mail.com',
+                                                        password='topsecret')
 
     # Helper functions
     def basicDetailViewTests(self, resp, project):
@@ -23,46 +26,46 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_project_detail_view_exists(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.assertTrue(resp.is_rendered)
 
     def test_project_detail_view_gets_correct_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.assertEqual(project1, resp.context['project'])
 
-    def test_project_detail_view_error_response_when_project_doesnt_exist(self):
+    def test_project_detail_view_error_when_project_doesnt_exist(self):
         c = Client()
         resp = c.get('/project/37/')
         self.assertEqual(404, resp.status_code)
 
     def test_project_detail_view_correct_context_when_user_not_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.basicDetailViewTests(resp, project1)
 
         # User specific tests
@@ -75,16 +78,17 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_project_detail_view_correct_context_when_owner_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
         c = Client()
-        self.assertTrue(c.login(username= self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.basicDetailViewTests(resp, project1)
 
         self.assertTrue(resp.context['logged_in'])
@@ -97,25 +101,26 @@ class ProjectsDetailViewTest(TestCase):
         self.assertContains(resp, 'member_list')
         self.assertNotContains(resp, 'owner_list')
         self.assertNotContains(resp, 'reviewing your application')
-        #TODO: test that owner can see button for accepting applicants
-        #TODO: test that owner can cancel the project or mark it as complete
-        #TODO:maybe test specific cases for if there are applicants or team members vs not.
+        # TODO: test that owner can see button for accepting applicants
+        # TODO: test that owner can cancel the project or mark it as complete
+        # TODO: maybe test specific cases for if there are applicants or team
+        #       members vs not.
 
-    def test_project_detail_view_correct_context_when_other_user_logged_in(self):
+    def test_project_detail_view_context_when_other_user_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.basicDetailViewTests(resp, project1)
 
         self.assertTrue(resp.context['logged_in'])
@@ -129,22 +134,22 @@ class ProjectsDetailViewTest(TestCase):
         self.assertNotContains(resp, 'owner_list')
         self.assertNotContains(resp, 'reviewing your application')
 
-    def test_project_detail_view_correct_context_when_applied_user_logged_in(self):
+    def test_project_detail_view_context_when_applied_user_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.basicDetailViewTests(resp, project1)
 
         self.assertTrue(resp.context['logged_in'])
@@ -158,24 +163,24 @@ class ProjectsDetailViewTest(TestCase):
         self.assertNotContains(resp, 'owner_list')
         self.assertContains(resp, 'reviewing your application')
 
-    def test_project_detail_view_correct_context_when_team_member_logged_in(self):
+    def test_project_detail_view_context_when_team_member_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
         project1.accept_applicant(joe)
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/')
+        resp = c.get('/project/' + str(project1.id) + '/')
         self.basicDetailViewTests(resp, project1)
 
         self.assertTrue(resp.context['logged_in'])
@@ -194,21 +199,23 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_accepting_applicant(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/accept_applicant/'+joe.username)
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
+                     joe.username)
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -217,21 +224,22 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_owner_accepting_applicant(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/accept_applicant/'+joe.username)
+        resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
+                     joe.username)
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -240,20 +248,21 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_not_logged_in_accepting_applicant(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/accept_applicant/'+joe.username)
+        resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
+                     joe.username)
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -262,21 +271,23 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_accepting_applicant_on_invalid_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/accept_applicant/'+joe.username)
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) +
+                     '/accept_applicant/' + joe.username)
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -285,20 +296,22 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_accepting_invalid_applicant(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/accept_applicant/'+joe.username)
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
+                     joe.username)
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -308,19 +321,19 @@ class ProjectsDetailViewTest(TestCase):
     # Test applying to projects
     def test_applying(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/apply/')
+        resp = c.get('/project/' + str(project1.id) + '/apply/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -328,18 +341,18 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_applying_not_logged_in(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/apply/')
+        resp = c.get('/project/' + str(project1.id) + '/apply/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -347,21 +360,21 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_applying_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
 
-        resp = c.get('/project/'+str(project1.id+1)+'/apply/')
+        resp = c.get('/project/' + str(project1.id+1) + '/apply/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -370,21 +383,21 @@ class ProjectsDetailViewTest(TestCase):
     # Withdrawing Application tests
     def test_applicant_withdrawing_application(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/withdraw_application/')
+        resp = c.get('/project/' + str(project1.id) + '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -393,24 +406,24 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_applicant_withdrawing_application(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
-        john = User.objects.create_user(username='john',
-                                       email='john@gmail.com',
-                                       password='topsecret3')
+        john = self.user_model.objects.create_user(username='john',
+                                                   email='john@mail.com',
+                                                   password='topsecret3')
 
         c = Client()
         self.assertTrue(c.login(username=john.username, password='topsecret3'))
-        resp = c.get('/project/'+str(project1.id)+'/withdraw_application/')
+        resp = c.get('/project/' + str(project1.id) + '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -418,20 +431,20 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_logged_in_withdrawing_application(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
-        resp = c.get('/project/'+str(project1.id)+'/withdraw_application/')
+        resp = c.get('/project/' + str(project1.id) + '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -439,21 +452,23 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_withdrawing_application_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/withdraw_application/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) +
+                     '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -462,17 +477,18 @@ class ProjectsDetailViewTest(TestCase):
     # mark complete tests
     def test_owner_marking_project_as_complete(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/mark_complete/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/mark_complete/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -481,21 +497,21 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_owner_marking_project_as_complete(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         project1.applicants.add(joe)
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/mark_complete/')
+        resp = c.get('/project/' + str(project1.id) + '/mark_complete/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -504,17 +520,18 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_marking_bad_project_as_complete(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/mark_complete/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) + '/mark_complete/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -525,17 +542,18 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_canceling_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/cancel_project/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/cancel_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -544,19 +562,19 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_owner_canceling_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/cancel_project/')
+        resp = c.get('/project/' + str(project1.id) + '/cancel_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -565,17 +583,18 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_owner_canceling_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/cancel_project/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) + '/cancel_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -585,17 +604,18 @@ class ProjectsDetailViewTest(TestCase):
     # Testing reopening project
     def test_reopening_after_marked_as_complete(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 4,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=4,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/reopen_project/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/reopen_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -604,17 +624,18 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_reopening_after_canceling(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 3,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=3,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/reopen_project/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/reopen_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -623,19 +644,19 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_non_owner_reopening(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 4,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=4,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/reopen_project/')
+        resp = c.get('/project/' + str(project1.id) + '/reopen_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -644,38 +665,39 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_reopening_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 4,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=4,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/reopen_project/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) + '/reopen_project/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         project = Project.objects.get(id=project1.id)
         self.assertEqual(project1.status, project.status)
 
-
     # testing reopening applications
     def test_reopening_applications(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 2,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=2,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/reopen_applications/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/reopen_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -684,19 +706,20 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_reopening_applications_non_owner(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 2,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=2,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
-        self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/reopen_applications/')
+        self.assertTrue(c.login(username=joe.username,
+                                password='topsecret2'))
+        resp = c.get('/project/' + str(project1.id) + '/reopen_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -705,17 +728,19 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_reopening_applications_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 2,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=2,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/reopen_applications/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) +
+                     '/reopen_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -725,17 +750,18 @@ class ProjectsDetailViewTest(TestCase):
     # testing close applications
     def test_closing_applications(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
 
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id)+'/close_applications/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id) + '/close_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
@@ -744,19 +770,19 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_closing_applications_non_owner(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
-        resp = c.get('/project/'+str(project1.id)+'/close_applications/')
+        resp = c.get('/project/' + str(project1.id) + '/close_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
@@ -765,23 +791,26 @@ class ProjectsDetailViewTest(TestCase):
 
     def test_closing_applications_bad_project(self):
         project1 = Project.objects.create(
-            title = "Test Title",
-            description = "Test Description",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 1,
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
         )
-        joe = User.objects.create_user(username='joe',
-                                       email='joe@gmail.com',
-                                       password='topsecret2')
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
         c = Client()
-        self.assertTrue(c.login(username=self.user.username, password='topsecret'))
-        resp = c.get('/project/'+str(project1.id+1)+'/close_applications/')
+        self.assertTrue(c.login(username=self.user.username,
+                                password='topsecret'))
+        resp = c.get('/project/' + str(project1.id + 1) +
+                     '/close_applications/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         project = Project.objects.get(id=project1.id)
         self.assertEqual(project.status, project1.status)
 
-    # Test project page when project is in different states: cancelled, completed, in progress, accepting applicants
+    # Test project page when project is in different states: cancelled,
+    # completed, in progress, accepting applicants

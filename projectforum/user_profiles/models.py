@@ -14,11 +14,14 @@ import re
 
 
 class UTC(tzinfo):
-    """UTC"""
+    """ UTC time zone information. """
+
     def utcoffset(self, dt):
         return timedelta(0)
+
     def tzname(self, dt):
         return "UTC"
+
     def dst(self, dt):
         return timedelta(0)
 
@@ -27,7 +30,7 @@ class RegistrationLinkManager(models.Manager):
     """
     Custom manager for the ``RegistrationLink`` model.
     """
-    
+
     def activate_by_key(self, activation_key):
         """
         Validate a key and activate the corresponding ``User`` if it exists.
@@ -104,7 +107,8 @@ class RegistrationLink(models.Model):
 
     def is_activation_key_expired(self):
         """
-        Determine whether this ``RegistrationLink``'s activation key is expired.
+        Determine whether this ``RegistrationLink``'s activation key is
+        expired.
         """
         life = timedelta(days=settings.REGISTRATION_LINK_LIFE)
         now = datetime.utcnow()
@@ -183,9 +187,9 @@ class UserProfile(models.Model):
                                        default=False)
 
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
-                                 message="Phone number must be entered in the" +
-                                         " format: '+999999999'. Up to 15 dig" +
-                                         "its allowed.")
+                                 message="Phone number must be entered in " +
+                                         "the format: '+999999999'. Up to " +
+                                         "15 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], blank=True,
                                     max_length=15)
 
@@ -197,10 +201,10 @@ class UserProfile(models.Model):
                                     blank=True)
 
     showPastProjects = models.BooleanField('Publicly show past projects',
-                                       default=False)
+                                           default=False)
 
     showRatings = models.BooleanField('Public show ratings',
-                                       default=False)
+                                      default=False)
 
     objects = UserProfileManager()
 

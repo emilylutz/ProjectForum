@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Projects</h1>
-<ul>
-{% for project in object_list %}
-    <li>
-        <a href= "{% url 'project:detail' project.id %}">{{ project.title }}</a>
-        <div>{{ project.description }}</div>
-    </li>
-{% empty %}
-    <li>No projects yet.</li>
-{% endfor %}
-</ul>
+    <h1>Projects</h1>
+    <ul>
+        {% for project in object_list %}
+            <li>
+                <a href= "{% url 'project:detail' project.id %}">
+                    {{ project.title }}
+                </a>
+                <div>{{ project.description }}</div>
+            </li>
+        {% empty %}
+            <li>No projects yet.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

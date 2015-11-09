@@ -1,10 +1,9 @@
 from django.http import Http404
 from django.views.generic import TemplateView
 
+
 class StyleGuideView(TemplateView):
-    """
-    An admin only view that shows the Style Guide
-    """
+    """ An admin only view that shows the Style Guide. """
     template_name = 'styleguide.html'
 
     def dispatch(self, request, *args, **kwargs):

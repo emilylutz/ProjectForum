@@ -62,7 +62,7 @@ class ProfileEditView(UpdateView):
 
     def get_success_url(self):
         return reverse('profile:view',
-                       kwargs={'username':self.profile_username})
+                       kwargs={'username': self.profile_username})
 
     def get_context_data(self, **kwargs):
         context = super(ProfileEditView, self).get_context_data(**kwargs)
@@ -87,13 +87,19 @@ class ProfileEditView(UpdateView):
         user_form.is_valid()
         return super(ProfileEditView, self).form_invalid(form)
 
+
 def get_html_user_reviews(user):
     user_reviews = UserReview.objects.filter(recipient=user)
     user_review_html_list = []
     for x in user_reviews:
-        html_string = '<hr><div class=\"project-review\"><div class=\"review-score\" data-score=\"' + str(x.score) + '\"></div><br/>' + '<div class=\"review-comment\">' + x.comment + '</div><br/>' + x.reviewer.username + '</div><br>'
+        html_string = '<hr><div class=\"project-review\"><div class=\"' + \
+            'review-score\" data-score=\"' + str(x.score) + \
+            '\"></div><br/>' + '<div class=\"review-comment\">' + \
+            x.comment + '</div><br/>' + x.reviewer.username + \
+            '</div><br>'
         user_review_html_list.append(html_string)
     return user_review_html_list
+
 
 class ProfileView(TemplateView):
     """

@@ -2,7 +2,7 @@
 
 from django.conf.urls import include, patterns, url
 
-from .views import *
+from projectforum.ratings.views import *
 
 urlpatterns = [
     url(r'^review/(?P<id>\d+)$', make_review)

@@ -3,6 +3,7 @@ from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
+
 class TagsWidget(SelectMultiple):
     """
     A SelectMultiple for tags. It doesn't render a value for the options.
@@ -18,7 +19,7 @@ class TagsWidget(SelectMultiple):
                 # Only allow for a single selection.
                 selected_choices.remove(option_value)
         else:
-            return '' # only render selected options
+            return ''  # only render selected options
         return format_html('<option{}>{}</option>',
                            selected_html,
                            force_text(option_label))
