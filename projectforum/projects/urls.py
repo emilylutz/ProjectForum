@@ -3,7 +3,7 @@
 from django.conf.urls import include, patterns, url
 from django.views.generic import TemplateView
 
-from .views import *
+from projectforum.projects.views import *
 
 urlpatterns = [
     url(r'^list/$',
@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^list/filter_by',
         ProjectView.as_view(),
         name='list_projects'),
-    #add more urls here
+
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view(), name='detail'),
     url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),

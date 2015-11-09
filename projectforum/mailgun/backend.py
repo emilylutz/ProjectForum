@@ -1,8 +1,6 @@
-from __future__ import unicode_literals
-
 """
 Copyright (c) 2011 Bradley Whittington
- 
+
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without
@@ -11,10 +9,10 @@ copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the
 Software is furnished to do so, subject to the following
 conditions:
- 
+
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
- 
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -23,11 +21,11 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-"""
 
-"""
 Adapted from source found at: https://github.com/BradWhittington/django-mailgun
 """
+
+from __future__ import unicode_literals
 
 import requests
 from django.conf import settings
@@ -78,8 +76,10 @@ class MailgunBackend(BaseEmailBackend):
             *args, **kwargs)
 
         try:
-            self._access_key = access_key or getattr(settings, 'MAILGUN_ACCESS_KEY')
-            self._server_name = server_name or getattr(settings, 'MAILGUN_SERVER_NAME')
+            self._access_key = access_key or getattr(settings,
+                                                     'MAILGUN_ACCESS_KEY')
+            self._server_name = server_name or getattr(settings,
+                                                       'MAILGUN_SERVER_NAME')
         except AttributeError:
             if fail_silently:
                 self._access_key, self._server_name = None, None
@@ -113,17 +113,20 @@ class MailgunBackend(BaseEmailBackend):
                 if type(data_to_transform) in (list, tuple):
                     # map each value in the tuple/list
                     for data in data_to_transform:
-                        api_data.append((api_transformer[0], api_transformer[1](data)))
+                        api_data.append((api_transformer[0],
+                                         api_transformer[1](data)))
                 else:
                     # we only have one value
-                    api_data.append((api_transformer[0], api_transformer[1](data_to_transform)))
+                    api_data.append((api_transformer[0],
+                                     api_transformer[1](data_to_transform)))
         return api_data
 
     def _send(self, email_message):
         """A helper method that does the actual sending."""
         if not email_message.recipients():
             return False
-        from_email = sanitize_address(email_message.from_email, email_message.encoding)
+        from_email = sanitize_address(email_message.from_email,
+                                      email_message.encoding)
         recipients = [sanitize_address(addr, email_message.encoding)
                       for addr in email_message.recipients()]
 
@@ -135,14 +138,20 @@ class MailgunBackend(BaseEmailBackend):
             post_data.append(('subject', email_message.subject,))
             post_data.append(('from', from_email,))
             # get our recipient variables if they were passed in
-            recipient_variables = email_message.extra_headers.pop('recipient_variables', None)
+            recipient_variables = email_message.extra_headers.pop(
+                'recipient_variables',
+                None
+            )
             if recipient_variables is not None:
-                post_data.append(('recipient-variables', recipient_variables, ))
+                post_data.append(('recipient-variables',
+                                  recipient_variables, ))
 
-            for name, value in self._map_smtp_headers_to_api_parameters(email_message):
+            for name, value in self._map_smtp_headers_to_api_parameters(
+                    email_message):
                 post_data.append((name, value, ))
 
-            if hasattr(email_message, 'alternatives') and email_message.alternatives:
+            if hasattr(email_message, 'alternatives') and \
+                    email_message.alternatives:
                 for alt in email_message.alternatives:
                     if alt[1] == 'text/html':
                         post_data.append(('html', alt[0],))
@@ -160,7 +169,8 @@ class MailgunBackend(BaseEmailBackend):
 
             if email_message.attachments:
                 for attachment in email_message.attachments:
-                    post_data.append(('attachment', (attachment[0], attachment[1],)))
+                    post_data.append(('attachment',
+                                      (attachment[0], attachment[1],)))
                 content, header = encode_multipart_formdata(post_data)
                 headers = {'Content-Type': header}
             else:
@@ -168,8 +178,9 @@ class MailgunBackend(BaseEmailBackend):
                 headers = None
 
             response = requests.post(self._api_url + "messages",
-                    auth=("api", self._access_key),
-                    data=content, headers=headers)
+                                     auth=("api", self._access_key),
+                                     data=content,
+                                     headers=headers)
         except:
             if not self.fail_silently:
                 raise

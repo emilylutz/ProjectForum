@@ -1,9 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
-# from projectforum.user_profiles.models import UserProfile
+from django.db import models
 
 
-#title, description, owner, team, status, tags
 class Project(models.Model):
 
     PAYMENT_CHOICES = (
@@ -26,8 +24,12 @@ class Project(models.Model):
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.CharField(max_length=2048, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-    team_members = models.ManyToManyField(User, related_name="current_projects", blank=True)
-    applicants = models.ManyToManyField(User, related_name="projects_applied_to", blank=True)
+    team_members = models.ManyToManyField(User,
+                                          related_name="current_projects",
+                                          blank=True)
+    applicants = models.ManyToManyField(User,
+                                        related_name="projects_applied_to",
+                                        blank=True)
 
     def accept_applicant(self, applicant):
         if applicant in self.applicants.all():

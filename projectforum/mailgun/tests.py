@@ -5,7 +5,7 @@ from django.test.utils import override_settings
 
 import mock
 
-from .backend import MailgunAPIError, MailgunBackend
+from projectforum.mailgun.backend import MailgunAPIError, MailgunBackend
 
 
 def simple_post(url, auth, data, headers):
@@ -119,8 +119,11 @@ class MailgunTest(TestCase):
         backend = MailgunBackend()
         backend.open()
         email_message = EmailMultiAlternatives('subject', 'body', 'from_email',
-                                               ['to_email'], headers={
-                                               'recipient_variables':'test'})
+                                               ['to_email'],
+                                               headers={
+                                                   'recipient_variables':
+                                                       'test'
+                                               })
         email_message.attach_alternative('html_body', 'text/html')
         count = backend.send_messages([email_message])
         backend.close()

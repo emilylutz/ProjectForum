@@ -1,15 +1,14 @@
 {% extends "base.html" %}
-<!-- {% load staticfiles %} -->
+{% load staticfiles %}
+
 {% block header %}
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
-<link href="{% static "css/jquery.tagit.css" %}" rel="stylesheet" type="text/css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="{% static "js/tag-it.js" %}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
+    <script src="{% static 'external/jqueryui/jquery-ui.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-
 <form action="." method="post" id="create-project">   
     <h2>Post a project</h2> 
     {{ form.non_field_errors }}
@@ -40,10 +39,30 @@
         Questions<br/>
         Help us help you!<br/>
         Are you looking for ... <br/>
-        <input type="checkbox" name="mobile" value="mobile" onclick="calc(this)">Mobile<br/>
-        <input type="checkbox" name="android" value="android" onclick="calc(this)">Android<br/>
-        <input type="checkbox" name="ios" value="ios" onclick="calc(this)">iOS<br/>
-        <input type="checkbox" name="webapp" value="webapp" onclick="calc(this)">Web Application<br/>
+        <input type="checkbox"
+               name="mobile"
+               value="mobile"
+               onclick="calc(this)">
+            Mobile
+        <br/>
+        <input type="checkbox"
+               name="android"
+               value="android"
+               onclick="calc(this)">
+            Android
+        <br/>
+        <input type="checkbox"
+               name="ios"
+               value="ios"
+               onclick="calc(this)">
+            iOS
+        <br/>
+        <input type="checkbox"
+               name="webapp"
+               value="webapp"
+               onclick="calc(this)">
+            Web Application
+        <br/>
         <div id="form-field-options">
             <label>Tags: </label> (separate by commas)
             <br/>

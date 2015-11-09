@@ -80,11 +80,11 @@ $(document).ready(function() {
                 return $(this).attr('data-score');
             },
             readOnly: true,
-            path:'/static/images',
+            path:'/static/external/jqueryraty/images',
         });
 
     $("#rating").raty({
-            path:'/static/images',
+            path:'/static/external/jqueryraty/images',
         });
 
 });

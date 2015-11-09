@@ -4,7 +4,12 @@ from django.conf.urls import include, patterns, url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
-from .views import ActivateView, ProfileEditView, ProfileView, RegisterView
+from projectforum.user_profiles.views import (
+    ActivateView,
+    ProfileEditView,
+    ProfileView,
+    RegisterView
+)
 
 urlpatterns = [
     url(r'^activate/complete/$',
@@ -50,7 +55,8 @@ urlpatterns = [
         TemplateView.as_view(template_name='register_complete.html'),
         name='register_complete'),
 
-    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+    url((r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-'
+         r'[0-9A-Za-z]{1,20})/$'),
         auth_views.password_reset_confirm,
         {'template_name': 'password_reset_confirm.html',
          'post_reset_redirect': 'profile:password_reset_complete'},

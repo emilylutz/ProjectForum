@@ -1,8 +1,8 @@
-from django.test import TestCase, Client
-from django.contrib.auth import authenticate, get_user_model
 from django.conf import settings
+from django.contrib.auth import authenticate, get_user_model
+from django.test import TestCase, Client
 
-from ..models import UserProfile
+from projectforum.user_profiles.models import UserProfile
 
 
 class UserProfilesTest(TestCase):

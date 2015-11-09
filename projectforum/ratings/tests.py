@@ -1,32 +1,35 @@
-from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from projectforum.ratings.models import *
-from projectforum.projects.models import Project
+from django.test import TestCase, Client
 
-# Create your tests here.
+from projectforum.projects.models import Project
+from projectforum.ratings.models import *
+
 
 class RatingsTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="user1", email="user1@gmail.com", password="password")
-        self.reviewer = User.objects.create_user(username="user2", email="user2@gmail.com", password="password")
+        self.user = User.objects.create_user(username="user1",
+                                             email="user1@gmail.com",
+                                             password="password")
+        self.reviewer = User.objects.create_user(username="user2",
+                                                 email="user2@gmail.com",
+                                                 password="password")
         self.project1 = Project.objects.create(
-            title = "Test Title 1",
-            description = "Test Description 1",
-            owner = self.user,
-            payment = 1,
-            amount = 1,
-            status = 3,
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=3,
         )
 
-    """docstring for RatingsTest"""
     def test_ratings_can_be_created(self):
         rating1 = UserReview.objects.create(
-            reviewer = self.reviewer,
-            recipient = self.user,
-            score = 5,
-            comment = "nice",
-            project = self.project1
+            reviewer=self.reviewer,
+            recipient=self.user,
+            score=5,
+            comment="nice",
+            project=self.project1
         )
         self.assertEqual(rating1.comment, "nice")
         self.assertEqual(rating1.score, 5)

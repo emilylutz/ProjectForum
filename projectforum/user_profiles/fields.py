@@ -1,8 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelMultipleChoiceField
 
-from .models import UserSkillTag
-from .widgets import TagsWidget
+from projectforum.user_profiles.models import UserSkillTag
+from projectforum.user_profiles.widgets import TagsWidget
 
 
 class TagsField(ModelMultipleChoiceField):
@@ -16,11 +16,12 @@ class TagsField(ModelMultipleChoiceField):
                  help_text='', *args, **kwargs):
         qs = UserSkillTag.objects.all()
         super(TagsField, self).__init__(qs, required, widget, label, initial,
-            help_text, *args, **kwargs)
+                                        help_text, *args, **kwargs)
 
     def clean(self, value):
         if self.required and not value:
-            raise ValidationError(self.error_messages['required'], code='required')
+            raise ValidationError(self.error_messages['required'],
+                                  code='required')
         elif not self.required and not value:
             return self.queryset.none()
         if not isinstance(value, (list, tuple)):

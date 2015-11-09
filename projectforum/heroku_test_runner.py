@@ -4,6 +4,7 @@ from django.core.management import call_command
 from django.db.utils import ConnectionHandler
 from django.test.runner import DiscoverRunner
 
+
 class HerokuTestSuiteRunner(DiscoverRunner):
     def setup_databases(self, **kwargs):
         ###
@@ -31,15 +32,15 @@ class HerokuTestSuiteRunner(DiscoverRunner):
 
             # make them tables
             call_command('migrate',
-                        verbosity=0,
-                        interactive=False,
-                        database=test_connection.alias,
-                        load_initial_data=False)
+                         verbosity=0,
+                         interactive=False,
+                         database=test_connection.alias,
+                         load_initial_data=False)
 
             call_command('flush',
-                verbosity=0,
-                interactive=False,
-                database=test_connection.alias)
+                         verbosity=0,
+                         interactive=False,
+                         database=test_connection.alias)
 
             from django.core.cache import caches
             from django.core.cache.backends.db import BaseDatabaseCache

@@ -14,7 +14,7 @@ form {
         padding: 10px 0 10px 30px;
     }
     input[type="email"],
-    input[type="text"],
+    input[type="text"]:not(.token-input),
     input[type="password"] {
         background-color: $theme-col-grey-light;
         border-radius: 2px;
