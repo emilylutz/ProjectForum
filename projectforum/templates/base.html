@@ -19,6 +19,39 @@
                         Project Forum
                     </a>
                 </div>
+                <div id="headerNavMenu">
+                    <input type="checkbox" id="headerNavTrigger"/>
+                    <label for="headerNavTrigger" id="headerNavTriggerLabel">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </label>
+                    <div id="headerNavMenuList">
+                        <a href="{% url 'project:list' %}">
+                            View All Projects
+                        </a>
+                        <a href="{% url 'project:create' %}">
+                            Create New Project
+                        </a>
+                        <a href="{% url 'about' %}">
+                            About Project Forum
+                        </a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile:view' user.username %}">
+                                {{ user.username }} Profile
+                            </a>
+                            <a href="{% url 'profile:password_change' %}">
+                                Change password
+                            </a>
+                            <a href="{% url 'profile:logout' %}">
+                                Log out
+                            </a>
+                        {% else %}
+                            <a href="{% url 'profile:login' %}">
+                                Log in
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
                 <div id="headerNav">
                     <div>
                         <a href="{% url 'index' %}"{% navactive request ' class="active"' 'index' %}>

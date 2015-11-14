@@ -7,7 +7,8 @@ allow people to post jobs and collaborate to get things done.
 
 ## Setting up the local database
 
-Make sure you have postgress running and then run the following command to create the database.
+Make sure you have postgress running and then run the following command to
+create the database.
 
 ```
 psql -c "CREATE DATABASE projectforum_db"
@@ -34,9 +35,11 @@ $ heroku config:set MAILGUN_SERVER_NAME=*Domain here*
 
 ProjectForum uses [Sass](http://sass-lang.com/) as a CSS precompiler. The css
 files are already compiled in the repository, but if you want to change the
-scss, then you need to set up Sass. There is a script, `compile_scss.sh`, in the
-root directory that will automatically update the css files as you make changes
-to the scss. However it requires ruby installed with the Sass gem.
+scss, then you need to set up Sass.
+
+[Koala](http://koala-app.com/) is the tool we used to compile the Scss files. It
+is a cross platform compiler that allows autoprefixing. This means that it adds
+the appropriate vendor prefixes to the CSS rules to have better compatibility.
 
 ## Other requirements
 
@@ -52,7 +55,8 @@ following command to set up the databases.
 $ heroku run python manage.py migrate
 ```
 
-**If you run into migration issues**, you can empty the database from the heroku [portal](https://dashboard.heroku.com/apps) and then run
+**If you run into migration issues**, you can empty the database from the heroku
+[portal](https://dashboard.heroku.com/apps) and then run
 
 ```
 heroku run python manage.py syncdb
@@ -75,7 +79,10 @@ $ python manage.py test
 
 ## Running Remotely
 
-To run the tests on Heroku, first make a new free postgres database on Heroku using the [portal](https://dashboard.heroku.com/apps). Then you should be able to see what the url to the value of the config variable HEROKU_POSTGRESQL_\<COLOR>_URL. Use the following command to see the value.
+To run the tests on Heroku, first make a new free postgres database on Heroku
+using the [portal](https://dashboard.heroku.com/apps). Then you should be able
+to see what the url to the value of the config variable
+HEROKU_POSTGRESQL_\<COLOR>_URL. Use the following command to see the value.
 
 ```
 $ heroku config --app *app name*
@@ -102,7 +109,8 @@ heroku run "coverage run --source='./projectforum/' manage.py test; coverage rep
 ```
 
 ## Pull-Request Checklist:
-* Add tests for at least the main functionality of your code. This way if you or someone else accidentaly breaks your code, they will know.
+* Add tests for at least the main functionality of your code. This way if you or
+someone else accidentaly breaks your code, they will know.
 * Run the tests, make sure they all pass.
 * push your feature branch to the git repo `git push origin \<feature_branch>`
 * make a pull request on git hub with a description of what your feature does
