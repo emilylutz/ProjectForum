@@ -40,4 +40,16 @@ form {
             background-color: $theme-col-main;
         }
     }
+    fieldset {
+        li {
+            list-style-type: none;
+
+            label {
+                display: inline-block;
+            }
+        }
+    }
+    .tokenfield {
+        margin-bottom: 2em;
+    }
 }

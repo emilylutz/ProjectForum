@@ -1,5 +1,9 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View, TemplateView
 from django.views.generic.edit import FormView
 
@@ -66,24 +70,18 @@ class CreateView(FormView):
         project_instance = form.save(commit=False)
         setattr(project_instance, 'owner', self.request.user)
         project_instance.save()
-        project_url = "/project/" + str(project_instance.id)
-        return redirect(project_url)
+        form.save_m2m()
+        return redirect(reverse('project:detail',
+                                kwargs={'id': project_instance.id}))
 
-    def get_form_kwargs(self):
-        kwargs = super(CreateView, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        if request.user.is_authenticated() == False:
-            return redirect("/profile/login?next=/project/create")
-        return super(CreateView, self).get(request, *args, **kwargs)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateView, self).dispatch(*args, **kwargs)
 
 
 class ProjectDetailView(TemplateView):
     """
-    Project list view.
+    Project detail view.
     """
     template_name = 'project_detail.html'
 
@@ -111,7 +109,7 @@ class ProjectDetailView(TemplateView):
 
 
 def accept_applicant(request, id, username):
-    # TODO: make sure user is project owner!
+    usermodel = get_user_model()
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:
@@ -121,12 +119,12 @@ def accept_applicant(request, id, username):
                     "Only the project owner can accept applicant."
                 ]
             })
-        applicant = User.objects.get(username=username)
+        applicant = usermodel.objects.get(username=username)
         applicant_accepted = project.accept_applicant(applicant)
 
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
-    except User.DoesNotExist:
+    except usermodel.DoesNotExist:
         return JsonResponse({
             'status': -1,
             'errors': ["Invalid applicant username"]
@@ -140,7 +138,6 @@ def accept_applicant(request, id, username):
 
 
 def apply_to_project(request, id):
-    # TODO: make sure user is project owner!
     if not request.user.is_authenticated():
         return JsonResponse({
             'status': -1,
@@ -159,7 +156,6 @@ def apply_to_project(request, id):
 
 
 def withdraw_application(request, id):
-    # TODO: make sure user is project owner!
     if not request.user.is_authenticated():
         return JsonResponse({
             'status': -1,
@@ -182,7 +178,6 @@ def withdraw_application(request, id):
 
 
 def mark_complete(request, id):
-    # TODO: make sure user is project owner!
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:
@@ -198,7 +193,6 @@ def mark_complete(request, id):
 
 
 def cancel_project(request, id):
-    # TODO: make sure user is project owner!
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:
@@ -214,7 +208,6 @@ def cancel_project(request, id):
 
 
 def reopen_project(request, id):
-    # TODO: make sure user is project owner!
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:
@@ -230,7 +223,6 @@ def reopen_project(request, id):
 
 
 def reopen_applications(request, id):
-    # TODO: make sure user is project owner!
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:
@@ -246,7 +238,6 @@ def reopen_applications(request, id):
 
 
 def close_applications(request, id):
-    # TODO: make sure user is project owner!
     try:
         project = Project.objects.get(id=id)
         if request.user != project.owner:

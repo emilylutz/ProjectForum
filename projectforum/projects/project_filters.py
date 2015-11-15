@@ -48,6 +48,9 @@ def projects_JSON_response(projects):
     }
     # Go through each individual project and JSONify it.
     for the_project in projects:
+        tags = list()
+        for tag in the_project.tags.all():
+            tags.append(tag.text)
         projects_json['projects'].append({
             'title': the_project.title,
             'description': the_project.description,
@@ -55,7 +58,7 @@ def projects_JSON_response(projects):
             'payment': the_project.payment,
             'amount': the_project.amount,
             'status': the_project.status,
-            'tags': the_project.tags,
+            'tags': tags,
             'timestamp': format_time(the_project.timestamp),
             'team_members': convert_people_to_list(
                                 the_project.team_members.all()

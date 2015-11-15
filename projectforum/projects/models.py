@@ -2,6 +2,23 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+class ProjectTag(models.Model):
+    """
+    The projects can be tagged with descriptive text.
+    """
+    text = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'project tag'
+        verbose_name_plural = 'project tags'
+
+    def __str__(self):
+        return "Project tag %s" % self.text
+
+
 class Project(models.Model):
 
     PAYMENT_CHOICES = (
@@ -22,7 +39,8 @@ class Project(models.Model):
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
     amount = models.IntegerField()
     status = models.IntegerField(choices=STATUSES, default=1)
-    tags = models.CharField(max_length=2048, blank=True)
+    tags = models.ManyToManyField(ProjectTag, related_name='projects',
+                                    blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     team_members = models.ManyToManyField(User,
                                           related_name="current_projects",

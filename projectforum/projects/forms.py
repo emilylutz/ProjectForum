@@ -1,14 +1,18 @@
 from django import forms
 
-from projectforum.projects.models import *
+from projectforum.lib.fields import TagsField
+from projectforum.projects.models import Project, ProjectTag
 
 
 class ProjectForm(forms.ModelForm):
+    """
+    Form for creating a new project.
+    """
+    required_css_class = 'required'
+
+    tags = TagsField(ProjectTag, 'text')
+
     class Meta:
         model = Project
-        fields = ('title', 'description', 'payment', 'amount', 'tags')
-        widgets = {'tags': forms.HiddenInput()}
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
-        super(ProjectForm, self).__init__(*args, **kwargs)
+        exclude = ['owner', 'status', 'timestamp', 'team_members',
+                   'applicants']

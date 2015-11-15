@@ -191,9 +191,7 @@ class ProjectsTest(TestCase):
             'payment': 1,
             'amount': 1
         }
-        c = Client()
-        resp = c.post('/project/create/')
-        project_form = ProjectForm(data=form_data, request=resp)
+        project_form = ProjectForm(data=form_data)
         self.assertTrue(project_form.is_valid())
 
     def test_redirect(self):
@@ -201,7 +199,7 @@ class ProjectsTest(TestCase):
         resp = c.get("/project/create/")
         self.assertEqual(
             resp['Location'],
-            'http://testserver/profile/login?next=/project/create'
+            'http://testserver/profile/login/?next=/project/create/'
         )
 
     def test_no_redirect(self):

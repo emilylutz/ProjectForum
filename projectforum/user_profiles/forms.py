@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 
-from projectforum.user_profiles.fields import TagsField
-from projectforum.user_profiles.models import UserProfile
+from projectforum.lib.fields import TagsField
+from projectforum.user_profiles.models import UserProfile, UserSkillTag
 
 
 class UserNamesEditForm(forms.ModelForm):
@@ -24,7 +24,7 @@ class ProfileEditForm(forms.ModelForm):
     """
     required_css_class = 'required'
 
-    skills = TagsField()
+    skills = TagsField(UserSkillTag, 'skill')
 
     class Meta:
         model = UserProfile
