@@ -39,13 +39,25 @@
         </ul>
 
         {% if user_profile.showPastProjects %}
-            <p>Past Projects Here</p>
+            <p>Past Projects</p>
         {% endif %}
 
         {% if user_profile.showRatings %}
-            <p>Ratings Here</p>
+            <p>Ratings</p>
             {% for review in user_reviews %}
-                {{ review | safe}}
+                <hr>
+                <div class="project-review">
+                    <div class="review-score"
+                         data-score="{{ review.score }}">
+                    </div>
+                    <br/>
+                    <div class="review-comment">
+                        {{ review.comment | escape }}
+                    </div>
+                    <br/>
+                    {{ review.reviewer.username }}
+                </div>
+                <br>            
             {% endfor %}
         {% endif %}
     {% else %}
@@ -53,16 +65,16 @@
     {% endif %}
 
     <!-- for static reviews  and input reviews-->
-<script type="text/javascript">
-    $(document).ready(function (){
-        $(".review-score").raty({
-            score: function() {
-                return $(this).attr('data-score');
-            },
-            readOnly: true,
-            path:'/static/images',
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $(".review-score").raty({
+                score: function() {
+                    return $(this).attr('data-score');
+                },
+                readOnly: true,
+                path:'/static/images',
+            });
         });
-    });
-</script>
+    </script>
 
 {% endblock %}
