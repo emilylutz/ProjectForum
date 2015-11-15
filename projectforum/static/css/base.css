@@ -39,6 +39,17 @@ form input[type="submit"] {
   form input[type="submit"]:hover {
     background-color: #ADC4CC; }
 
+ul {
+  padding: 0px;
+  background: #fafafa;
+  border: 2px solid #ccc;
+  border-radius: 5px; }
+
+li {
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
+  list-style: none; }
+
 body {
   background-color: #4298B5; }
 
