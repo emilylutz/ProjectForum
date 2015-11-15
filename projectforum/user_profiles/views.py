@@ -5,8 +5,13 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 
-from .forms import ProfileEditForm, RegisterForm, UserNamesEditForm
-from .models import RegistrationLink, UserProfile
+from projectforum.user_profiles.forms import (
+    ProfileEditForm,
+    RegisterForm,
+    UserNamesEditForm
+)
+from projectforum.user_profiles.models import RegistrationLink, UserProfile
+from projectforum.projects.models import Project
 from projectforum.ratings.models import UserReview
 
 
@@ -109,13 +114,20 @@ class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         profile = self.user_profile
-        user_reviews = None
+        past_owned_projects = None
+        past_projects = None
         if profile and profile.showPastProjects:
+            past_owned_projects = Project.objects.filter(owner=profile.user)
+            past_projects = profile.user.current_projects.all()
+        user_reviews = None
+        if profile and profile.showRatings:
             user_reviews = UserReview.objects.filter(recipient=profile.user)
         context.update({
             'can_edit': self.can_edit,
             'user_profile': self.user_profile,
-            'user_reviews': user_reviews
+            'user_reviews': user_reviews,
+            'past_owned_projects': past_owned_projects,
+            'past_projects': past_projects,
         })
         return context
 

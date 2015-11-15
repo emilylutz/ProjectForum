@@ -39,11 +39,36 @@
         </ul>
 
         {% if user_profile.showPastProjects %}
-            <p>Past Projects</p>
+            {% if past_owned_projects %}
+                <h3>Past Projects Started</h3>
+                <ul>
+                    {% for project in past_owned_projects %}
+                        <li>
+                            <a href= "{% url 'project:detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                            <div>{{ project.description }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if past_projects %}
+                <h3>Past Projects Worked On</h3>
+                <ul>
+                    {% for project in past_projects %}
+                        <li>
+                            <a href= "{% url 'project:detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                            <div>{{ project.description }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         {% endif %}
 
         {% if user_profile.showRatings %}
-            <p>Ratings</p>
+            <h3>Ratings</h3>
             {% for review in user_reviews %}
                 <hr>
                 <div class="project-review">
