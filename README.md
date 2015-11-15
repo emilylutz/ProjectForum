@@ -65,9 +65,15 @@ it working.
 
 ## Running Locally
 
-1. Comment out the lines for `TEST_DATABASES` and `TEST_RUNNER` in `settings.py`
+1.Comment out the lines for `TEST_DATABASES` and `TEST_RUNNER` in `settings.py`
 
-1. Run the following command:
+2.Run the following command to collect all the static files. (You should also do this whenever DEBUG is set to False.)
+
+```
+$ python manage.py collectstatic
+```
+
+3.Run the following command to run the tests.
 
 ```
 $ python manage.py test
