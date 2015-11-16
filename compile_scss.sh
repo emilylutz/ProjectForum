@@ -1,1 +1,0 @@
-sass --watch projectforum/static/scss:projectforum/static/css
