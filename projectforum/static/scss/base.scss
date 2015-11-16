@@ -8,6 +8,7 @@
 // Wrappers
 body {
     background-color: $theme-col-main-dark;
+    overflow-x: hidden;
 }
 
 #siteWrapper {
@@ -48,6 +49,76 @@ body {
     }
 }
 
+#headerNavMenu {
+    display: none;
+    font-size: large;
+    text-align: right;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#headerNavTrigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+#headerNavTriggerLabel {
+    @include no-select();
+    cursor: pointer;
+}
+
+#headerNavMenuList {
+    background: $theme-col-main-dark;
+    font-size: 14px;
+    left: 0;
+    overflow: hidden;
+    padding-left: 20px;
+    padding-top: 36px;
+    padding-right: 20px;
+    position: absolute;
+    text-align: left;
+    transition: max-height .3s .3s ease-in-out, padding .3s .3s ease-in-out;
+    width: 100%;
+
+    a {
+        color: $theme-col-text-ondark;
+        display: block;
+        text-decoration: none;
+
+        &:not(:last-child) {
+            padding-bottom: 1em;
+        }
+    }
+}
+
+#headerNavTrigger {
+    &:checked {
+        + label span:first-child {
+            display: none;
+        }
+        + label span:last-child {
+            display: table-cell;
+            @include wiggle();
+        }
+        ~ #headerNavMenuList {
+            max-height: 300px;
+            padding-bottom: 2em;
+        }
+    }
+    &:not(:checked) {
+        + label span:first-child {
+            display: table-cell;
+            @include wiggle();
+        }
+        + label span:last-child {
+            display: none;
+        }
+        ~ #headerNavMenuList {
+            max-height: 0;
+        }
+    }
+}
+
 #headerNav {
     display: table-cell;
     text-align: right;
@@ -70,7 +141,7 @@ body {
             }
         }
         > a {
-            @include experimental-unquote(transition, 'background-color .1s .1s ease-in-out, color .1s .1s ease-in-out');
+            transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
 
             &:hover {
                 background-color: $theme-col-main;
@@ -87,17 +158,13 @@ body {
         border-radius: 300px;
         border: 2px solid $theme-col-text-ondark;
         margin: 0 0 1px 1em;
-        @include experimental(transition, background-color .1s .1s ease-in-out);
+        transition: background-color .1s .1s ease-in-out;
 
         > a {
-            @include experimental(transition, color .1s .1s ease-in-out);
+            transition: color .1s .1s ease-in-out;
         }
         &:hover {
             background-color: $theme-col-main;
-
-            > a {
-                // color: $theme-col-text-onbackground;
-            }
         }
     }
     .folder {
@@ -110,9 +177,9 @@ body {
             padding: 1em 0;
             position: absolute;
             text-align: left;
-            @include experimental(transform-origin, 0 0);
-            @include experimental(transform, scale(1,0));
-            @include experimental-val(transition, transform .2s 0s ease-in-out);
+            transform-origin: 0 0;
+            transform: scale(1,0);
+            transition: transform .2s 0s ease-in-out;
 
             &.folder-menu-from-right {
                 left: inherit;
@@ -121,7 +188,7 @@ body {
             .folder-item {
                 opacity: 0;
                 padding: 0 0.5em;
-                @include experimental-unquote(transition, 'opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out');
+                transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
                 
                 &:hover {
                     background-color: $theme-col-main;
@@ -129,12 +196,22 @@ body {
             }
         }
         &:hover .folder-menu {
-            @include experimental(transform, scale(1,1));
+            transform: scale(1,1);
 
             .folder-item {
                 opacity: 1;
             }
         }
+    }
+}
+
+@include respond-to($breakpoint-mobile) {
+    #headerNavMenu {
+        display: table-cell;
+    }
+
+    #headerNav {
+        display: none;
     }
 }
 

@@ -4,12 +4,23 @@ from django.core.management import call_command
 from django.db.utils import ConnectionHandler
 from django.test.runner import DiscoverRunner
 
+import logging
+
 
 class HerokuTestSuiteRunner(DiscoverRunner):
+    '''
+    Adapted from https://gist.github.com/gregsadetsky/5018173
+    '''
+
+    def run_tests(self, test_labels, extra_tests=None, **kwargs):
+        logging.disable(logging.ERROR)
+        return super(HerokuTestSuiteRunner, self).run_tests(test_labels,
+                                                            extra_tests,
+                                                            **kwargs)
+
     def setup_databases(self, **kwargs):
-        ###
-        # WARNING: NOT handling 'TEST_MIRROR', 'TEST_DEPENDENCIES'
-        ###
+        # test as if in production mode
+        settings.DEBUG = False
 
         # get new connections to test database
         test_connections = ConnectionHandler(settings.TEST_DATABASES)
@@ -25,10 +36,6 @@ class HerokuTestSuiteRunner(DiscoverRunner):
             cursor = test_connection.cursor()
             cursor.execute('DROP SCHEMA public CASCADE')
             cursor.execute('CREATE SCHEMA public')
-
-            # code below taken from
-            # django.test.simple.DjangoTestSuiteRunner.setup_databases and
-            # django.db.backends.creation.create_test_db
 
             # make them tables
             call_command('migrate',
@@ -51,5 +58,4 @@ class HerokuTestSuiteRunner(DiscoverRunner):
                                  database=test_connection.alias)
 
     def teardown_databases(self, *args, **kwargs):
-        # NOP
         pass

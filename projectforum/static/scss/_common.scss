@@ -18,75 +18,39 @@ $theme-col-error-light: #F5D0D0;
 $theme-col-error: #E8AAB4;
 $theme-col-error-dark: #A94442;
 
-// Mixin for Experimental css from compass
-$experimental-support-for-mozilla      : true !default;
-$experimental-support-for-webkit       : true !default;
-$experimental-support-for-opera        : true !default;
-$experimental-support-for-microsoft    : true !default;
-$experimental-support-for-khtml        : false !default;
-
-@mixin experimental($property, $value,
-  $moz      : $experimental-support-for-mozilla,
-  $webkit   : $experimental-support-for-webkit,
-  $o        : $experimental-support-for-opera,
-  $ms       : $experimental-support-for-microsoft,
-  $khtml    : $experimental-support-for-khtml,
-  $official : true
-) {
-  @if $webkit  and $experimental-support-for-webkit
-                                            { -webkit-#{$property} : $value; }
-  @if $khtml   and $experimental-support-for-khtml
-                                            {  -khtml-#{$property} : $value; }
-  @if $moz     and $experimental-support-for-mozilla
-                                            {    -moz-#{$property} : $value; }
-  @if $ms      and $experimental-support-for-microsoft
-                                            {     -ms-#{$property} : $value; }
-  @if $o       and $experimental-support-for-opera
-                                            {      -o-#{$property} : $value; }
-  @if $official
-                                            {         #{$property} : $value; }
+// Animations
+@keyframes wiggle {
+    0%  {
+        transform:rotate(0deg);
+    }
+    25%  {
+        transform:rotate(30deg);
+    }
+    50% {
+        transform:rotate(-30deg);
+    }
+    75% {
+        transform:rotate(30deg);
+    }
+    100%{
+        transform:rotate(0deg);
+    }
+}
+@mixin wiggle() {
+    animation: wiggle .3s 1;
 }
 
-@mixin experimental-unquote($property, $value,
-  $moz      : $experimental-support-for-mozilla,
-  $webkit   : $experimental-support-for-webkit,
-  $o        : $experimental-support-for-opera,
-  $ms       : $experimental-support-for-microsoft,
-  $khtml    : $experimental-support-for-khtml,
-  $official : true
-) {
-  @if $webkit  and $experimental-support-for-webkit
-                                            { -webkit-#{$property} : unquote($value); }
-  @if $khtml   and $experimental-support-for-khtml
-                                            {  -khtml-#{$property} : unquote($value); }
-  @if $moz     and $experimental-support-for-mozilla
-                                            {    -moz-#{$property} : unquote($value); }
-  @if $ms      and $experimental-support-for-microsoft
-                                            {     -ms-#{$property} : unquote($value); }
-  @if $o       and $experimental-support-for-opera
-                                            {      -o-#{$property} : unquote($value); }
-  @if $official
-                                            {         #{$property} : unquote($value); }
+// Responsive design mixin and breakpoints
+$breakpoint-mobile: "max-width: 640px";
+
+@mixin respond-to($media) {
+    @media (unquote($media)) {
+        @content;
+    }
 }
 
-@mixin experimental-val($property, $value,
-  $moz      : $experimental-support-for-mozilla,
-  $webkit   : $experimental-support-for-webkit,
-  $o        : $experimental-support-for-opera,
-  $ms       : $experimental-support-for-microsoft,
-  $khtml    : $experimental-support-for-khtml,
-  $official : true
-) {
-  @if $webkit  and $experimental-support-for-webkit
-                                { -webkit-#{$property} : -webkit-#{$value}; }
-  @if $khtml   and $experimental-support-for-khtml
-                                {  -khtml-#{$property} :  -khtml-#{$value}; }
-  @if $moz     and $experimental-support-for-mozilla
-                                {    -moz-#{$property} :    -moz-#{$value}; }
-  @if $ms      and $experimental-support-for-microsoft
-                                {     -ms-#{$property} :     -ms-#{$value}; }
-  @if $o       and $experimental-support-for-opera
-                                {      -o-#{$property} :      -o-#{$value}; }
-  @if $official
-                                {         #{$property} :         #{$value}; }
+// Other mixins
+@mixin no-select() {
+    touch-callout: none;
+    user-select: none;
 }

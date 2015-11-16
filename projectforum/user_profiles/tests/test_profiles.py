@@ -8,7 +8,6 @@ from projectforum.user_profiles.models import UserProfile
 class UserProfilesTest(TestCase):
 
     def setUp(self):
-        settings.DEBUG = True
         self.user_model = get_user_model()
 
     def test_create_user(self):
@@ -50,6 +49,18 @@ class UserProfilesTest(TestCase):
         auth_test = authenticate(username='jacob', password='topsecret')
         self.assertNotEqual(auth_test, None)
         self.assertFalse(auth_test.is_active)
+
+    def test_login_through_client(self):
+        user = self.user_model.objects.create_user(username='jacob',
+                                                   email='jacob@gmail.com',
+                                                   password='topsecret')
+        client = Client()
+        client.login(username='jacob', password='topsecret')
+        response = client.get('/')
+
+    def test_notloggedin_through_client(self):
+        client = Client()
+        response = client.get('/')
 
     def test_login_through_client_and_view_profile(self):
         user = self.user_model.objects.create_user(username='jacob',

@@ -9,7 +9,6 @@ from projectforum.projects.models import Project
 
 class ProjectsDetailViewTest(TestCase):
     def setUp(self):
-        settings.DEBUG = True
         self.user_model = get_user_model()
         self.user = self.user_model.objects.create_user(username='jacob',
                                                         email='jacob@mail.com',
