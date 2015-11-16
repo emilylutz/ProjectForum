@@ -1,0 +1,53 @@
+// The base css for project detail view.
+
+@import 'common';
+
+.project_status {
+    border: 2px solid $theme-col-grey;
+    border-radius: 5px;
+    float: right;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.title_tab {
+    background: $theme-col-main;
+    border-radius: 10px 10px 0px 0px;
+    display: inline-flex;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.title_tab:after{
+    border-bottom-left-radius: 6px;
+    border-width: 0 0 5px 5px;
+}
+
+
+.project_title {
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+.project_description {
+    padding: 20px 10px 10px;
+}
+
+.project_details {
+    border-radius: 0px 5px 5px 5px;
+}
+
+.accept_button {
+    background-color: lightgreen;
+    color: green;
+    border-width: 0px;
+}
+
+.accept_button:hover{
+    background-color: green;
+    color: lightgreen;
+}
+
+.accept_applicant_button {
+    float: right;
+}

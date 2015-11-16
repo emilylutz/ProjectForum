@@ -4,6 +4,7 @@
 $theme-col-main: #ADC4CC;
 $theme-col-main-dark: #4298B5;
 $theme-col-background: #fff;
+$theme-col-green: #92B06A
 
 // Font colors
 $theme-col-text-ondark: #fff;
@@ -17,6 +18,10 @@ $theme-col-grey-light: #fafafa;
 $theme-col-error-light: #F5D0D0;
 $theme-col-error: #E8AAB4;
 $theme-col-error-dark: #A94442;
+
+// Padding and Margins
+$padding-small: 10px;
+$margin-small: 10px;
 
 // Animations
 @keyframes wiggle {

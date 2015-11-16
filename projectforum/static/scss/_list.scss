@@ -4,13 +4,13 @@
 
 ul {
     padding: 0px;
-    background: $theme-col-grey-light;
-    border: 2px solid $theme-col-grey;
+    border: 2px solid $theme-col-main;
     border-radius: 5px;
+    background: $theme-col-grey-light;
 }
 
 li{
     padding: 10px;
-    border-bottom: 2px solid $theme-col-grey;
+    border-bottom: 2px solid $theme-col-main;
     list-style: none;
 }

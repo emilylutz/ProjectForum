@@ -11,24 +11,36 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Projects Detail View</h1>
-    <h3 class='project_title'>{{ project.title }}</h3>
-    <p class='project_description'>{{ project.description }}</p>
+            <div class='project_header'>
+                <h4 class='project_status'>{{ project.get_status_display }}</h4>
+                <div class='title_tab'>
+                    <h3 class='project_title'>{{ project.title }}</h3>
+                </div>
+            </div>
+    <ul class='project_details'>
+        <li>
+            <p class='project_description'>{{ project.description }}</p>
+        </li>
+        <li>
+            Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
+            <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
+            <p> Posted: {{ project.timestamp }} </p>
+        </li>
+    </ul>
 
-    <p class='project_status'>Status - {{ project.get_status_display }}</p>
 
     {% if user == project.owner %}
         <h4>Applicants:</h4>
         <ul class='applicant_list people_list'>
         {% for applicant in project.applicants.all %}
             <li class='people_list_element'>
-                {{ applicant.username }}, {{ applicant.email }}
+                <span><a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}</span>
                 <button id='accept_applicant'
-                        class='accept_button'
+                        class='btn btn-default glyphicon glyphicon-ok accept_button accept_applicant_button'
                         title="Adds the applicant to your project's team."
                         data-projectid="{{ project.id }}"
-                        data-applicantusername="{{ applicant.username }}" >
-                    Accept Applicant
+                        data-applicantusername="{{ applicant.username }}"
+                        aria-hidden="true">
                 </button>
             </li>
         {% empty %}
@@ -36,11 +48,11 @@
         {% endfor %}
         </ul>
 
-        Team Members:
+        <h4>Team Members:</h4>
         <ul class='member_list people_list'>
         {% for member in project.team_members.all %}
             <li class='member_list people_list_element'>
-                {{ member.username }}, {{ member.email }}
+                <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
             </li>
         {% empty %}
             <li class='empty_people_list_element'>
@@ -50,29 +62,29 @@
         </ul>
 
         {% if project.status == 1 %}
-            <button id='close_applications' data-projectid="{{ project.id }}">
+            <button id='close_applications' class='btn' data-projectid="{{ project.id }}">
                 Close Applicaitons
             </button>
         {% endif %}
 
         {% if project.status == 2 %}
-            <button id='reopen_applications' data-projectid="{{ project.id }}">
+            <button id='reopen_applications' class='btn' data-projectid="{{ project.id }}">
                 Re-Open Applications
             </button>
         {% endif %}
 
         {% if project.status == 3 or project.status == 4 %}
-            <button id='reopen_project' data-projectid="{{ project.id }}">
+            <button id='reopen_project' class='btn' data-projectid="{{ project.id }}">
                 Re-Open Project
             </button>
         {% endif %}
 
         {% if project.status != 4 and project.status != 3%}
-            <button id='mark_complete' data-projectid="{{ project.id }}">
+            <button id='mark_complete' class='btn' data-projectid="{{ project.id }}">
                 Mark as Complete
             </button>
 
-            <button id='cancel_project' data-projectid="{{ project.id }}">
+            <button id='cancel_project' class='btn' data-projectid="{{ project.id }}">
                 Cancel Project
             </button>
         {% endif %}
@@ -96,21 +108,21 @@
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button>Log in to apply!</button>
+            <button class='btn'>Log in to apply!</button>
         {% elif user in project.applicants.all %}
 
             Your application has been submitted. The project owner is
             reviewing your application.
 
             <button id='withdraw_application_button'
-                    class='withdraw_application_button'
+                    class='btn withdraw_application_button'
                     data-projectid="{{ project.id }}">
                 Withdraw Application
             </button>
 
         {% else %}
             <button id='apply_button'
-                    class='apply_button'
+                    class='btn apply_button accept_button'
                     data-projectid="{{ project.id }}">
                 Apply
             </button>

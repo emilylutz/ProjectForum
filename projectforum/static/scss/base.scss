@@ -3,6 +3,7 @@
 @import 'common';
 @import 'forms';
 @import 'list';
+@import 'project_detail';
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
 // Wrappers
@@ -219,17 +220,17 @@ body {
 #content {
     margin: auto;
     max-width: 1000px;
-    padding: 96px 32px;
+    padding: 40px 32px 60px;
     width: auto;
 }
 
 // Footer
 #footerHighlight {
     background-color: $theme-col-main;
-    height: 64px;
+    height: 20px;
 }
 
 #footer {
     background-color: $theme-col-main-dark;
-    height: 128px;
+    height: 40px;
 }
