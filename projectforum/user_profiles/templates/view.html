@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block header %}
-{% load static %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.css">
-<script src="{% static "js/jquery.raty.js" %}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css"
+            href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+            href="{% static 'external/jqueryraty/jquery.raty.css' %}">
+    <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,7 +25,7 @@
             <p>User is open to full-time employment.</p>
         {% endif %}
 
-        <p>Email: {{ user_profile.user.email }}</p>
+        <p>Email: {{ user_profile.user.email }}</p> 
         <p>Phone number: {{ user_profile.phone_number }}</p>
 
         <p>Github: {{ user_profile.github }}</p>
@@ -88,18 +91,5 @@
     {% else %}
         <p>No such user exists.</p>
     {% endif %}
-
-    <!-- for static reviews  and input reviews-->
-    <script type="text/javascript">
-        $(document).ready(function (){
-            $(".review-score").raty({
-                score: function() {
-                    return $(this).attr('data-score');
-                },
-                readOnly: true,
-                path:'/static/images',
-            });
-        });
-    </script>
 
 {% endblock %}
