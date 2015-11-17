@@ -1,68 +1,328 @@
-/*
-Error: Invalid CSS after "...col-text-ondark": expected selector or at-rule, was ": #fff;"
-        on line 10 of scss/_common.scss
-        from line 3 of scss/base.scss
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+form label {
+  display: block; }
+form .errorlist {
+  background-color: #F5D0D0;
+  border: #E8AAB4 1px solid;
+  border-radius: 5px;
+  color: #A94442;
+  padding: 10px 0 10px 30px; }
+form input[type="email"],
+form input[type="text"]:not(.token-input),
+form input[type="password"] {
+  background-color: #fafafa;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  margin: 6px 0;
+  padding: 12px;
+  width: 100%;
+  transition: background-color .1s ease; }
+  form input[type="email"]:focus,
+  form input[type="text"]:not(.token-input):focus,
+  form input[type="password"]:focus {
+    background-color: #fff; }
+form input[type="submit"] {
+  color: #fff;
+  background-color: #4298B5;
+  padding: 0.75em 2.5em;
+  border-width: 0;
+  margin: 0 0 18px 0;
+  transition: background-color .1s ease; }
+  form input[type="submit"]:hover {
+    background-color: #ADC4CC; }
 
-5: $theme-col-main-dark: #4298B5;
-6: $theme-col-background: #fff;
-7: $theme-col-green: #92B06A
-8: 
-9: // Font colors
-10: $theme-col-text-ondark: #fff;
-11: $theme-col-text-onbackground: #000;
-12: 
-13: // Shades of grey
-14: $theme-col-grey: #ccc;
-15: $theme-col-grey-light: #fafafa;
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+ul {
+  padding: 0px;
+  border: 2px solid #ADC4CC;
+  border-radius: 5px;
+  background: #fafafa; }
 
-Backtrace:
-scss/_common.scss:10
-scss/base.scss:3
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/scss/parser.rb:1161:in `expected'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/scss/parser.rb:1097:in `expected'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/scss/parser.rb:43:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/engine.rb:403:in `_to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/engine.rb:309:in `to_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:324:in `block in visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:88:in `block in with_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:88:in `with_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:323:in `visit_import'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:157:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:36:in `css_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/engine.rb:378:in `_render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/engine.rb:295:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `each'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:470:in `on_file_changed'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/lib/sass/plugin/compiler.rb:328:in `block in watch'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/listener.rb:252:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/listener.rb:252:in `on_change'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/adapters/polling.rb:48:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.19/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Invalid CSS after \"...col-text-ondark\": expected selector or at-rule, was \": #fff;\"\A         on line 10 of scss/_common.scss\A         from line 3 of scss/base.scss\A \A 5: $theme-col-main-dark: #4298B5;\A 6: $theme-col-background: #fff;\A 7: $theme-col-green: #92B06A\A 8: \A 9: // Font colors\A 10: $theme-col-text-ondark: #fff;\A 11: $theme-col-text-onbackground: #000;\A 12: \A 13: // Shades of grey\A 14: $theme-col-grey: #ccc;\A 15: $theme-col-grey-light: #fafafa;"; }
+li {
+  padding: 10px;
+  border-bottom: 2px solid #ADC4CC;
+  list-style: none; }
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+.accept_button {
+  background-color: #EAFFCD;
+  color: #678440;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #92B06A; }
+
+.accept_button:hover {
+  background-color: #AEE168;
+  color: #678440; }
+
+.cancel_button {
+  background-color: #F5D0D0;
+  color: #A94442;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #A94442; }
+
+.cancel_button:hover {
+  background-color: #E8AAB4;
+  color: #A94442;
+  border-color: #A94442; }
+
+.btn-default {
+  border-width: 2px; }
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+.project_status {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  float: right;
+  padding: 10px;
+  margin-right: 10px; }
+
+.title_tab {
+  background: #ADC4CC;
+  border-radius: 10px 10px 0px 0px;
+  display: inline-flex;
+  padding-left: 20px;
+  padding-right: 20px; }
+
+.title_tab:after {
+  border-bottom-left-radius: 6px;
+  border-width: 0 0 5px 5px; }
+
+.project_title {
+  display: inline-block;
+  vertical-align: text-bottom; }
+
+.project_description {
+  padding: 20px 10px 10px; }
+
+.project_details {
+  border-radius: 0px 5px 5px 5px; }
+
+.accept_applicant_button {
+  float: right;
+  margin-top: -8px;
+  /* Hack... */ }
+
+.apply_button {
+  width: 50%;
+  margin: 0 auto;
+  display: block; }
+
+body {
+  background-color: #4298B5;
+  overflow-x: hidden; }
+
+#siteWrapper {
+  background-color: #fff;
+  color: #000;
+  position: relative; }
+
+#header {
+  background-color: #4298B5;
+  left: 0;
+  line-height: 1em;
+  padding: 0 20px;
+  top: 0;
+  width: 100%;
+  z-index: 1000; }
+
+#headerInner {
+  color: #fff;
+  padding: 20px 0;
+  display: table;
+  width: 100%; }
+
+#headerLogo {
+  display: table-cell;
+  font-family: Cinzel, serif;
+  font-size: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+  width: 240px; }
+  #headerLogo > a {
+    color: #fff;
+    text-decoration: none; }
+
+#headerNavMenu {
+  display: none;
+  font-size: large;
+  text-align: right;
+  vertical-align: middle;
+  white-space: nowrap; }
+
+#headerNavTrigger {
+  position: absolute;
+  clip: rect(0, 0, 0, 0); }
+
+#headerNavTriggerLabel {
+  touch-callout: none;
+  user-select: none;
+  cursor: pointer; }
+
+#headerNavMenuList {
+  background: #4298B5;
+  font-size: 14px;
+  left: 0;
+  overflow: hidden;
+  padding-left: 20px;
+  padding-top: 36px;
+  padding-right: 20px;
+  position: absolute;
+  text-align: left;
+  transition: max-height .3s .3s ease-in-out, padding .3s .3s ease-in-out;
+  width: 100%; }
+  #headerNavMenuList a {
+    color: #fff;
+    display: block;
+    text-decoration: none; }
+    #headerNavMenuList a:not(:last-child) {
+      padding-bottom: 1em; }
+
+#headerNavTrigger:checked + label span:first-child {
+  display: none; }
+#headerNavTrigger:checked + label span:last-child {
+  display: table-cell;
+  animation: wiggle .3s 1; }
+#headerNavTrigger:checked ~ #headerNavMenuList {
+  max-height: 300px;
+  padding-bottom: 2em; }
+#headerNavTrigger:not(:checked) + label span:first-child {
+  display: table-cell;
+  animation: wiggle .3s 1; }
+#headerNavTrigger:not(:checked) + label span:last-child {
+  display: none; }
+#headerNavTrigger:not(:checked) ~ #headerNavMenuList {
+  max-height: 0; }
+
+#headerNav {
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+  white-space: nowrap; }
+  #headerNav > div {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0; }
+    #headerNav > div a {
+      color: #fff;
+      display: block;
+      padding: .75em 1em;
+      text-decoration: none; }
+      #headerNav > div a.active {
+        color: #ADC4CC; }
+    #headerNav > div > a {
+      transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out; }
+      #headerNav > div > a:hover {
+        background-color: #ADC4CC; }
+        #headerNav > div > a:hover.active {
+          color: #fff; }
+  #headerNav .headerNavItemCircled {
+    -webkit-border-radius: 300px;
+    border-radius: 300px;
+    border: 2px solid #fff;
+    margin: 0 0 1px 1em;
+    transition: background-color .1s .1s ease-in-out; }
+    #headerNav .headerNavItemCircled > a {
+      transition: color .1s .1s ease-in-out; }
+    #headerNav .headerNavItemCircled:hover {
+      background-color: #ADC4CC; }
+  #headerNav .folder {
+    position: relative; }
+    #headerNav .folder .folder-menu {
+      background-color: #4298B5;
+      left: -0.5em;
+      margin-top: -1px;
+      padding: 1em 0;
+      position: absolute;
+      text-align: left;
+      transform-origin: 0 0;
+      transform: scale(1, 0);
+      transition: transform .2s 0s ease-in-out; }
+      #headerNav .folder .folder-menu.folder-menu-from-right {
+        left: inherit;
+        right: -0.5em; }
+      #headerNav .folder .folder-menu .folder-item {
+        opacity: 0;
+        padding: 0 0.5em;
+        transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out; }
+        #headerNav .folder .folder-menu .folder-item:hover {
+          background-color: #ADC4CC; }
+    #headerNav .folder:hover .folder-menu {
+      transform: scale(1, 1); }
+      #headerNav .folder:hover .folder-menu .folder-item {
+        opacity: 1; }
+
+@media (max-width: 640px) {
+  #headerNavMenu {
+    display: table-cell; }
+
+  #headerNav {
+    display: none; } }
+#content {
+  margin: auto;
+  max-width: 1000px;
+  padding: 40px 32px 60px;
+  width: auto; }
+
+#footerHighlight {
+  background-color: #ADC4CC;
+  height: 20px; }
+
+#footer {
+  background-color: #4298B5;
+  height: 40px; }
+
+/*# sourceMappingURL=base.css.map */

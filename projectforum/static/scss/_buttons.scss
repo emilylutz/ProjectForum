@@ -1,0 +1,34 @@
+// The base css for buttons.
+
+@import 'common';
+
+.accept_button {
+    background-color: $theme-col-lightergreen;
+    color: $theme-col-darkgreen;
+    border-width: 2px;
+    border-style: solid;
+    border-color: $theme-col-green;
+}
+
+.accept_button:hover{
+    background-color: $theme-col-lightgreen;
+    color: $theme-col-darkgreen;
+}
+
+.cancel_button {
+    background-color: $theme-col-error-light;
+    color: $theme-col-error-dark;
+    border-width: 2px;
+    border-style: solid;
+    border-color: $theme-col-error-dark; 
+}
+
+.cancel_button:hover {
+    background-color: $theme-col-error;
+    color: $theme-col-error-dark;
+    border-color: $theme-col-error-dark; 
+}
+
+.btn-default {
+    border-width: 2px;
+}

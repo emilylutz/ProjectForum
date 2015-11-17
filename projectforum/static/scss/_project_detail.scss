@@ -37,17 +37,13 @@
     border-radius: 0px 5px 5px 5px;
 }
 
-.accept_button {
-    background-color: lightgreen;
-    color: green;
-    border-width: 0px;
-}
-
-.accept_button:hover{
-    background-color: green;
-    color: lightgreen;
-}
-
 .accept_applicant_button {
     float: right;
+    margin-top: -8px; /* Hack... */
+}
+
+.apply_button {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
 }
