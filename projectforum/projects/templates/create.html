@@ -6,6 +6,15 @@
         href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'external/jqueryui/jquery-ui.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/tokenfield/bootstrap-tokenfield.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/tokenfield/tokenfield-typeahead.min.css' %}">
+    <script
+        src="{% static 'external/tokenfield/bootstrap-tokenfield.min.js' %}">
+    </script>
+    <script src="{% static 'js/tag.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -35,42 +44,37 @@
     </p>
 
     <h2>Optional Information</h2>
-    <div id="project-options">
-        Questions<br/>
-        Help us help you!<br/>
-        Are you looking for ... <br/>
-        <input type="checkbox"
-               name="mobile"
-               value="mobile"
-               onclick="calc(this)">
-            Mobile
-        <br/>
-        <input type="checkbox"
-               name="android"
-               value="android"
-               onclick="calc(this)">
-            Android
-        <br/>
-        <input type="checkbox"
-               name="ios"
-               value="ios"
-               onclick="calc(this)">
-            iOS
-        <br/>
-        <input type="checkbox"
-               name="webapp"
-               value="webapp"
-               onclick="calc(this)">
-            Web Application
-        <br/>
-        <div id="form-field-options">
-            <label>Tags: </label> (separate by commas)
-            <br/>
-        </div>
-    </div>
+    <fieldset id="opInfoTypeSet">
+        <legend>What type(s) of project are you looking for?</legend>
+        <ul>
+            <li>
+                <input type="checkbox" id="opInfoTypeAndroid" value="Android">
+                <label for="opInfoTypeAndroid">Android</label>
+            </li>
+            <li>
+                <input type="checkbox" id="opInfoTypeiOS" value="iOS">
+                <label for="opInfoTypeiOS">iOS</label>
+            </li>
+            <li>
+                <input type="checkbox" id="opInfoTypeWeb" value="Web">
+                <label for="opInfoTypeWeb">Web</label>
+            </li>
+        </ul>
+    </fieldset>
+    <h3>Tags</h3>
+    <p>
+        {{ form.tags.label_tag }}
+        {{ form.tags.errors }}
+        {{ form.tags }}
+    </p>
+    <div id="tags_tokenfield"></div>
+        <script>
+            tagfield = Tag.start('{{ form.tags.id_for_label }}',
+                                 'tags_tokenfield');
+            Tag.link(tagfield, 'opInfoTypeSet input');
+        </script>
 
     {% csrf_token %}
-
     <input type="submit" value="Post!" />
 </form>
 {% endblock %}

@@ -8,15 +8,16 @@
         href="{% static 'external/jqueryraty/jquery.raty.css' %}">
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-            <div class='project_header'>
-                <h4 class='project_status'>{{ project.get_status_display }}</h4>
-                <div class='title_tab'>
-                    <h3 class='project_title'>{{ project.title }}</h3>
-                </div>
-            </div>
+    <div class='project_header'>
+        <h4 class='project_status'>{{ project.get_status_display }}</h4>
+        <div class='title_tab'>
+            <h3 class='project_title'>{{ project.title }}</h3>
+        </div>
+    </div>
     <ul class='project_details'>
         <li>
             <p class='project_description'>{{ project.description }}</p>
@@ -26,6 +27,14 @@
             <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
             <p> Posted: {{ project.timestamp }} </p>
         </li>
+    </ul>
+    <p>Tags:</p>
+    <ul>
+        {% for tag in project.tags.all %}
+            <li>{{ tag.text }}</li>
+        {% empty %}
+            <li>No tags listed.</li>
+        {% endfor %}
     </ul>
 
 
@@ -160,7 +169,7 @@
                     {{ review.comment | escape }}
                 </div>
                 <br/>
-                review.reviewer.username
+                {{ review.reviewer.username }}
             </div>
             <br>            
         {% endfor %}

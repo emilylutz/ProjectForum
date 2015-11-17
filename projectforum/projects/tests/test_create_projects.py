@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectTag
 
 
 def create_many_projects():
@@ -18,7 +18,12 @@ def create_many_projects():
     user2 = user_model.objects.create_user(username='Bobicus',
                                            email='bobicus@mail.com',
                                            password='topsecretz')
-    Project.objects.create(
+
+    tag0 = ProjectTag.objects.create(text="tag0")
+    tag1 = ProjectTag.objects.create(text="tag1")
+    tag2 = ProjectTag.objects.create(text="tag2")
+
+    proj = Project.objects.create(
         title="B",
         description="I am the first Project",
         owner=user1,
@@ -26,6 +31,7 @@ def create_many_projects():
         amount=10,
         status=1,
     )
+    proj.tags=[tag0.pk, tag1.pk]
     Project.objects.create(
         title="A",
         description="I am the second Project",

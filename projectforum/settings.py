@@ -92,6 +92,7 @@ USE_TZ = True
 
 # AUTH settings
 
+LOGIN_URL = '/profile/login/'
 LOGIN_REDIRECT_URL = '/'
 REGISTRATION_FROM_ADDRESS = 'no-reply@tpf.herokuapp.com'
 REGISTRATION_LINK_LIFE = 7

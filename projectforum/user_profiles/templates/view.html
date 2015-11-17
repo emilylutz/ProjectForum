@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block header %}
-{% load static %}
-<link rel="stylesheet" type="text/css"
-        href="{% static 'external/jqueryraty/jquery.raty.css' %}">
-<script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
+    <link rel="stylesheet" type="text/css"
+            href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+            href="{% static 'external/jqueryraty/jquery.raty.css' %}">
+    <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -51,42 +54,67 @@
                 {% endif %}
             </ul>
             {% endif %}
-
-            <p>Skills:</p>
-            <ul class="user_skills">
-                {% for skill_tag in user_profile.skills.all %}
-                    <li>{{ skill_tag.skill }}</li>
-                {% empty %}
-                    <li>No skills listed.</li>
-                {% endfor %}
-            </ul>
-
-            {% if user_profile.showPastProjects %}
-                <p>Past Projects Here</p>
-            {% endif %}
-
-            {% if user_profile.showRatings %}
-                <p>Ratings Here</p>
-                {% for review in user_reviews %}
-                    {{ review | safe}}
-                {% endfor %}
-            {% endif %}
         </div>
+
+        <p>Skills:</p>
+        <ul class="user_skills">
+            {% for skill_tag in user_profile.skills.all %}
+                <li>{{ skill_tag.skill }}</li>
+            {% empty %}
+                <li>No skills listed.</li>
+            {% endfor %}
+        </ul>
+
+        {% if user_profile.showPastProjects %}
+            {% if past_owned_projects %}
+                <h3>Past Projects Started</h3>
+                <ul>
+                    {% for project in past_owned_projects %}
+                        <li>
+                            <a href= "{% url 'project:detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                            <div>{{ project.description }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if past_projects %}
+                <h3>Past Projects Worked On</h3>
+                <ul>
+                    {% for project in past_projects %}
+                        <li>
+                            <a href= "{% url 'project:detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                            <div>{{ project.description }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+
+        {% if user_profile.showRatings %}
+            <h3>Ratings</h3>
+            {% for review in user_reviews %}
+                <hr>
+                <div class="project-review">
+                    <div class="review-score"
+                         data-score="{{ review.score }}">
+                    </div>
+                    <br/>
+                    <div class="review-comment">
+                        {{ review.comment | escape }}
+                    </div>
+                    <br/>
+                    {{ review.reviewer.username }}
+                </div>
+                <br>            
+            {% endfor %}
+        {% endif %}
+
     {% else %}
         <p>No such user exists.</p>
     {% endif %}
-
-    <!-- for static reviews  and input reviews-->
-<script type="text/javascript">
-    $(document).ready(function (){
-        $(".review-score").raty({
-            score: function() {
-                return $(this).attr('data-score');
-            },
-            readOnly: true,
-            path:'/static/images',
-        });
-    });
-</script>
 
 {% endblock %}
