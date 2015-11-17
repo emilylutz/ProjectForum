@@ -8,6 +8,7 @@
         href="{% static 'external/jqueryraty/jquery.raty.css' %}">
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
+    <script src="{% static 'js/ratings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -155,7 +156,7 @@
                     {{ review.comment | escape }}
                 </div>
                 <br/>
-                review.reviewer.username
+                {{ review.reviewer.username }}
             </div>
             <br>            
         {% endfor %}
