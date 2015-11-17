@@ -43,7 +43,7 @@ var Tag = (function() {
             })
             .on('tokenfield:removedtoken', function (e) {
                 var tag = e.attrs.label;
-                var same = getTagsWithText(tags_input, tags_input, tag);
+                var same = getTagsWithText(tags_input, tag);
                 if (same.length == 2) {
                     tokenfield
                         .siblings()
