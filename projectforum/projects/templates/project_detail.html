@@ -45,7 +45,7 @@
             <li class='people_list_element'>
                 <span><a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}</span>
                 <button id='accept_applicant'
-                        class='btn glyphicon glyphicon-ok accept_button accept_applicant_button'
+                        class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
                         title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
                         data-applicantusername="{{ applicant.username }}"
