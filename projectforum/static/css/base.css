@@ -80,6 +80,12 @@ form input[type="submit"] {
           transition: background-color .1s ease; }
   form input[type="submit"]:hover {
     background-color: #ADC4CC; }
+form fieldset li {
+  list-style-type: none; }
+  form fieldset li label {
+    display: inline-block; }
+form .tokenfield {
+  margin-bottom: 2em; }
 
 body {
   background-color: #4298B5;

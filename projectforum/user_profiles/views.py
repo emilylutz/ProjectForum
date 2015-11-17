@@ -5,8 +5,12 @@ from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 
-from .forms import ProfileEditForm, RegisterForm, UserNamesEditForm
-from .models import RegistrationLink, UserProfile
+from projectforum.user_profiles.forms import (
+    ProfileEditForm,
+    RegisterForm,
+    UserNamesEditForm
+)
+from projectforum.user_profiles.models import RegistrationLink, UserProfile
 from projectforum.ratings.models import UserReview
 
 

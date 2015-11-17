@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 
-class TagsWidget(SelectMultiple):
+class NoValueSelectMultipleWidget(SelectMultiple):
     """
     A SelectMultiple for tags. It doesn't render a value for the options.
     """

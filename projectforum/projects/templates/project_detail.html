@@ -13,6 +13,14 @@
 {% block content %}
     <h1>Projects Detail View</h1>
     <h3 class='project_title'>{{ project.title }}</h3>
+    <p>Tags:</p>
+    <ul>
+        {% for tag in project.tags.all %}
+            <li>{{ tag.text }}</li>
+        {% empty %}
+            <li>No tags listed.</li>
+        {% endfor %}
+    </ul>
     <p class='project_description'>{{ project.description }}</p>
 
     <p class='project_status'>Status - {{ project.get_status_display }}</p>
