@@ -9,6 +9,7 @@
     <script
         src="{% static 'external/tokenfield/bootstrap-tokenfield.min.js' %}">
     </script>
+    <script src="{% static 'js/tag.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -66,59 +67,7 @@
         </p>
         <div id="skills_tokenfield"></div>
         <script>
-            var skills_input = $('#{{ form.skills.id_for_label }}');
-            skills_input.hide();
-
-            var initial_skills = skills_input.children().map(function(){
-               return $.trim($(this).text());
-            }).get();
-
-            var getSkillsWithText = function(text) {
-                return skills_input
-                    .children()
-                    .filter(function () {
-                        return $(this).html() == text;
-                    });
-            };
-
-            var tokenfield = $('#skills_tokenfield').tokenfield();
-            tokenfield.tokenfield('setTokens', initial_skills);
-            tokenfield
-                .on('tokenfield:createtoken', function (e) {
-                    var tag = e.attrs.label;
-                    skills_input.append('<option selected="selected">' + tag
-                        + '</option>');
-                })
-                .on('tokenfield:createdtoken', function (e) {
-                    var tag = e.attrs.label;
-                    if (getSkillsWithText(tag).length > 1) {
-                        $(e.relatedTarget).addClass('invalid');
-                    }
-                })
-                .on('tokenfield:edittoken', function (e) {
-                    var tag = e.attrs.label;
-                    var same = getSkillsWithText(tag);
-                    if (same.length == 2) {
-                        tokenfield
-                            .siblings()
-                            .find("span:contains('" + tag + "')")
-                            .parent('.invalid')
-                            .removeClass('invalid');
-                    }
-                    same.last().remove();
-                })
-                .on('tokenfield:removedtoken', function (e) {
-                    var tag = e.attrs.label;
-                    var same = getSkillsWithText(tag);
-                    if (same.length == 2) {
-                        tokenfield
-                            .siblings()
-                            .find("span:contains('" + tag + "')")
-                            .parent('.invalid')
-                            .removeClass('invalid');
-                    }
-                    same.last().remove();
-                });
+            Tag.start('{{ form.skills.id_for_label }}', 'skills_tokenfield');
         </script>
 
         <h3>Profile Page Settings</h3>

@@ -14,6 +14,7 @@
     <script
         src="{% static 'external/tokenfield/bootstrap-tokenfield.min.js' %}">
     </script>
+    <script src="{% static 'js/tag.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -68,78 +69,9 @@
     </p>
     <div id="tags_tokenfield"></div>
         <script>
-            var skills_input = $('#{{ form.tags.id_for_label }}');
-            skills_input.hide();
-
-            var initial_skills = skills_input.children().map(function(){
-               return $.trim($(this).text());
-            }).get();
-
-            var getTagsWithText = function(text) {
-                return skills_input
-                    .children()
-                    .filter(function () {
-                        return $(this).html() == text;
-                    });
-            };
-
-            var tokenfield = $('#tags_tokenfield').tokenfield();
-            tokenfield.tokenfield('setTokens', initial_skills);
-            tokenfield
-                .on('tokenfield:createtoken', function (e) {
-                    var tag = e.attrs.label;
-                    skills_input.append('<option selected="selected">' + tag
-                        + '</option>');
-                })
-                .on('tokenfield:createdtoken', function (e) {
-                    var tag = e.attrs.label;
-                    if (getTagsWithText(tag).length > 1) {
-                        $(e.relatedTarget).addClass('invalid');
-                    }
-                })
-                .on('tokenfield:edittoken', function (e) {
-                    var tag = e.attrs.label;
-                    var same = getTagsWithText(tag);
-                    if (same.length == 2) {
-                        tokenfield
-                            .siblings()
-                            .find("span:contains('" + tag + "')")
-                            .parent('.invalid')
-                            .removeClass('invalid');
-                    }
-                    same.last().remove();
-                })
-                .on('tokenfield:removedtoken', function (e) {
-                    var tag = e.attrs.label;
-                    var same = getTagsWithText(tag);
-                    if (same.length == 2) {
-                        tokenfield
-                            .siblings()
-                            .find("span:contains('" + tag + "')")
-                            .parent('.invalid')
-                            .removeClass('invalid');
-                    }
-                    same.last().remove();
-                });
-
-            $('#opInfoTypeSet input').change(function() {
-                tokens = tokenfield.tokenfield('getTokens', false)
-                                   .map(function(x) {
-                                       return x.value
-                                   });
-                value = $(this).val();
-                if ($(this).is(":checked")) {
-                    if (getTagsWithText(value).length == 0) {
-                        tokens.push(value);
-                    }
-                } else {
-                    tokens = tokens.filter(function(x) {
-                        return x != value;
-                    });
-                }
-                skills_input.empty()
-                tokenfield.tokenfield('setTokens', tokens);
-            });
+            tagfield = Tag.start('{{ form.tags.id_for_label }}',
+                                 'tags_tokenfield');
+            Tag.link(tagfield, 'opInfoTypeSet input');
         </script>
 
     {% csrf_token %}
