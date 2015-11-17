@@ -1,8 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelMultipleChoiceField
 
-from projectforum.user_profiles.models import UserSkillTag
-from projectforum.user_profiles.widgets import TagsWidget
+from projectforum.lib.widgets import NoValueSelectMultipleWidget
 
 
 class TagsField(ModelMultipleChoiceField):
@@ -10,11 +9,13 @@ class TagsField(ModelMultipleChoiceField):
     A ModelMultipleChoiceField for tags. It makes a new instance of the tag if
     it doesn't exist.
     """
-    widget = TagsWidget
+    widget = NoValueSelectMultipleWidget
 
-    def __init__(self, required=True, widget=None, label=None, initial=None,
-                 help_text='', *args, **kwargs):
-        qs = UserSkillTag.objects.all()
+    def __init__(self, tagClass, tagField, required=True, widget=None,
+                 label=None, initial=None, help_text='', *args, **kwargs):
+        self.tagClass = tagClass
+        self.tagField = tagField
+        qs = tagClass.objects.all()
         super(TagsField, self).__init__(qs, required, widget, label, initial,
                                         help_text, *args, **kwargs)
 
@@ -45,17 +46,17 @@ class TagsField(ModelMultipleChoiceField):
                 code='list',
             )
         finalValue = list()
-        for skill in value:
+        for val in value:
             try:
-                skillTag = self.queryset.filter(**{'skill': skill})
-                if skillTag:
-                    finalValue.append(skillTag[0].pk)
+                existingTag = self.queryset.filter(**{self.tagField: val})
+                if existingTag:
+                    finalValue.append(existingTag[0].pk)
                 else:
-                    tag = UserSkillTag(skill=skill)
+                    tag = self.tagClass(**{self.tagField: val})
                     tag.save()
                     finalValue.append(tag.pk)
             except (ValueError, TypeError):
-                tag = UserSkillTag(skill=skill)
+                tag = self.tagClass(**{self.tagField: val})
                 tag.save()
                 finalValue.append(tag.pk)
         return finalValue
