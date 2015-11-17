@@ -1,0 +1,19 @@
+// The base css for user profile view.
+
+@import 'common';
+
+.edit_profile_button {
+    float: right;
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.user_skills {
+    display: inline-block;
+}
+
+.side_notice {
+    float: right;
+    clear: both;
+}

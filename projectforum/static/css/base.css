@@ -196,6 +196,30 @@ a:hover {
   margin: 0px;
   border-width: 0px; }
 
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+.edit_profile_button {
+  float: right;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 5px 10px; }
+
+.user_skills {
+  display: inline-block; }
+
+.side_notice {
+  float: right;
+  clear: both; }
+
 body {
   background-color: #4298B5;
   overflow-x: hidden; }

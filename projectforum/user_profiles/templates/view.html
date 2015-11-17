@@ -2,52 +2,76 @@
 
 {% block header %}
 {% load static %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/raty/2.7.0/jquery.raty.min.css">
-<script src="{% static "js/jquery.raty.js" %}" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css"
+        href="{% static 'external/jqueryraty/jquery.raty.css' %}">
+<script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     {% if user_profile %}
-        <h2>User profile for {{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</h2>
         {% if can_edit %}
             <p>
-                <a href="{% url 'profile:edit' user_profile.user.username %}">
+                <a class='edit_profile_button' href="{% url 'profile:edit' user_profile.user.username %}">
                     Edit
                 </a>
             </p>
         {% endif %}
 
         {% if user_profile.openToEmploy %}
-            <p>User is open to full-time employment.</p>
+            <p class='side_notice'>User is open to full-time employment.</p>
         {% endif %}
 
-        <p>Email: {{ user_profile.user.email }}</p>
-        <p>Phone number: {{ user_profile.phone_number }}</p>
+        <h2>User profile for {% firstof user_profile.user.get_full_name user_profile.user.username %}</h2>
+        <div class='user_details'>
+            <ul>
+                <li>
+                    <p>Email: {{ user_profile.user.email }}</a></p>
+                </li>
+                <li>
+                    <p>Phone number: {{ user_profile.phone_number }}</p>
+                </li>
+            </ul>
 
-        <p>Github: {{ user_profile.github }}</p>
-        <p>LinkedIn: {{ user_profile.linkedin }}</p>
-        <p>Personal: {{ user_profile.personal }}</p>
+            {% if user_profile.github or user_profile.linkedin or user_profile.personal %}
+            <ul>
+                {% if user_profile.github %}
+                <li>
+                    <p>Github: <a href="{{ user_profile.github }}">{{ user_profile.github }}</a></p>
+                </li>
+                {% endif %}
+                {% if user_profile.linkedin %}
+                <li>
+                    <p>LinkedIn: <a href="{{ user_profile.linkedin }}">{{ user_profile.linkedin }}</a></p>
+                </li>
+                {% endif %}
+                {% if user_profile.personal %}
+                <li>
+                    <p>Personal: <a href="{{ user_profile.personal }}">{{ user_profile.personal }}</a></p>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
 
-        <p>Skills:</p>
-        <ul>
-            {% for skill_tag in user_profile.skills.all %}
-                <li>{{ skill_tag.skill }}</li>
-            {% empty %}
-                <li>No skills listed.</li>
-            {% endfor %}
-        </ul>
+            <p>Skills:</p>
+            <ul class="user_skills">
+                {% for skill_tag in user_profile.skills.all %}
+                    <li>{{ skill_tag.skill }}</li>
+                {% empty %}
+                    <li>No skills listed.</li>
+                {% endfor %}
+            </ul>
 
-        {% if user_profile.showPastProjects %}
-            <p>Past Projects Here</p>
-        {% endif %}
+            {% if user_profile.showPastProjects %}
+                <p>Past Projects Here</p>
+            {% endif %}
 
-        {% if user_profile.showRatings %}
-            <p>Ratings Here</p>
-            {% for review in user_reviews %}
-                {{ review | safe}}
-            {% endfor %}
-        {% endif %}
+            {% if user_profile.showRatings %}
+                <p>Ratings Here</p>
+                {% for review in user_reviews %}
+                    {{ review | safe}}
+                {% endfor %}
+            {% endif %}
+        </div>
     {% else %}
         <p>No such user exists.</p>
     {% endif %}
