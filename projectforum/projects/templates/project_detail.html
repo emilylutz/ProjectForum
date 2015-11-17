@@ -18,7 +18,7 @@
             <h3 class='project_title'>{{ project.title }}</h3>
         </div>
     </div>
-    <ul class='project_details'>
+    <ul class='titled_list'>
         <li>
             <p class='project_description'>{{ project.description }}</p>
         </li>
@@ -28,8 +28,8 @@
             <p> Posted: {{ project.timestamp }} </p>
         </li>
     </ul>
-    <p>Tags:</p>
-    <ul>
+    <h4>Tags:</h4>
+    <ul class='tags'>
         {% for tag in project.tags.all %}
             <li>{{ tag.text }}</li>
         {% empty %}
@@ -99,14 +99,14 @@
         {% endif %}
 
     {% elif user in project.team_members.all %}
-        Owner:
+        <h4>Owner:</h4>
         <ul class='owner_list people_list'>
             <li class='people_list_element'>
                 {{ project.owner.username }}, {{ project.owner.email }}
             </li>
         </ul>
 
-        Team Members:
+        <h4>Team Members:</h4>
         <ul class='member_list people_list'>
         {% for member in project.team_members.all %}
             <li class='people_list_element'>
@@ -119,10 +119,10 @@
         {% if not logged_in %}
             <button class='btn'>Log in to apply!</button>
         {% elif user in project.applicants.all %}
-
+            <br/>
             Your application has been submitted. The project owner is
             reviewing your application.
-
+            <br/>
             <button id='withdraw_application_button'
                     class='btn cancel_button withdraw_application_button'
                     data-projectid="{{ project.id }}">
@@ -144,9 +144,11 @@
     {% if project.status == 3 or project.status == 4 %}
         <br/>
         <br/>
-        <label>Reviews:</label>
+        <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
+        <ul class='titled_list'>
         {% if user in project.team_members.all %}
+            <li>
             <form action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
                 <div id="rating"></div>
@@ -157,21 +159,26 @@
                 <input type="submit" value="Submit" />
 
             </form>
+            </li>
         {% endif %}
         {% for review in project_reviews %}
-            <hr>
-            <div class="project-review">
+            <li class="project-review">
                 <div class="review-score"
                      data-score="{{ review.score }}">
                 </div>
-                <br/>
+                <div class='reviewer'>
+                    By
+                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                </div>
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
-                <br/>
-                {{ review.reviewer.username }}
-            </div>
-            <br>            
+            </li>
+        {% empty %}
+            <li class="project-review">
+                No reviews yet.
+            </li>
         {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}

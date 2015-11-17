@@ -158,9 +158,12 @@ a:hover {
 .title_tab {
   background: #ADC4CC;
   border-radius: 10px 10px 0px 0px;
-  display: inline-flex;
+  display: inline-block;
   padding-left: 20px;
-  padding-right: 20px; }
+  padding-right: 20px;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px; }
 
 .title_tab:after {
   border-bottom-left-radius: 6px;
@@ -173,7 +176,7 @@ a:hover {
 .project_description {
   padding: 20px 10px 10px; }
 
-.project_details {
+.titled_list {
   border-radius: 0px 5px 5px 5px; }
 
 .accept_applicant_button {
@@ -185,6 +188,9 @@ a:hover {
   width: 50%;
   margin: 0 auto;
   display: block; }
+
+.reviewer {
+  margin-bottom: 10px; }
 
 @keyframes wiggle {
   0% {
@@ -219,7 +225,7 @@ a:hover {
   border-radius: 5px;
   padding: 5px 10px; }
 
-.user_skills {
+.tags {
   display: inline-block; }
 
 .side_notice {

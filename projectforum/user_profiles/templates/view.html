@@ -56,8 +56,8 @@
             {% endif %}
         </div>
 
-        <p>Skills:</p>
-        <ul class="user_skills">
+        <h4>Skills:</h4>
+        <ul class="tags">
             {% for skill_tag in user_profile.skills.all %}
                 <li>{{ skill_tag.skill }}</li>
             {% empty %}
@@ -67,7 +67,7 @@
 
         {% if user_profile.showPastProjects %}
             {% if past_owned_projects %}
-                <h3>Past Projects Started</h3>
+                <h4>Past Projects Started</h4>
                 <ul>
                     {% for project in past_owned_projects %}
                         <li>
@@ -80,7 +80,7 @@
                 </ul>
             {% endif %}
             {% if past_projects %}
-                <h3>Past Projects Worked On</h3>
+                <h4>Past Projects Worked On</h4>
                 <ul>
                     {% for project in past_projects %}
                         <li>
@@ -93,24 +93,29 @@
                 </ul>
             {% endif %}
         {% endif %}
-
+        <br/>
         {% if user_profile.showRatings %}
-            <h3>Ratings</h3>
-            {% for review in user_reviews %}
-                <hr>
-                <div class="project-review">
-                    <div class="review-score"
-                         data-score="{{ review.score }}">
-                    </div>
-                    <br/>
-                    <div class="review-comment">
-                        {{ review.comment | escape }}
-                    </div>
-                    <br/>
-                    {{ review.reviewer.username }}
-                </div>
-                <br>            
-            {% endfor %}
+            <h4 class='title_tab'>Ratings</h4>
+            <ul class='titled_list'>
+                {% for review in user_reviews %}
+                    <li class="project-review">
+                        <div class="review-score"
+                             data-score="{{ review.score }}">
+                        </div>
+                        <div class='reviewer'>
+                            By
+                            <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                        </div>
+                        <div class="review-comment">
+                            {{ review.comment | escape }}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="project-review">
+                        No reviews yet.
+                    </li>
+                {% endfor %}
+            </ul>
         {% endif %}
 
     {% else %}
