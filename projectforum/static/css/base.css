@@ -123,12 +123,31 @@ li {
     transform: rotate(30deg); }
   100% {
     transform: rotate(0deg); } }
+a {
+  color: #4298B5; }
+
+a:hover {
+  color: #76D2F1;
+  text-decoration: none; }
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
 .project_status {
-  border: 2px solid #ccc;
+  border: 2px solid #929292;
   border-radius: 5px;
   float: right;
   padding: 10px;
-  margin-right: 10px; }
+  margin-right: 10px;
+  color: #929292; }
 
 .title_tab {
   background: #ADC4CC;
@@ -160,6 +179,22 @@ li {
   width: 50%;
   margin: 0 auto;
   display: block; }
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg); }
+  25% {
+    transform: rotate(30deg); }
+  50% {
+    transform: rotate(-30deg); }
+  75% {
+    transform: rotate(30deg); }
+  100% {
+    transform: rotate(0deg); } }
+.project_status_mini {
+  padding: 5px;
+  margin: 0px;
+  border-width: 0px; }
 
 body {
   background-color: #4298B5;

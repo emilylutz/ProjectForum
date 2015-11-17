@@ -1,0 +1,12 @@
+// The base css for links.
+
+@import 'common';
+
+a {
+    color: $theme-col-main-dark;
+}
+
+a:hover{
+    color: $theme-col-main-light;
+    text-decoration: none;
+}
