@@ -71,11 +71,7 @@
         </ul>
 
         {% if project.status == 1 %}
-<<<<<<< HEAD
             <button id='close_applications' class='btn btn-default' data-projectid="{{ project.id }}">
-=======
-            <button id='close_applications' data-projectid="{{ project.id }}">
->>>>>>> 40d41c129fb6807f5463bcaad5ad97ffccb389a9
                 Close Applications
             </button>
         {% endif %}
@@ -177,18 +173,11 @@
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
-<<<<<<< HEAD
             </li>
         {% empty %}
             <li class="project-review">
                 No reviews yet.
             </li>
-=======
-                <br/>
-                {{ review.reviewer.username }}
-            </div>
-            <br>
->>>>>>> 40d41c129fb6807f5463bcaad5ad97ffccb389a9
         {% endfor %}
         </ul>
     {% endif %}

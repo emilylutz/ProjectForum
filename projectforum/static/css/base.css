@@ -93,27 +93,27 @@ li {
   100% {
     transform: rotate(0deg); } }
 .accept_button {
-  background-color: #EAFFCD;
-  color: #678440;
   border-width: 2px;
   border-style: solid;
-  border-color: #92B06A; }
+  border-color: #92B06A;
+  background-color: #EAFFCD;
+  color: #678440; }
 
 .accept_button:hover {
   background-color: #AEE168;
   color: #678440; }
 
 .cancel_button {
-  background-color: #F5D0D0;
-  color: #A94442;
   border-width: 2px;
   border-style: solid;
-  border-color: #A94442; }
+  border-color: #A94442;
+  background-color: #F5D0D0;
+  color: #A94442; }
 
 .cancel_button:hover {
+  border-color: #A94442;
   background-color: #E8AAB4;
-  color: #A94442;
-  border-color: #A94442; }
+  color: #A94442; }
 
 .btn-default {
   border-width: 2px; }
@@ -148,22 +148,22 @@ a:hover {
   100% {
     transform: rotate(0deg); } }
 .project_status {
+  margin-right: 10px;
+  padding: 10px;
+  float: right;
   border: 2px solid #929292;
   border-radius: 5px;
-  float: right;
-  padding: 10px;
-  margin-right: 10px;
   color: #929292; }
 
 .title_tab {
-  background: #ADC4CC;
-  border-radius: 10px 10px 0px 0px;
   display: inline-block;
-  padding-left: 20px;
-  padding-right: 20px;
   margin-bottom: 0px;
   padding-top: 5px;
-  padding-bottom: 5px; }
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px 10px 0px 0px;
+  background: #ADC4CC; }
 
 .title_tab:after {
   border-bottom-left-radius: 6px;
@@ -185,9 +185,9 @@ a:hover {
   /* Hack... */ }
 
 .apply_button {
-  width: 50%;
+  display: block;
   margin: 0 auto;
-  display: block; }
+  width: 50%; }
 
 .reviewer {
   margin-bottom: 10px; }
@@ -204,8 +204,8 @@ a:hover {
   100% {
     transform: rotate(0deg); } }
 .project_status_mini {
-  padding: 5px;
   margin: 0px;
+  padding: 5px;
   border-width: 0px; }
 
 @keyframes wiggle {
@@ -221,9 +221,9 @@ a:hover {
     transform: rotate(0deg); } }
 .edit_profile_button {
   float: right;
+  padding: 5px 10px;
   border: 2px solid;
-  border-radius: 5px;
-  padding: 5px 10px; }
+  border-radius: 5px; }
 
 .tags {
   display: inline-block; }

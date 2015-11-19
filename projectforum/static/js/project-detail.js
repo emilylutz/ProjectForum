@@ -2,15 +2,14 @@ $(document).ready(function() {
 
     // JQuery code to be added in here.
     $('.accept_applicant').click(function(){
-        console.log("calling accept applicant")
         var projectid;
         projectid = $(this).attr("data-projectid");
         var applicantusername;
         applicantusername = $(this).attr("data-applicantusername");
 
         $.get('/project/'+projectid+'/accept_applicant/'+applicantusername, function(data){
-                location.reload();
-            });
+                    location.reload();
+                });
     });
 
     $('#apply_button').click(function(){

@@ -40,7 +40,7 @@ class Project(models.Model):
     amount = models.IntegerField()
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.ManyToManyField(ProjectTag, related_name='projects',
-                                    blank=True)
+                                  blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     team_members = models.ManyToManyField(User,
                                           related_name="current_projects",
