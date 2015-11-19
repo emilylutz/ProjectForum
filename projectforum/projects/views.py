@@ -263,7 +263,7 @@ def bookmark_add(request, id):
                 'status': -1,
                 'errors': ["Project owner cannot bookmark own project"]
             })
-        if !self.request.user.is_authenticated():
+        if not request.user.is_authenticated():
             return JsonResponse({
                 'status': -1,
                 'errors': ["User must be logged in to add bookmarks."]
@@ -285,7 +285,7 @@ def bookmark_remove(request, id):
                 'status': -1,
                  'errors': ["Project owner cannot bookmark own project"]
             })
-        if !request.user.is_authenticated():
+        if  not request.user.is_authenticated():
             return JsonResponse({
                 'status': -1,
                 'errors': ["User must be logged in to remove bookmarks."]

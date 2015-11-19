@@ -1,0 +1,1089 @@
+C:\Python27\lib\site-packages\django\forms\models.py:1244: RemovedInDjango19Warning: cache_choices has been deprecated and will be removed in Django 1.9.
+  *args, **kwargs)
+
+....ERROR 2015-11-19 15:31:10,473 base 6132 3652 Internal Server Error: /project/5/bookmark_add/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\views.py", line 271, in bookmark_add
+    profile = UserProfile.objects.get(user=request.user)
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: UserProfile matching query does not exist.
+EERROR 2015-11-19 15:31:10,595 base 6132 3652 Internal Server Error: /project/6/bookmark_add/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\views.py", line 271, in bookmark_add
+    profile = UserProfile.objects.get(user=request.user)
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: UserProfile matching query does not exist.
+E.................ERROR 2015-11-19 15:31:12,519 base 6132 3652 Internal Server Error: /project/24/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:12,650 base 6132 3652 Internal Server Error: /project/25/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:12,786 base 6132 3652 Internal Server Error: /project/26/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:12,885 base 6132 3652 Internal Server Error: /project/27/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:12,937 base 6132 3652 Internal Server Error: /project/28/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+E.ERROR 2015-11-19 15:31:13,028 base 6132 3652 Internal Server Error: /project/29/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:13,079 base 6132 3652 Internal Server Error: /project/30/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+E.........ERROR 2015-11-19 15:31:13,990 base 6132 3652 Internal Server Error: /project/list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:14,033 base 6132 3652 Internal Server Error: /project/list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EERROR 2015-11-19 15:31:14,078 base 6132 3652 Internal Server Error: /project/list/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+EF.............ERROR 2015-11-19 15:31:16,492 base 6132 3652 Internal Server Error: /project/create/
+Traceback (most recent call last):
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+E......
+======================================================================
+ERROR: test_bookmarks_add (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 830, in test_bookmarks_add
+    resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\views.py", line 271, in bookmark_add
+    profile = UserProfile.objects.get(user=request.user)
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: UserProfile matching query does not exist.
+
+======================================================================
+ERROR: test_bookmarks_remove (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 850, in test_bookmarks_remove
+    resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 132, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\views.py", line 271, in bookmark_add
+    profile = UserProfile.objects.get(user=request.user)
+  File "C:\Python27\lib\site-packages\django\db\models\manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Python27\lib\site-packages\django\db\models\query.py", line 334, in get
+    self.model._meta.object_name
+DoesNotExist: UserProfile matching query does not exist.
+
+======================================================================
+ERROR: test_project_detail_view_context_when_applied_user_logged_in (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 152, in test_project_detail_view_context_when_applied_user_logged_in
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_context_when_other_user_logged_in (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 123, in test_project_detail_view_context_when_other_user_logged_in
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_context_when_team_member_logged_in (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 183, in test_project_detail_view_context_when_team_member_logged_in
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_correct_context_when_owner_logged_in (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 91, in test_project_detail_view_correct_context_when_owner_logged_in
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_correct_context_when_user_not_logged_in (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 68, in test_project_detail_view_correct_context_when_user_not_logged_in
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_exists (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 37, in test_project_detail_view_exists
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_project_detail_view_gets_correct_project (projectforum.projects.tests.test_detail_view.ProjectsDetailViewTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_detail_view.py", line 50, in test_project_detail_view_gets_correct_project
+    resp = c.get('/project/' + str(project1.id) + '/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_list_page_exists (projectforum.projects.tests.test_projects.ProjectsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_projects.py", line 143, in test_list_page_exists
+    resp = c.get('/project/list/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_list_page_gets_project_in_database (projectforum.projects.tests.test_projects.ProjectsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_projects.py", line 180, in test_list_page_gets_project_in_database
+    resp = c.get('/project/list/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_list_page_gets_projects_in_database (projectforum.projects.tests.test_projects.ProjectsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_projects.py", line 165, in test_list_page_gets_projects_in_database
+    resp = c.get('/project/list/')
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+ERROR: test_no_redirect (projectforum.projects.tests.test_projects.ProjectsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_projects.py", line 209, in test_no_redirect
+    resp = c.get("/project/create/")
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 500, in get
+    **extra)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 303, in get
+    return self.generic('GET', path, secure=secure, **r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 379, in generic
+    return self.request(**r)
+  File "C:\Python27\lib\site-packages\django\test\client.py", line 466, in request
+    six.reraise(*exc_info)
+  File "C:\Python27\lib\site-packages\django\core\handlers\base.py", line 164, in get_response
+    response = response.render()
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 158, in render
+    self.content = self.rendered_content
+  File "C:\Python27\lib\site-packages\django\template\response.py", line 135, in rendered_content
+    content = template.render(context, self._request)
+  File "C:\Python27\lib\site-packages\django\template\backends\django.py", line 74, in render
+    return self.template.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 209, in render
+    return self._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\template\loader_tags.py", line 135, in render
+    return compiled_parent._render(context)
+  File "C:\Python27\lib\site-packages\django\test\utils.py", line 96, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 903, in render
+    bit = self.render_node(node, context)
+  File "C:\Python27\lib\site-packages\django\template\base.py", line 917, in render_node
+    return node.render(context)
+  File "C:\Python27\lib\site-packages\django\templatetags\static.py", line 105, in render
+    url = self.url(context)
+  File "C:\Python27\lib\site-packages\django\Creating test database for alias 'default'...
+Destroying test database for alias 'default'...
+contrib\staticfiles\templatetags\staticfiles.py", line 16, in url
+    return static(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\templatetags\staticfiles.py", line 9, in static
+    return staticfiles_storage.url(path)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 131, in url
+    hashed_name = self.stored_name(clean_name)
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 280, in stored_name
+    cache_name = self.clean_name(self.hashed_name(name))
+  File "C:\Python27\lib\site-packages\django\contrib\staticfiles\storage.py", line 94, in hashed_name
+    (clean_name, self))
+ValueError: The file 'external/bootstrap/css/bootstrap.min.css' could not be found with <whitenoise.django.GzipManifestStaticFilesStorage object at 0x0000000003F95048>.
+
+======================================================================
+FAIL: test_list_projects_by_created_down (projectforum.projects.tests.test_projects.ProjectsTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Sarah\tpf\ProjectForum\projectforum\projects\tests\test_projects.py", line 264, in test_list_projects_by_created_down
+    self.assertEqual('E', contents['projects'][0]['title'])
+AssertionError: 'E' != u'F'
+
+----------------------------------------------------------------------
+Ran 64 tests in 6.842s
+
+FAILED (failures=1, errors=13)
