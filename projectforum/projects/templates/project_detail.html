@@ -6,6 +6,8 @@
         href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
     <link rel="stylesheet" type="text/css"
         href="{% static 'external/jqueryraty/jquery.raty.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/bookmarks.css' %}">
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
     <script src="{% static 'js/ratings.js' %}"></script>
@@ -13,7 +15,12 @@
 
 {% block content %}
     <h1>Projects Detail View</h1>
-    <h3 class='project_title'>{{ project.title }}</h3>
+    <div class="project_header">
+    	{% if logged_in and user != project.owner %}
+		    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
+    	{% endif %}
+	    <h3 class='project_title'>{{ project.title }}</h3>
+    </div>
     <p>Tags:</p>
     <ul>
         {% for tag in project.tags.all %}
@@ -158,7 +165,7 @@
                 <br/>
                 {{ review.reviewer.username }}
             </div>
-            <br>            
+            <br>
         {% endfor %}
     {% endif %}
 {% endblock %}

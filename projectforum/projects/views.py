@@ -11,6 +11,7 @@ from projectforum.projects.models import Project
 from projectforum.projects.forms import *
 from projectforum.ratings.forms import ReviewForm
 from projectforum.ratings.models import UserReview
+from projectforum.user_profiles.models import UserProfile
 
 import project_filters
 
@@ -247,6 +248,40 @@ def close_applications(request, id):
             })
         project.status = 2
         project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors': ["Invalid project id"]
+        })
+    return JsonResponse({'status': 1})
+
+def bookmark_add(request, id):
+    try:
+        project = Project.objects.get(id=id)
+        if request.user == project.owner:
+            return JsonResponse({
+                'status': -1,
+                'errors': ["Project owner cannot bookmark own project"]
+            })
+        profile = UserProfile.objects.get(user=request.user)
+        profile.bookmarked_projects.add(project)
+    except Project.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors': ["Invalid project id"]
+        })
+    return JsonResponse({'status': 1})
+
+def bookmark_remove(request, id):
+    try:
+        project = Project.objects.get(id=id)
+        if request.user == project.owner:
+            return JsonResponse({
+                'status': -1,
+                'errors': ["Project owner cannot bookmark own project"]
+            })
+        profile = UserProfile.objects.get(user=request.user)
+        profile.bookmarked_projects.remove(project)
     except Project.DoesNotExist:
         return JsonResponse({
             'status': -1,

@@ -32,4 +32,7 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/reopen_project/$', reopen_project),
     url(r'^(?P<id>\d+)/reopen_applications/$', reopen_applications),
     url(r'^(?P<id>\d+)/close_applications/$', close_applications),
+    url(r'^(?P<id>\d+)/bookmark_add/$', bookmark_add),
+    url(r'^(?P<id>\d+)/bookmark_remove/$', bookmark_remove),
+
 ]

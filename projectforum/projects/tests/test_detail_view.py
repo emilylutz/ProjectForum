@@ -5,6 +5,7 @@ from django.test import TestCase, Client
 import json
 
 from projectforum.projects.models import Project
+from projectforum.user_profiles.models import UserProfile
 
 
 class ProjectsDetailViewTest(TestCase):
@@ -813,3 +814,17 @@ class ProjectsDetailViewTest(TestCase):
 
     # Test project page when project is in different states: cancelled,
     # completed, in progress, accepting applicants
+    #
+
+    def test_bookmarks_can_be_added(self):
+        project1 = Project.objects.create(
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+        profile = UserProfile.objects.get(user=self.user)
+        profile.bookmarked_project.add(project1)
+        self.assertEqual(project1.title, profile.bookmarked_project[0].title)

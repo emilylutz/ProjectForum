@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.template import RequestContext
 from django.template.loader import render_to_string
+from projectforum.projects.models import Project
 
 import hashlib
 import random
@@ -206,7 +207,9 @@ class UserProfile(models.Model):
     showRatings = models.BooleanField('Public show ratings',
                                       default=False)
 
+    bookmarked_projects = models.ManyToManyField(Project, blank=True)
     objects = UserProfileManager()
+
 
     class Meta:
         verbose_name = 'user profile'
