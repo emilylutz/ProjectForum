@@ -814,9 +814,8 @@ class ProjectsDetailViewTest(TestCase):
 
     # Test project page when project is in different states: cancelled,
     # completed, in progress, accepting applicants
-    #
 
-    def test_bookmarks_can_be_added(self):
+    def test_bookmarks_add(self):
         project1 = Project.objects.create(
             title="Test Title",
             description="Test Description",
@@ -825,6 +824,27 @@ class ProjectsDetailViewTest(TestCase):
             amount=1,
             status=1,
         )
+        c = Client()
+        c.login(username=self.user.username, password='topsecret')
+        resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
         profile = UserProfile.objects.get(user=self.user)
-        profile.bookmarked_project.add(project1)
-        self.assertEqual(project1.title, profile.bookmarked_project[0].title)
+        self.assertEqual(project1.title, profile.bookmarked_projects[0].title)
+        self.assertEqual(1, len(profile.bookmarked_projects))
+
+    # test that after bookmark has been added, it can be removed
+    def test_bookmarks_remove(self):
+        project1 = Project.objects.create(
+            title="Test Title",
+            description="Test Description",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+        c = Client()
+        c.login(username=self.user.username, password='topsecret')
+        resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
+        self.assertEqual(1, len(profile.bookmarked_projects))
+        profile = UserProfile.objects.get(user=self.user)
+        resp = c.get('/project/' + str(project1.id) + '/bookmark_remove/')
+        self.assertEqual(0, len(profile.bookmarked_projects))
