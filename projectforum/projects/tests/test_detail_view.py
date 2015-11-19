@@ -824,10 +824,13 @@ class ProjectsDetailViewTest(TestCase):
             amount=1,
             status=1,
         )
+        user1 = self.user_model.objects.create_user(username='user1', email='user1@gmail.com', password='topsecret')
         c = Client()
-        c.login(username=self.user.username, password='topsecret')
+        c.login(username=user1.username, password='topsecret')
         resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
-        profile = UserProfile.objects.get(user=self.user)
+        profile = UserProfile.objects.create(user1)
+        profile = UserProfile.objects.get(user=user1)
+        self.assertEqual(1, len(profile.bookmarked_projects))
         self.assertEqual(project1.title, profile.bookmarked_projects[0].title)
         self.assertEqual(1, len(profile.bookmarked_projects))
 
@@ -841,10 +844,11 @@ class ProjectsDetailViewTest(TestCase):
             amount=1,
             status=1,
         )
+        user1 = self.user_model.objects.create_user(username='user1', email='user1@gmail.com', password='topsecret')
         c = Client()
-        c.login(username=self.user.username, password='topsecret')
+        c.login(username=user1.username, password='topsecret')
         resp = c.get('/project/' + str(project1.id) + '/bookmark_add/')
+        profile = UserProfile.objects.create(user1)
         self.assertEqual(1, len(profile.bookmarked_projects))
-        profile = UserProfile.objects.get(user=self.user)
         resp = c.get('/project/' + str(project1.id) + '/bookmark_remove/')
         self.assertEqual(0, len(profile.bookmarked_projects))

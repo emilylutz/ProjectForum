@@ -263,6 +263,11 @@ def bookmark_add(request, id):
                 'status': -1,
                 'errors': ["Project owner cannot bookmark own project"]
             })
+        if !self.request.user.is_authenticated():
+            return JsonResponse({
+                'status': -1,
+                'errors': ["User must be logged in to add bookmarks."]
+            })
         profile = UserProfile.objects.get(user=request.user)
         profile.bookmarked_projects.add(project)
     except Project.DoesNotExist:
@@ -278,7 +283,12 @@ def bookmark_remove(request, id):
         if request.user == project.owner:
             return JsonResponse({
                 'status': -1,
-                'errors': ["Project owner cannot bookmark own project"]
+                 'errors': ["Project owner cannot bookmark own project"]
+            })
+        if !request.user.is_authenticated():
+            return JsonResponse({
+                'status': -1,
+                'errors': ["User must be logged in to remove bookmarks."]
             })
         profile = UserProfile.objects.get(user=request.user)
         profile.bookmarked_projects.remove(project)
