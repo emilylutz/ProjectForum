@@ -25,7 +25,7 @@ class ProjectListView(ListView):
 
 class ProjectView(View):
     """
-    Returns a JSON list of projects accempting applicants based on parameters:
+    Returns a JSON list of projects based on parameters:
           '*' marks the default value
     status: The current state of the project
         *1: Accepting Applicants
@@ -52,7 +52,7 @@ class ProjectView(View):
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'Lump')
         ascending = bool(request.GET.get('ascending', True))
-        starting_from = int(request.GET.get('starting_from', 0))
+        starting_from = int(request.GET.get('starting_from', 1))
         ending_at = int(request.GET.get('ending_at', 10))
         return project_filters.get_project_list(status=status,
                                                 order=order,
@@ -60,6 +60,23 @@ class ProjectView(View):
                                                 ascending=ascending,
                                                 starting_from=starting_from,
                                                 ending_at=ending_at)
+
+class ProjectViewFilters(View):
+    """
+    Returns a JSON list of projects based on parameters:
+          '*' marks the default value
+    status: The current state of the project
+        *1: Accepting Applicants
+        2: In progress
+        3: Canceled
+        4: Finished
+    keywords: List of words filtering with separated by commas
+    """
+    def get(self, request, *args, **kwargs):
+        status = int(request.GET.get('status', 1))
+        keywords = request.GET.get('keywords', '').split(',')
+        return project_filters.get_projects_by_filter(status=status,
+                                                      keywords=keywords)
 
 
 class CreateView(FormView):

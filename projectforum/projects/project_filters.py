@@ -5,6 +5,18 @@ import json
 from projectforum.projects.models import Project
 
 
+def get_projects_by_filter(status, keywords):
+    project_list = Project.objects.all().filter(status=status)
+    for keyword in keywords:
+        titles = project_list.filter(title__icontains=keyword)
+        descriptions = project_list.filter(description__icontains=keyword)
+        owners = project_list.filter(owner__first_name__icontains=keyword) |\
+                 project_list.filter(owner__last_name__icontains=keyword)
+        tags = project_list.filter(tags__text__icontains=keyword)
+        project_list = (titles | descriptions | owners | tags).distinct()
+    return projects_JSON_response(project_list.order_by('timestamp'))
+
+
 def get_project_list(status, order, salary, ascending, starting_from,
                      ending_at):
     # Sorting is a little more complicated in the case of sort by payment
@@ -27,7 +39,6 @@ def get_project_list(status, order, salary, ascending, starting_from,
     # For every other type of sorting
     if not ascending:
         # If I'm sorting by descending, add the negative to the query to denote
-        # it
         order = '-' + order
     list_of_projects = project_list.order_by(order)
     quant_proj = check_length(starting_from, ending_at, list_of_projects)
@@ -52,6 +63,7 @@ def projects_JSON_response(projects):
         for tag in the_project.tags.all():
             tags.append(tag.text)
         projects_json['projects'].append({
+            'id': the_project.id,
             'title': the_project.title,
             'description': the_project.description,
             'owner': the_project.owner.username,
