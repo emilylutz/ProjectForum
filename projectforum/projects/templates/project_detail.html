@@ -116,6 +116,14 @@
         {% for member in project.team_members.all %}
             <li class='people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
+                {% if user == member %}
+                <button id='remove_team_member'
+                        class='btn remove_team_member cancel_button list_right_button'
+                        title="Remove yourself from this project's team."
+                        data-projectid="{{ project.id }}"
+                        data-team-member-username="{{ member.username }}">Remove Self From Team
+                </button>
+                {% endif %}
             </li>
         {% endfor %}
         </ul>

@@ -140,11 +140,11 @@ def remove_team_member(request, id, username):
     usermodel = get_user_model()
     try:
         project = Project.objects.get(id=id)
-        if request.user != project.owner:
+        if not (request.user == project.owner or request.user.username == username):
             return JsonResponse({
                 'status': -1,
                 'errors': [
-                    "Only the project owner can remove a team member."
+                    "Only the project owner and the team member being removed can remove a team member."
                 ]
             })
         team_member = usermodel.objects.get(username=username)
