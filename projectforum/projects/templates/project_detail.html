@@ -14,40 +14,49 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Projects Detail View</h1>
-    <div class="project_header">
-    	{% if logged_in and user != project.owner %}
+    <div class='project_header'>
+        <h4 class='project_status'>{{ project.get_status_display }}</h4>
+        {% if logged_in and user != project.owner %}
 		    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
 		    <script type="text/javascript">
 		    	setBookmark({{bookmarked|yesno:"true,false"}});
 		    </script>
     	{% endif %}
-	    <h3 class='project_title'>{{ project.title }}</h3>
+        <div class='title_tab'>
+            <h3 class='project_title'>{{ project.title }}</h3>
+        </div>
     </div>
-    <p>Tags:</p>
-    <ul>
+    <ul class='titled_list'>
+        <li>
+            <p class='project_description'>{{ project.description }}</p>
+        </li>
+        <li>
+            Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
+            <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
+            <p> Posted: {{ project.timestamp }} </p>
+        </li>
+    </ul>
+    <h4>Tags:</h4>
+    <ul class='tags'>
         {% for tag in project.tags.all %}
             <li>{{ tag.text }}</li>
         {% empty %}
             <li>No tags listed.</li>
         {% endfor %}
     </ul>
-    <p class='project_description'>{{ project.description }}</p>
-
-    <p class='project_status'>Status - {{ project.get_status_display }}</p>
+    <br/>
 
     {% if user == project.owner %}
         <h4>Applicants:</h4>
         <ul class='applicant_list people_list'>
         {% for applicant in project.applicants.all %}
             <li class='people_list_element'>
-                {{ applicant.username }}, {{ applicant.email }}
+                <a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}
                 <button id='accept_applicant'
-                        class='accept_button'
-                        title="Adds the applicant to your project's team."
+                        class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
+                        title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
-                        data-applicantusername="{{ applicant.username }}" >
-                    Accept Applicant
+                        data-applicantusername="{{ applicant.username }}">
                 </button>
             </li>
         {% empty %}
@@ -55,11 +64,11 @@
         {% endfor %}
         </ul>
 
-        Team Members:
+        <h4>Team Members:</h4>
         <ul class='member_list people_list'>
         {% for member in project.team_members.all %}
             <li class='member_list people_list_element'>
-                {{ member.username }}, {{ member.email }}
+                <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
             </li>
         {% empty %}
             <li class='empty_people_list_element'>
@@ -69,68 +78,69 @@
         </ul>
 
         {% if project.status == 1 %}
-            <button id='close_applications' data-projectid="{{ project.id }}">
+            <button id='close_applications' class='btn btn-default' data-projectid="{{ project.id }}">
                 Close Applications
             </button>
         {% endif %}
 
         {% if project.status == 2 %}
-            <button id='reopen_applications' data-projectid="{{ project.id }}">
+            <button id='reopen_applications' class='btn btn-default' data-projectid="{{ project.id }}">
                 Re-Open Applications
             </button>
         {% endif %}
 
         {% if project.status == 3 or project.status == 4 %}
-            <button id='reopen_project' data-projectid="{{ project.id }}">
+            <button id='reopen_project' class='btn btn-default' data-projectid="{{ project.id }}">
                 Re-Open Project
             </button>
         {% endif %}
 
         {% if project.status != 4 and project.status != 3%}
-            <button id='mark_complete' data-projectid="{{ project.id }}">
+            <button id='mark_complete' class='btn accept_button' data-projectid="{{ project.id }}">
                 Mark as Complete
             </button>
 
-            <button id='cancel_project' data-projectid="{{ project.id }}">
+            <button id='cancel_project' class='btn cancel_button' data-projectid="{{ project.id }}">
                 Cancel Project
             </button>
         {% endif %}
 
     {% elif user in project.team_members.all %}
-        Owner:
+        <h4>Owner:</h4>
         <ul class='owner_list people_list'>
             <li class='people_list_element'>
-                {{ project.owner.username }}, {{ applicant.email }}
+                <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a>, {{ project.owner.email }}
             </li>
         </ul>
 
-        Team Members:
+        <h4>Team Members:</h4>
         <ul class='member_list people_list'>
         {% for member in project.team_members.all %}
             <li class='people_list_element'>
-                {{ member.username }}, {{ member.email }}
+                <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
             </li>
         {% endfor %}
         </ul>
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button>Log in to apply!</button>
+            <button class='btn btn-default'>Log in to apply!</button>
         {% elif user in project.applicants.all %}
-
+            <br/>
             Your application has been submitted. The project owner is
             reviewing your application.
-
+            <br/>
             <button id='withdraw_application_button'
-                    class='withdraw_application_button'
+                    class='btn cancel_button withdraw_application_button'
                     data-projectid="{{ project.id }}">
                 Withdraw Application
             </button>
 
         {% else %}
             <button id='apply_button'
-                    class='apply_button'
-                    data-projectid="{{ project.id }}">
+                    class='btn apply_button accept_button'
+                    data-projectid="{{ project.id }}"
+                    title="Apply to join project team.">
                 Apply
             </button>
 
@@ -141,9 +151,11 @@
     {% if project.status == 3 or project.status == 4 %}
         <br/>
         <br/>
-        <label>Reviews:</label>
+        <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
+        <ul class='titled_list'>
         {% if user in project.team_members.all %}
+            <li>
             <form action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
                 <div id="rating"></div>
@@ -154,21 +166,26 @@
                 <input type="submit" value="Submit" />
 
             </form>
+            </li>
         {% endif %}
         {% for review in project_reviews %}
-            <hr>
-            <div class="project-review">
+            <li class="project-review">
                 <div class="review-score"
                      data-score="{{ review.score }}">
                 </div>
-                <br/>
+                <div class='reviewer'>
+                    By
+                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                </div>
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
-                <br/>
-                {{ review.reviewer.username }}
-            </div>
-            <br>
+            </li>
+        {% empty %}
+            <li class="project-review">
+                No reviews yet.
+            </li>
         {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}

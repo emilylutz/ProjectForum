@@ -42,15 +42,15 @@ function setBookmark(bookmarked){
 $(document).ready(function() {
 
     // JQuery code to be added in here.
-    $('#accept_applicant').click(function(){
+    $('.accept_applicant').click(function(){
         var projectid;
         projectid = $(this).attr("data-projectid");
         var applicantusername;
         applicantusername = $(this).attr("data-applicantusername");
 
-         $.get('/project/'+projectid+'/accept_applicant/'+applicantusername, function(data){
-                   location.reload();
-               });
+        $.get('/project/'+projectid+'/accept_applicant/'+applicantusername, function(data){
+                    location.reload();
+                });
     });
 
     $('#apply_button').click(function(){
