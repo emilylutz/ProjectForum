@@ -10,7 +10,7 @@ class ProjectForm(forms.ModelForm):
     """
     required_css_class = 'required'
 
-    tags = TagsField(ProjectTag, 'text')
+    tags = TagsField(ProjectTag, 'text', max_length=ProjectTag.max_length)
 
     class Meta:
         model = Project

@@ -6,7 +6,8 @@ class ProjectTag(models.Model):
     """
     The projects can be tagged with descriptive text.
     """
-    text = models.CharField(max_length=100)
+    max_length = 100
+    text = models.CharField(max_length=max_length)
 
     def __unicode__(self):
         return self.text
@@ -22,13 +23,13 @@ class ProjectTag(models.Model):
 class Project(models.Model):
 
     PAYMENT_CHOICES = (
-        (1, "Lump sum"),
+        (1, "Lump Sum"),
         (2, "Hourly"),
     )
 
     STATUSES = (
         (1, 'Accepting Applicants'),
-        (2, 'In progress'),
+        (2, 'In Progress'),
         (3, 'Canceled'),
         (4, 'Finished'),
     )

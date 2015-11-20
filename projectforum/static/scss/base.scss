@@ -1,7 +1,16 @@
 // The base css for the website.
 
 @import 'common';
-@import 'forms';
+
+@import 'general/forms';
+@import 'general/list';
+@import 'general/buttons';
+@import 'general/links';
+
+@import 'specific/project_detail';
+@import 'specific/project_list';
+@import 'specific/user_profile';
+
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
 // Wrappers
@@ -218,17 +227,17 @@ body {
 #content {
     margin: auto;
     max-width: 1000px;
-    padding: 96px 32px;
+    padding: 40px 32px 60px;
     width: auto;
 }
 
 // Footer
 #footerHighlight {
     background-color: $theme-col-main;
-    height: 64px;
+    height: 20px;
 }
 
 #footer {
     background-color: $theme-col-main-dark;
-    height: 128px;
+    height: 40px;
 }
