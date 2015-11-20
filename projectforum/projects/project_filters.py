@@ -17,7 +17,6 @@ def filter_projects(status, keywords):
         owner_first = project_list.filter(owner__first_name__icontains=keyword)
         owner_last = project_list.filter(owner__last_name__icontains=keyword)
         owner = owner_first | owner_last
-        payments = project_list.filter(amount__icontains=keyword)
         tags = project_list.filter(tags__text__icontains=keyword)
         project_list = (titles | descriptions | owner | tags).distinct()
     return project_list
@@ -55,6 +54,27 @@ def get_project_list(status, keywords, order, salary, ascending):
             return errorMessage(error='Error when sorting by title')
 
     return errorMessage(error='Something went wrong when handling your query')
+
+
+def get_projects(status, keywords, order, salary, ascending):
+    project_list = filter_projects(status, keywords)
+
+    if len(project_list) == 0:
+        return project_list
+
+    if order == 'payment':
+        projects = sort_projects_by_payment(salary=salary,
+                                            ascending=ascending,
+                                            project_list=project_list)
+        return projects
+    elif order == 'timestamp':
+        projects = sort_projects_by_timestamp(ascending=ascending,
+                                              project_list=project_list)
+        return projects
+    elif order == 'title':
+        projects = sort_projects_by_title(ascending=ascending,
+                                          project_list=project_list)
+        return projects
 
 
 def sort_projects_by_timestamp(ascending, project_list):

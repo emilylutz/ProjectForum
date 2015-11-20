@@ -88,3 +88,99 @@ class ProjectsTest(TestCase):
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(0, len(contents['projects']))
+
+    def test_list_projects_by_title_down(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='title',
+                                                salary='lump',
+                                                ascending=False)
+        contents = response
+        self.assertEqual('F', contents[0].title)
+        self.assertEqual('A', contents[5].title)
+        self.assertEqual('C', contents[3].title)
+
+    def test_list_projects_by_title_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='title',
+                                                salary='lump',
+                                                ascending=True)
+        contents = response
+        self.assertEqual('A', contents[0].title)
+        self.assertEqual('F', contents[5].title)
+        self.assertEqual('D', contents[3].title)
+
+    def test_list_projects_by_newest(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='timestamp',
+                                                salary='lump',
+                                                ascending=False)
+        contents = response
+        self.assertEqual('B', contents[0].title)
+        self.assertEqual('E', contents[5].title)
+        self.assertEqual('D', contents[3].title)
+
+    def test_list_projects_by_oldest(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='timestamp',
+                                                salary='lump',
+                                                ascending=True)
+        contents = response
+        self.assertEqual('E', contents[0].title)
+        self.assertEqual('B', contents[5].title)
+        self.assertEqual('C', contents[3].title)
+
+    def test_list_projects_by_pay_lump_down(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='payment',
+                                                salary='lump',
+                                                ascending=False)
+        contents = response
+        self.assertEqual('D', contents[0].title)
+        self.assertEqual('B', contents[5].title)
+        self.assertEqual('C', contents[3].title)
+
+    def test_list_projects_by_pay_lump_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='payment',
+                                                salary='lump',
+                                                ascending=True)
+        contents = response
+        self.assertEqual('A', contents[0].title)
+        self.assertEqual('C', contents[5].title)
+        self.assertEqual('B', contents[3].title)
+
+    def test_list_projects_by_pay_hourly_down(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='payment',
+                                                salary='hourly',
+                                                ascending=False)
+        contents = response
+        self.assertEqual('C', contents[0].title)
+        self.assertEqual('A', contents[5].title)
+        self.assertEqual('D', contents[3].title)
+
+    def test_list_projects_by_pay_hourly_up(self):
+        test_create_projects.create_many_projects()
+        response = project_filters.get_projects(status=1,
+                                                keywords='',
+                                                order='payment',
+                                                salary='hourly',
+                                                ascending=True)
+        contents = response
+        self.assertEqual('B', contents[0].title)
+        self.assertEqual('D', contents[5].title)
+        self.assertEqual('A', contents[3].title)
