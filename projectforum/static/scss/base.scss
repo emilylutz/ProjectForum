@@ -1,13 +1,16 @@
 // The base css for the website.
 
 @import 'common';
-@import 'forms';
-@import 'list';
-@import 'buttons';
-@import 'links';
-@import 'project_detail';
-@import 'project_list';
-@import 'user_profile';
+
+@import 'general/forms';
+@import 'general/list';
+@import 'general/buttons';
+@import 'general/links';
+
+@import 'specific/project_detail';
+@import 'specific/project_list';
+@import 'specific/user_profile';
+
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
 // Wrappers
