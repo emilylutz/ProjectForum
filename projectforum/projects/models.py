@@ -22,13 +22,13 @@ class ProjectTag(models.Model):
 class Project(models.Model):
 
     PAYMENT_CHOICES = (
-        (1, "Lump sum"),
+        (1, "Lump Sum"),
         (2, "Hourly"),
     )
 
     STATUSES = (
         (1, 'Accepting Applicants'),
-        (2, 'In progress'),
+        (2, 'In Progress'),
         (3, 'Canceled'),
         (4, 'Finished'),
     )
@@ -40,7 +40,7 @@ class Project(models.Model):
     amount = models.IntegerField()
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.ManyToManyField(ProjectTag, related_name='projects',
-                                    blank=True)
+                                  blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     team_members = models.ManyToManyField(User,
                                           related_name="current_projects",
