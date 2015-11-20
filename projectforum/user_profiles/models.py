@@ -148,7 +148,8 @@ class UserSkillTag(models.Model):
     """
     The user can be tagged with skills. Each tag is a skill.
     """
-    skill = models.CharField(max_length=100)
+    max_length = 100
+    skill = models.CharField(max_length=max_length)
 
     def __unicode__(self):
         return self.skill
