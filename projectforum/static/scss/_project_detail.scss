@@ -11,22 +11,6 @@
     color: $theme-col-grey-dark;
 }
 
-.title_tab {
-    display: inline-block;
-    margin-bottom: 0px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 10px 10px 0px 0px;
-    background: $theme-col-main;
-}
-
-.title_tab:after{
-    border-bottom-left-radius: 6px;
-    border-width: 0 0 5px 5px;
-}
-
 .project_title {
     display: inline-block;
     vertical-align: text-bottom;
@@ -36,16 +20,7 @@
     padding: 20px 10px 10px;
 }
 
-.titled_list {
-    border-radius: 0px 5px 5px 5px;
-}
-
-.accept_applicant_button {
-    float: right;
-    margin-top: -8px; /* Hack... */
-}
-
-.apply_button {
+.bottom_button {
     display: block;
     margin: 0 auto;
     width: 50%;

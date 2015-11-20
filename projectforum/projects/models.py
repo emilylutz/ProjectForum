@@ -57,5 +57,12 @@ class Project(models.Model):
         else:
             return False
 
+    def remove_team_member(self, team_member):
+        if team_member in self.team_members.all():
+            self.team_members.remove(team_member)
+            return True
+        else:
+            return False
+
     def __str__(self):
         return "Project: {title: "+self.title+"}"

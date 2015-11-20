@@ -45,7 +45,7 @@
             <li class='people_list_element'>
                 <a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}
                 <button id='accept_applicant'
-                        class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
+                        class='btn glyphicon glyphicon-ok accept_applicant accept_button list_right_button'
                         title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
                         data-applicantusername="{{ applicant.username }}">
@@ -61,6 +61,12 @@
         {% for member in project.team_members.all %}
             <li class='member_list people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
+                <button id='remove_team_member'
+                        class='btn glyphicon glyphicon-remove remove_team_member cancel_button list_right_button'
+                        title="Remove user from your project's team."
+                        data-projectid="{{ project.id }}"
+                        data-team-member-username="{{ member.username }}">
+                </button>
             </li>
         {% empty %}
             <li class='empty_people_list_element'>
@@ -116,7 +122,7 @@
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button class='btn btn-default'>Log in to apply!</button>
+            <button class='btn accept_button bottom_button'>Log in to apply!</button>
         {% elif user in project.applicants.all %}
             <br/>
             Your application has been submitted. The project owner is
@@ -130,7 +136,7 @@
 
         {% else %}
             <button id='apply_button'
-                    class='btn apply_button accept_button'
+                    class='btn bottom_button accept_button'
                     data-projectid="{{ project.id }}"
                     title="Apply to join project team.">
                 Apply
