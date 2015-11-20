@@ -8,6 +8,7 @@
 @import 'project_detail';
 @import 'project_list';
 @import 'user_profile';
+@import 'bookmarks';
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
 // Wrappers
@@ -155,7 +156,7 @@ body {
                     color: $theme-col-text-ondark;
                 }
             }
-            
+
         }
     }
     .headerNavItemCircled {
@@ -194,7 +195,7 @@ body {
                 opacity: 0;
                 padding: 0 0.5em;
                 transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
-                
+
                 &:hover {
                     background-color: $theme-col-main;
                 }
