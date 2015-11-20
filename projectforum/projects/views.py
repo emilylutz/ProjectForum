@@ -48,6 +48,7 @@ class ProjectView(View):
                    number
     ending_at: Integer Default is 10. Stop returning projects at this number
     """
+
     def get(self, request, *args, **kwargs):
         status = int(request.GET.get('status', 1))
         order = request.GET.get('order', 'timestamp')
@@ -99,12 +100,15 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
+        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
+            user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
             'logged_in': self.logged_in,
             'user': self.request.user,
             'form': form,
-            'project_reviews': project_reviews
+            'project_reviews': project_reviews,
+            'bookmarked': bookmarked
         })
         return context
 
@@ -255,6 +259,7 @@ def close_applications(request, id):
         })
     return JsonResponse({'status': 1})
 
+
 def bookmark_add(request, id):
     try:
         project = Project.objects.get(id=id)
@@ -277,15 +282,16 @@ def bookmark_add(request, id):
         })
     return JsonResponse({'status': 1})
 
+
 def bookmark_remove(request, id):
     try:
         project = Project.objects.get(id=id)
         if request.user == project.owner:
             return JsonResponse({
                 'status': -1,
-                 'errors': ["Project owner cannot bookmark own project"]
+                'errors': ["Project owner cannot bookmark own project"]
             })
-        if  not request.user.is_authenticated():
+        if not request.user.is_authenticated():
             return JsonResponse({
                 'status': -1,
                 'errors': ["User must be logged in to remove bookmarks."]

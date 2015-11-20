@@ -18,6 +18,9 @@
     <div class="project_header">
     	{% if logged_in and user != project.owner %}
 		    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
+		    <script type="text/javascript">
+		    	setBookmark({{bookmarked|yesno:"true,false"}});
+		    </script>
     	{% endif %}
 	    <h3 class='project_title'>{{ project.title }}</h3>
     </div>

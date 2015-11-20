@@ -1,3 +1,44 @@
+function addBookmark () {
+    var projectid;
+    projectid = $(this).attr("data-projectid");
+    $.get('/project/'+projectid+'/bookmark_add/', function(data){
+        $('a#bookmark')
+            .addClass('active')
+            .attr('title','Remove from bookmarks')
+            .unbind('click')
+            .bind('click', removeBookmark);
+            });
+
+}
+
+function removeBookmark () {
+    var projectid;
+    projectid = $(this).attr("data-projectid");
+    $.get('/project/'+projectid+'/bookmark_remove/', function(data){
+        $('a#bookmark')
+            .removeClass('active')
+            .attr('title','Bookmark this project')
+            .unbind('click')
+            .bind('click', addBookmark);
+        });
+}
+
+function setBookmark(bookmarked){
+    if (bookmarked) {
+        $('a#bookmark')
+            .addClass('active')
+            .attr('title','Remove from bookmarks')
+            .unbind('click')
+            .bind('click', removeBookmark);
+    } else {
+        $('a#bookmark')
+            .removeClass('active')
+            .attr('title','Bookmark this project')
+            .unbind('click')
+            .bind('click', addBookmark);
+    }
+}
+
 $(document).ready(function() {
 
     // JQuery code to be added in here.
@@ -74,32 +115,5 @@ $(document).ready(function() {
                     location.reload();
                 });
     });
-
-    function addBookmark () {
-        var projectid;
-        projectid = $(this).attr("data-projectid");
-        $.get('/project/'+projectid+'/bookmark_add/', function(data){
-            $('a#bookmark')
-                .addClass('active')
-                .attr('title','Remove from bookmarks')
-                .unbind('click')
-                .bind('click', removeBookmark);
-                });
-
-    }
-
-    function removeBookmark () {
-        var projectid;
-        projectid = $(this).attr("data-projectid");
-        $.get('/project/'+projectid+'/bookmark_remove/', function(data){
-            $('a#bookmark')
-                .removeClass('active')
-                .attr('title','Bookmark this project')
-                .unbind('click')
-                .bind('click', addBookmark);
-            });
-    }
-
-    $('a#bookmark').bind('click', addBookmark);
 
 });

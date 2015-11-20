@@ -68,7 +68,7 @@ class RegistrationLinkManager(models.Manager):
         user_pk = str(new_user.pk)
         if isinstance(user_pk, unicode):
             user_pk = user_pk.encode('utf-8')
-        activation_key = hashlib.sha1(salt+user_pk).hexdigest()
+        activation_key = hashlib.sha1(salt + user_pk).hexdigest()
 
         link = self.create(user=new_user, activation_key=activation_key)
         link.send_activation_email(site, request)
@@ -209,7 +209,6 @@ class UserProfile(models.Model):
 
     bookmarked_projects = models.ManyToManyField(Project, blank=True)
     objects = UserProfileManager()
-
 
     class Meta:
         verbose_name = 'user profile'
