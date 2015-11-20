@@ -24,10 +24,8 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(3, len(contents['projects']))
         self.assertEqual('B', contents['projects'][0]['title'])
@@ -38,10 +36,8 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(2, len(contents['projects']))
         self.assertEqual('C', contents['projects'][0]['title'])
@@ -52,10 +48,8 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(2, len(contents['projects']))
         self.assertEqual('B', contents['projects'][0]['title'])
@@ -66,10 +60,8 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, len(contents['projects']))
         self.assertEqual('B', contents['projects'][0]['title'])
@@ -80,10 +72,8 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, len(contents['projects']))
         self.assertEqual('E', contents['projects'][0]['title'])
@@ -94,9 +84,7 @@ class ProjectsTest(TestCase):
         response = project_filters.get_project_list(status=1,
                                                     keywords=keywords,
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(0, len(contents['projects']))

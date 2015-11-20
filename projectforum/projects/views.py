@@ -38,8 +38,8 @@ class ProjectView(View):
                  based on type
         title: Sort by the titles in alphabetical order
     salary:
-        *Lump: Lump Sum
-        Hourly
+        *lump: Lump Sum
+        hourly
     ascending: Whether or not we sort by ascending or descending order
         *True: Ascending order
         False: Descending order
@@ -51,17 +51,15 @@ class ProjectView(View):
         status = int(request.GET.get('status', 1))
         keywords = request.GET.get('keywords', '').split(',')
         order = request.GET.get('order', 'timestamp')
-        salary = request.GET.get('salary', 'Lump')
+        salary = request.GET.get('salary', 'lump')
         ascending = bool(request.GET.get('ascending', True))
-        starting_from = int(request.GET.get('starting_from', 1))
-        ending_at = int(request.GET.get('ending_at', 10))
+        # starting_from = int(request.GET.get('starting_from', 1))
+        # ending_at = int(request.GET.get('ending_at', 10))
         return project_filters.get_project_list(status=status,
                                                 keywords=keywords,
                                                 order=order,
                                                 salary=salary,
-                                                ascending=ascending,
-                                                starting_from=starting_from,
-                                                ending_at=ending_at)
+                                                ascending=ascending)
 
 
 class ProjectViewFilters(View):
