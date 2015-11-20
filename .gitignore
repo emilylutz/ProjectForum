@@ -2,4 +2,3 @@
 *.css.map
 .sass-cache
 .coverage
-staticfiles/
