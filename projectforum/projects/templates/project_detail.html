@@ -36,20 +36,19 @@
             <li>No tags listed.</li>
         {% endfor %}
     </ul>
-
+    <br/>
 
     {% if user == project.owner %}
         <h4>Applicants:</h4>
         <ul class='applicant_list people_list'>
         {% for applicant in project.applicants.all %}
             <li class='people_list_element'>
-                <span><a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}</span>
+                <a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}
                 <button id='accept_applicant'
                         class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
                         title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
-                        data-applicantusername="{{ applicant.username }}"
-                        aria-hidden="true">
+                        data-applicantusername="{{ applicant.username }}">
                 </button>
             </li>
         {% empty %}
@@ -117,7 +116,7 @@
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button class='btn'>Log in to apply!</button>
+            <button class='btn btn-default'>Log in to apply!</button>
         {% elif user in project.applicants.all %}
             <br/>
             Your application has been submitted. The project owner is
