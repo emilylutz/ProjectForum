@@ -15,6 +15,7 @@ class ProjectsDetailViewTest(TestCase):
         self.user = self.user_model.objects.create_user(username='jacob',
                                                         email='jacob@mail.com',
                                                         password='topsecret')
+        self.profile = UserProfile.objects.get_or_create_profile(self.user)
 
     # Helper functions
     def basicDetailViewTests(self, resp, project):
@@ -119,6 +120,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/')
@@ -147,6 +149,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         project1.applicants.add(joe)
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
@@ -176,6 +179,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         project1.applicants.add(joe)
         project1.accept_applicant(joe)
 
@@ -210,6 +214,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         project1.applicants.add(joe)
 
         c = Client()
@@ -259,6 +264,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         project1.applicants.add(joe)
 
         c = Client()
@@ -394,6 +400,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         project1.applicants.add(joe)
 
         c = Client()
@@ -781,6 +788,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/close_applications/')
@@ -802,6 +810,7 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        UserProfile.objects.get_or_create_profile(joe)
         c = Client()
         self.assertTrue(c.login(username=self.user.username,
                                 password='topsecret'))

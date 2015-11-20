@@ -1,0 +1,55 @@
+// The base css for forms.
+
+@import 'common';
+
+form {
+    label {
+        display: block;
+    }
+    .errorlist {
+        background-color: $theme-col-error-light;
+        border: $theme-col-error 1px solid;
+        border-radius: 5px;
+        color: $theme-col-error-dark;
+        padding: 10px 0 10px 30px;
+    }
+    input[type="email"],
+    input[type="text"]:not(.token-input),
+    input[type="password"] {
+        background-color: $theme-col-grey-light;
+        border-radius: 2px;
+        border: 1px solid $theme-col-grey;
+        margin: 6px 0;
+        padding: 12px;
+        width: 100%;
+        transition: background-color .1s ease;
+
+        &:focus {
+            background-color: $theme-col-background;
+        }
+    }
+    input[type="submit"] {
+        color: $theme-col-text-ondark;
+        background-color: $theme-col-main-dark;
+        padding: 0.75em 2.5em;
+        border-width: 0;
+        margin: 0 0 18px 0;
+        transition: background-color .1s ease;
+
+        &:hover {
+            background-color: $theme-col-main;
+        }
+    }
+    fieldset {
+        li {
+            list-style-type: none;
+
+            label {
+                display: inline-block;
+            }
+        }
+    }
+    .tokenfield {
+        margin-bottom: 2em;
+    }
+}
