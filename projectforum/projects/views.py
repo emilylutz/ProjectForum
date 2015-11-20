@@ -49,17 +49,20 @@ class ProjectView(View):
     """
     def get(self, request, *args, **kwargs):
         status = int(request.GET.get('status', 1))
+        keywords = request.GET.get('keywords', '').split(',')
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'Lump')
         ascending = bool(request.GET.get('ascending', True))
         starting_from = int(request.GET.get('starting_from', 1))
         ending_at = int(request.GET.get('ending_at', 10))
         return project_filters.get_project_list(status=status,
+                                                keywords=keywords,
                                                 order=order,
                                                 salary=salary,
                                                 ascending=ascending,
                                                 starting_from=starting_from,
                                                 ending_at=ending_at)
+
 
 class ProjectViewFilters(View):
     """

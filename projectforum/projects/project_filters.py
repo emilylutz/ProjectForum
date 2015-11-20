@@ -6,50 +6,59 @@ from projectforum.projects.models import Project
 
 
 def get_projects_by_filter(status, keywords):
+    return projects_JSON_response(filter_projects(status, keywords))
+
+
+def filter_projects(status, keywords):
     project_list = Project.objects.all().filter(status=status)
     for keyword in keywords:
         titles = project_list.filter(title__icontains=keyword)
         descriptions = project_list.filter(description__icontains=keyword)
-        owners = project_list.filter(owner__first_name__icontains=keyword) |\
-                 project_list.filter(owner__last_name__icontains=keyword)
+        owner_first = project_list.filter(owner__first_name__icontains=keyword)
+        owner_last = project_list.filter(owner__last_name__icontains=keyword)
+        owner = owner_first | owner_last
         tags = project_list.filter(tags__text__icontains=keyword)
-        project_list = (titles | descriptions | owners | tags).distinct()
-    return projects_JSON_response(project_list.order_by('timestamp'))
+        project_list = (titles | descriptions | owner | tags).distinct()
+    return project_list
 
 
-def get_project_list(status, order, salary, ascending, starting_from,
-                     ending_at):
+def get_project_list(status, keywords, order, salary, ascending,
+                     starting_from, ending_at):
     # Sorting is a little more complicated in the case of sort by payment
-    # try:
-    project_list = Project.objects.all().filter(status=status)
-    if order == 'payment':
-        if salary == 'Hourly':
-            order = '-' + order
-        amount = 'amount'
+    try:
+        project_list = filter_projects(status, keywords)
+        if len(project_list) == 0:
+            return projects_JSON_response(project_list)
+        if order == 'payment':
+            if salary == 'Hourly':
+                order = '-' + order
+            amount = 'amount'
+            if not ascending:
+                amount = '-' + amount
+            list_of_projects = project_list.order_by(order, amount)
+            quant_proj = check_length(starting_from, ending_at,
+                                      list_of_projects
+                                      )
+            if quant_proj == -1:
+                return errorMessage(error="We cannot provide starting from"
+                                          "minimum limit of projects")
+            return projects_JSON_response(list_of_projects[
+                                              starting_from-1:quant_proj
+                                          ])
+        # For every other type of sorting
         if not ascending:
-            amount = '-' + amount
-        list_of_projects = project_list.order_by(order, amount)
+            # If I'm sorting by descending, add negative to get descending
+            order = '-' + order
+        list_of_projects = project_list.order_by(order)
         quant_proj = check_length(starting_from, ending_at, list_of_projects)
         if quant_proj == -1:
-            return errorMessage(error="We cannot provide starting from minimum"
-                                      " limit of projects")
+            return errorMessage(error="We cannot provide starting from"
+                                      " minimum limit of projects")
         return projects_JSON_response(list_of_projects[
-                                          starting_from-1:quant_proj
+                                          starting_from-1: quant_proj
                                       ])
-    # For every other type of sorting
-    if not ascending:
-        # If I'm sorting by descending, add the negative to the query to denote
-        order = '-' + order
-    list_of_projects = project_list.order_by(order)
-    quant_proj = check_length(starting_from, ending_at, list_of_projects)
-    if quant_proj == -1:
-        return errorMessage(error="We cannot provide starting from minimum "
-                                  "limit of projects")
-    return projects_JSON_response(list_of_projects[
-                                      starting_from-1: quant_proj
-                                  ])
-    # except:
-    #     return errorMessage()
+    except:
+        return errorMessage()
 
 
 def projects_JSON_response(projects):

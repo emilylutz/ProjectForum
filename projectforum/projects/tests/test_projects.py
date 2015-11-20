@@ -212,6 +212,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
                                                     salary='Lump',
                                                     ascending=False,
@@ -226,6 +227,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_title_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
                                                     salary='Lump',
                                                     ascending=True,
@@ -240,6 +242,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_created_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
                                                     salary='Lump',
                                                     ascending=True,
@@ -254,6 +257,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_created_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
                                                     salary='Lump',
                                                     ascending=False,
@@ -268,6 +272,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_pay_lump_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Lump',
                                                     ascending=False,
@@ -282,6 +287,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Lump',
                                                     ascending=True,
@@ -296,6 +302,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_pay_hourly_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=False,
@@ -310,6 +317,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_pay_hourly_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -324,6 +332,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_status(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=2,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -334,6 +343,7 @@ class ProjectsTest(TestCase):
         self.assertEqual('A2', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=3,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -344,6 +354,7 @@ class ProjectsTest(TestCase):
         self.assertEqual('A3', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=4,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -356,6 +367,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_length(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -368,6 +380,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_length2(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -380,6 +393,7 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_length3(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
@@ -392,18 +406,8 @@ class ProjectsTest(TestCase):
     def test_list_projects_error1(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='apples',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
-        contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
-
-    def test_list_projects_error1(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=100,
-                                                    order='payment',
                                                     salary='Hourly',
                                                     ascending=True,
                                                     starting_from=4,
@@ -413,7 +417,21 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_error2(self):
         test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=100,
+                                                    keywords='',
+                                                    order='payment',
+                                                    salary='Hourly',
+                                                    ascending=True,
+                                                    starting_from=4,
+                                                    ending_at=10)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(0, len(contents['projects']))
+
+    def test_list_projects_error3(self):
+        test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='apples',
                                                     ascending=True,
