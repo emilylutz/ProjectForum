@@ -38,8 +38,8 @@ class ProjectView(View):
                  based on type
         title: Sort by the titles in alphabetical order
     salary:
-        *Lump: Lump Sum
-        Hourly
+        *lump: Lump Sum
+        hourly
     ascending: Whether or not we sort by ascending or descending order
         *True: Ascending order
         False: Descending order
