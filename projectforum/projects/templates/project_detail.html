@@ -16,13 +16,13 @@
 {% block content %}
     <div class='project_header'>
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
-        {% if logged_in and user != project.owner %}
-		    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
-		    <script type="text/javascript">
-		    	setBookmark({{bookmarked|yesno:"true,false"}});
-		    </script>
-    	{% endif %}
         <div class='title_tab'>
+	        {% if logged_in and user != project.owner %}
+			    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
+			    <script type="text/javascript">
+			    	setBookmark({{bookmarked|yesno:"true,false"}});
+			    </script>
+	    	{% endif %}
             <h3 class='project_title'>{{ project.title }}</h3>
         </div>
     </div>

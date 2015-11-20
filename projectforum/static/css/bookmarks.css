@@ -1,16 +1,13 @@
 a#bookmark{
- background: url('star-off.png');
- background-size: 16px 16px;
+ background: url('images/star-off.png');
+ background-size: 32px 32px;
  display: inline-block;
- width: 16px;
- height: 16px;
-
+ width: 32px;
+ height: 40px;
+vertical-align: text-bottom;
+background-repeat: no-repeat;
 }
 
 a#bookmark.active{
- background: url('star-on.png');
-}
-
-h3.project_title {
-    display: inline-block;
+ background: url('images/star-on.png');
 }
