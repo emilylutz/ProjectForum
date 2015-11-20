@@ -1,5 +1,7 @@
 // Common variables and mixins.
 
+@import 'import_once';
+
 // Colors
 $theme-col-main: #ADC4CC;
 $theme-col-main-dark: #4298B5;
@@ -30,24 +32,28 @@ $theme-col-error-dark: #A94442;
 $padding-small: 10px;
 $margin-small: 10px;
 
-// Animations
-@keyframes wiggle {
-    0%  {
-        transform:rotate(0deg);
-    }
-    25%  {
-        transform:rotate(30deg);
-    }
-    50% {
-        transform:rotate(-30deg);
-    }
-    75% {
-        transform:rotate(30deg);
-    }
-    100%{
-        transform:rotate(0deg);
+@include imported-once('common.wiggle') {
+    // Animation keyframes
+    @keyframes wiggle {
+        0%  {
+            transform:rotate(0deg);
+        }
+        25%  {
+            transform:rotate(30deg);
+        }
+        50% {
+            transform:rotate(-30deg);
+        }
+        75% {
+            transform:rotate(30deg);
+        }
+        100%{
+            transform:rotate(0deg);
+        }
     }
 }
+
+// Animation mixin
 @mixin wiggle() {
     animation: wiggle .3s 1;
 }
