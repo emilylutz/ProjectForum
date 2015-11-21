@@ -16,10 +16,7 @@
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
         <div class='title_tab'>
 	        {% if logged_in and user != project.owner %}
-			    <a href="#" id="bookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
-			    <script type="text/javascript">
-			    	setBookmark({{bookmarked|yesno:"true,false"}});
-			    </script>
+			    <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
 	    	{% endif %}
             <h3 class='project_title'>{{ project.title }}</h3>
         </div>
