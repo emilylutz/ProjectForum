@@ -240,212 +240,196 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('F', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('family guy', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_title_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('F', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('family guy', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
-    def test_list_projects_by_created_up(self):
+    def test_list_projects_by_newest(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('E', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('fallen', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
-    def test_list_projects_by_created_down(self):
+    def test_list_projects_by_oldest(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('E', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('fallen', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('D', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('decoy', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('C', contents['projects'][-1]['title'])
-        self.assertEqual('B', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('Cricket', contents['projects'][-1]['title'])
+        self.assertEqual('Barrel', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('C', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Cricket', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('D', contents['projects'][-1]['title'])
-        self.assertEqual('A', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('decoy', contents['projects'][-1]['title'])
+        self.assertEqual('Azrael', contents['projects'][3]['title'])
 
     def test_list_projects_status(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=2,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A2', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=3,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A3', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=4,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A4', contents['projects'][0]['title'])
 
-    def test_list_projects_by_length(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=3)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
+    # def test_list_projects_by_length(self):
+    #     test_create_projects.create_many_projects()
+    #     response = project_filters.get_project_list(status=1,
+    #                                                 keywords='',
+    #                                                 order='payment',
+    #                                                 salary='hourly',
+    #                                                 ascending=True)
+    #     contents = json.loads(response.content)
+    #     self.assertEqual(1, contents['status'])
+    #     self.assertEqual(3, len(contents['projects']))
 
-    def test_list_projects_by_length2(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=6)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
+    # def test_list_projects_by_length2(self):
+    #     test_create_projects.create_many_projects()
+    #     response = project_filters.get_project_list(status=1,
+    #                                                 keywords='',
+    #                                                 order='payment',
+    #                                                 salary='hourly',
+    #                                                 ascending=True)
+    #     contents = json.loads(response.content)
+    #     self.assertEqual(1, contents['status'])
+    #     self.assertEqual(3, len(contents['projects']))
 
-    def test_list_projects_by_length3(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
+    # def test_list_projects_by_length3(self):
+    #     test_create_projects.create_many_projects()
+    #     response = project_filters.get_project_list(status=1,
+    #                                                 keywords='',
+    #                                                 order='payment',
+    #                                                 salary='hourly',
+    #                                                 ascending=True)
+    #     contents = json.loads(response.content)
+    #     self.assertEqual(1, contents['status'])
+    #     self.assertEqual(3, len(contents['projects']))
 
     def test_list_projects_error1(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='apples',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
-        contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
-
-    def test_list_projects_error1(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=100,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(-1, contents['status'])
 
     def test_list_projects_error2(self):
         test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=100,
+                                                    keywords='',
+                                                    order='payment',
+                                                    salary='hourly',
+                                                    ascending=True)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(0, len(contents['projects']))
+
+    def test_list_projects_error3(self):
+        test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='apples',
-                                                    ascending=True,
-                                                    starting_from=100,
-                                                    ending_at=101)
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(-1, contents['status'])

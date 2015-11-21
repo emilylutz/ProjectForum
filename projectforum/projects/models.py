@@ -6,7 +6,8 @@ class ProjectTag(models.Model):
     """
     The projects can be tagged with descriptive text.
     """
-    text = models.CharField(max_length=100)
+    max_length = 100
+    text = models.CharField(max_length=max_length)
 
     def __unicode__(self):
         return self.text
@@ -34,7 +35,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=128)
-    description = models.CharField(max_length=2048)
+    description = models.TextField(max_length=2048)
     owner = models.ForeignKey(User)
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
     amount = models.IntegerField()
