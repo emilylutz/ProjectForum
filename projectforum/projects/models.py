@@ -35,7 +35,7 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=128)
-    description = models.CharField(max_length=2048)
+    description = models.TextField(max_length=2048)
     owner = models.ForeignKey(User)
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
     amount = models.IntegerField()
