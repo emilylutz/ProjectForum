@@ -79,7 +79,7 @@ def get_projects(status, keywords, order, salary, ascending):
 
 def sort_projects_by_timestamp(ascending, project_list):
     order = 'timestamp'
-    if ascending:
+    if not ascending:
         order = '-' + order
     list_of_projects = project_list.order_by(order)
     return list_of_projects

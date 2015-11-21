@@ -30,7 +30,7 @@ def create_many_projects():
     tag3 = ProjectTag.objects.create(text="Web")
 
     proj = Project.objects.create(
-        title="B",
+        title="Barrel",
         description="I am the first Project alpha",
         owner=user1,
         payment=2,
@@ -39,7 +39,7 @@ def create_many_projects():
     )
     proj.tags = [tag1.pk, tag2.pk]
     proj = Project.objects.create(
-        title="A",
+        title="Azrael",
         description="I am the second Project beta",
         owner=user,
         payment=1,
@@ -48,7 +48,7 @@ def create_many_projects():
     )
     proj.tags = [tag3.pk, tag2.pk]
     proj = Project.objects.create(
-        title="C",
+        title="Cricket",
         description="I am the third Project alpha beta",
         owner=user2,
         payment=2,
@@ -57,7 +57,7 @@ def create_many_projects():
     )
     proj.tags = [tag1.pk]
     proj = Project.objects.create(
-        title="D",
+        title="decoy",
         description="I am the fourth Project beta man",
         owner=user1,
         payment=1,
@@ -66,7 +66,7 @@ def create_many_projects():
     )
     proj.tags = [tag3.pk]
     proj = Project.objects.create(
-        title="F",
+        title="family guy",
         description="I am the fifth Project omega",
         owner=user,
         payment=1,
@@ -75,7 +75,7 @@ def create_many_projects():
     )
     proj.tags = [tag2.pk, tag3.pk]
     proj = Project.objects.create(
-        title="E",
+        title="fallen",
         description="I am the sixth Project alpha omega",
         owner=user2,
         payment=2,

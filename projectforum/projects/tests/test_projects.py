@@ -218,9 +218,9 @@ class ProjectsTest(TestCase):
                                                     ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('F', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('family guy', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_title_up(self):
         test_create_projects.create_many_projects()
@@ -231,9 +231,9 @@ class ProjectsTest(TestCase):
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('F', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('family guy', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_newest(self):
         test_create_projects.create_many_projects()
@@ -244,9 +244,9 @@ class ProjectsTest(TestCase):
                                                     ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('E', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('fallen', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_oldest(self):
         test_create_projects.create_many_projects()
@@ -257,9 +257,9 @@ class ProjectsTest(TestCase):
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('E', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('fallen', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_down(self):
         test_create_projects.create_many_projects()
@@ -270,9 +270,9 @@ class ProjectsTest(TestCase):
                                                     ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('D', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('decoy', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
@@ -283,9 +283,9 @@ class ProjectsTest(TestCase):
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('C', contents['projects'][-1]['title'])
-        self.assertEqual('B', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('Cricket', contents['projects'][-1]['title'])
+        self.assertEqual('Barrel', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_down(self):
         test_create_projects.create_many_projects()
@@ -296,9 +296,9 @@ class ProjectsTest(TestCase):
                                                     ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('C', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Cricket', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_up(self):
         test_create_projects.create_many_projects()
@@ -309,9 +309,9 @@ class ProjectsTest(TestCase):
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('D', contents['projects'][-1]['title'])
-        self.assertEqual('A', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('decoy', contents['projects'][-1]['title'])
+        self.assertEqual('Azrael', contents['projects'][3]['title'])
 
     def test_list_projects_status(self):
         test_create_projects.create_many_projects()

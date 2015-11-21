@@ -33,7 +33,8 @@ class ProjectView(View):
         3: Canceled
         4: Finished
     order: How the results should be sorted:
-        *timestamp: When was the project created?
+        *timestamp: When was the project created? Note: False leads to
+                    oldests posts first.  True leads to newest first.
         payment: Whether we sort by salary.  Will subsort ascending descending
                  based on type
         title: Sort by the titles in alphabetical order
@@ -41,8 +42,8 @@ class ProjectView(View):
         *lump: Lump Sum
         hourly
     ascending: Whether or not we sort by ascending or descending order
-        *True: Ascending order
-        False: Descending order
+        True: Ascending order
+        *False: Descending order
     starting_from: Integer Default is 1.  Return projects starting from this
                    number
     ending_at: Integer Default is 10. Stop returning projects at this number
@@ -52,7 +53,7 @@ class ProjectView(View):
         keywords = request.GET.get('keywords', '').split(',')
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'lump')
-        ascending = bool(request.GET.get('ascending', True))
+        ascending = bool(request.GET.get('ascending', False))
         # starting_from = int(request.GET.get('starting_from', 1))
         # ending_at = int(request.GET.get('ending_at', 10))
         return project_filters.get_project_list(status=status,
