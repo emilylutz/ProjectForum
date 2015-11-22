@@ -152,17 +152,3 @@ def errorMessage(error="Apologies, we couldn't process your request."):
         "errors": str(error)
     }
     return HttpResponse(json.dumps(response), content_type='application/json')
-
-
-# def check_length(start, end, projects):
-#     """
-#     Make sure the length is within confines.  Will throw an error if I can't
-#     get any projects based on the limits, otherwise will make sure I don't
-#     overflow.
-#     """
-#     length_projects = len(projects)
-#     if length_projects < start:
-#         return -1
-#     if length_projects > end:
-#         return end
-#     return length_projects

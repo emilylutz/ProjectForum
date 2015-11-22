@@ -1,9 +1,33 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/jqueryraty/jquery.raty.css' %}">
+    <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
+    <script src="{% static 'js/project-list.js' %}"></script>
+{% endblock %}
 
 {% block content %}
+    <div class="search-features">
+        <select class="sort-projects" name="sort-projects">
+            <option value='1'>Most recently made projects first</option>
+            <option value='2'>Least recently made projects first</option>
+            <option value='3'>Highest pay by lump sum first</option>
+            <option value='4'>Lowest pay by lump sum first</option>
+            <option value='5'>Highest pay by hourly rate first</option>
+            <option value='6'>Lowest pay by hourly rate first</option>
+            <option value='7'>By title <b>A-Z</b></option>
+            <option value='8'>By title <b>Z-A</b></option>
+        </select>
+        <input type="text" class="keywords"></textbox>
+        <button id="search" class="search">Search</button>
+    </div>
     <h1>Projects</h1>
     <ul>
-        {% for project in object_list %}
+        {% for project in project_list %}
             <li>
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
@@ -15,4 +39,19 @@
             <li>No projects yet.</li>
         {% endfor %}
     </ul>
+
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+                <span id="new-page" class="new-page" page="{{ page_obj.previous_page_number }}">
+                    Previous
+                </span>
+        {% endif %}
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+        {% if page_obj.has_next %}
+                <span id="new-page" class="new-page" page="{{ page_obj.next_page_number }}">
+                    Next
+                </span>
+        {% endif %}
+    </div>
 {% endblock %}
