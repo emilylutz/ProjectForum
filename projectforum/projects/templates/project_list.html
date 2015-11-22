@@ -4,9 +4,6 @@
 {% block header %}
     <link rel="stylesheet" type="text/css"
         href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
-    <link rel="stylesheet" type="text/css"
-        href="{% static 'external/jqueryraty/jquery.raty.css' %}">
-    <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-list.js' %}"></script>
 {% endblock %}
 
@@ -43,8 +40,8 @@
 
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <li>
-                <span id="new-page" class="new-page" page="{{ page_obj.previous_page_number }}">
+            <li class="new-page" id="new-page" data-pageid="{{ page_obj.previous_page_number }}">
+                <span>
                     Previous
                 </span>
             </li>
@@ -53,8 +50,8 @@
                 <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
             </li>
         {% if page_obj.has_next %}
-            <li>
-                <span id="new-page" class="new-page" page="{{ page_obj.next_page_number }}">
+            <li class="new-page" id="new-page" data-pageid="{{ page_obj.next_page_number }}">
+                <span>
                     Next
                 </span>
             </li>

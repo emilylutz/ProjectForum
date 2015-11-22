@@ -49,16 +49,24 @@ $(document).ready(function() {
         window.location.href = url;
     });
 
-    $('.new_page').on('click', function() {
-        console.log("BOOM");
+    $('.new-page').click(function() {
         var url = window.location.href;
         var page;
-        page = $(this).attr("page");
-        if (url.indexOf('?') > -1) {
-            url += '?page=' + page;
-        } else {
-            url += '&page=' + page;
-        }
+        page = $(this).attr("data-pageid");
+
+        url = update(url, 'page', page);
+
         window.location.href = url;
     });
 });
+
+var update = function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+    if (uri.match(re)) {
+        return uri.replace(re, '$1' + key + "=" + value + '$2');
+    }
+    else {
+        return uri + separator + key + "=" + value;
+    }
+}
