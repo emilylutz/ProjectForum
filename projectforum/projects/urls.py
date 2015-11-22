@@ -23,6 +23,10 @@ urlpatterns = [
         ProjectView.as_view(),
         name='list_projects'),
 
+    url(r'^list/filter_keywords',
+        ProjectViewFilters.as_view(),
+        name='list_projects_keywords'),
+
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view(), name='detail'),
     url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),

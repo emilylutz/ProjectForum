@@ -10,11 +10,17 @@ class TagsField(ModelMultipleChoiceField):
     it doesn't exist.
     """
     widget = NoValueSelectMultipleWidget
+    default_error_messages = {
+        'invalid_tag_size': ('Invalid tag. Tags may be at most %(length)d'
+                             ' characters long.')
+    }
 
-    def __init__(self, tagClass, tagField, required=True, widget=None,
-                 label=None, initial=None, help_text='', *args, **kwargs):
+    def __init__(self, tagClass, tagField, max_length=100, required=True,
+                 widget=None, label=None, initial=None, help_text='', *args,
+                 **kwargs):
         self.tagClass = tagClass
         self.tagField = tagField
+        self.max_length = max_length
         qs = tagClass.objects.all()
         super(TagsField, self).__init__(qs, required, widget, label, initial,
                                         help_text, *args, **kwargs)
@@ -27,6 +33,11 @@ class TagsField(ModelMultipleChoiceField):
             return self.queryset.none()
         if not isinstance(value, (list, tuple)):
             raise ValidationError(self.error_messages['list'], code='list')
+        for val in value:
+            if len(val) > self.max_length:
+                raise ValidationError(self.error_messages['invalid_tag_size'],
+                                      code='invalid_tag_size',
+                                      params={'length': self.max_length})
         value = self._create_values_if_needed(value)
         return super(TagsField, self).clean(value)
 

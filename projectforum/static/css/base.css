@@ -10,17 +10,6 @@
     transform: rotate(30deg); }
   100% {
     transform: rotate(0deg); } }
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 form label {
   display: block; }
 form .errorlist {
@@ -59,17 +48,6 @@ form fieldset li {
 form .tokenfield {
   margin-bottom: 2em; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 ul {
   padding: 0px;
   border: 2px solid #ADC4CC;
@@ -81,17 +59,6 @@ li {
   border-bottom: 2px solid #ADC4CC;
   list-style: none; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 .accept_button {
   border-width: 2px;
   border-style: solid;
@@ -118,17 +85,6 @@ li {
 .btn-default {
   border-width: 2px; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 a {
   color: #4298B5; }
 
@@ -136,17 +92,6 @@ a:hover {
   color: #76D2F1;
   text-decoration: none; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 .project_status {
   margin-right: 10px;
   padding: 10px;
@@ -192,33 +137,11 @@ a:hover {
 .reviewer {
   margin-bottom: 10px; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 .project_status_mini {
   margin: 0px;
   padding: 5px;
   border-width: 0px; }
 
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg); }
-  25% {
-    transform: rotate(30deg); }
-  50% {
-    transform: rotate(-30deg); }
-  75% {
-    transform: rotate(30deg); }
-  100% {
-    transform: rotate(0deg); } }
 .edit_profile_button {
   float: right;
   padding: 5px 10px;

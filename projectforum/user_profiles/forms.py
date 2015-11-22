@@ -24,7 +24,9 @@ class ProfileEditForm(forms.ModelForm):
     """
     required_css_class = 'required'
 
-    skills = TagsField(UserSkillTag, 'skill')
+    skills = TagsField(UserSkillTag,
+                       'skill',
+                       max_length=UserSkillTag.max_length)
 
     class Meta:
         model = UserProfile
