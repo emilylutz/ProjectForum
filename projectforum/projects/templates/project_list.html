@@ -39,18 +39,18 @@
 
 
     <div class="pagination">
-        {% if page_obj.has_previous %}
-            <li class="new-page" id="new-page" data-pageid="{{ page_obj.previous_page_number }}">
+        {% if project_list.has_previous %}
+            <li class="new-page" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
                 <span>
                     Previous
                 </span>
             </li>
         {% endif %}
             <li>
-                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                <span>Page {{ project_list.number }} of {{ project_list.paginator.num_pages }}.</span>
             </li>
-        {% if page_obj.has_next %}
-            <li class="new-page" id="new-page" data-pageid="{{ page_obj.next_page_number }}">
+        {% if project_list.has_next %}
+            <li class="new-page" id="new-page" data-pageid="{{ project_list.next_page_number }}">
                 <span>
                     Next
                 </span>

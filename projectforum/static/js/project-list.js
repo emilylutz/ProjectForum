@@ -1,27 +1,30 @@
 $(document).ready(function() {
 
-    // JQuery code to be added in here.
     $('.search').click(function() {
-        var url = window.location.href;
-        var filters = $('.keywords').val();
-        var sorting = parseInt($('.sort-projects').val());
-        var queryloc = url.indexOf('?');
-        var ascending;
-        var salary = '';
+        var url = window.location.href,
+            filters = $('.keywords').val(),
+            sorting = parseInt($('.sort-projects').val()),
+            queryloc = url.indexOf('?'),
+            ascending,
+            salary = '';
+        // Because I'm making a new search, remove previous query vars
         if (queryloc > -1) {
             url = url.substring(0, queryloc);
         }
+        // Add in the keywords or just parameter mark depending
         if (filters !== '') {
             url += '?keywords=' + filters.replace(' ', ',');
         } else {
             url += '?';
         }
 
+        // Oddness will determine whether ascend is True or False
         if (sorting % 2 === 1) {
             ascending = 0;
         } else {
             ascending = 1;
         }
+        // Interpret input (number) to determine how I'm sorting
         switch(sorting) {
             case 3:
             case 4:
@@ -41,8 +44,7 @@ $(document).ready(function() {
                 query_type = 'timestamp';
                 break;
         }
-        url += '&order=' + query_type;
-        url += '&ascending=' + ascending;
+        url += '&order=' + query_type + '&ascending=' + ascending;
         if (salary !== '') {
             url += '&salary=' + salary;
         }
@@ -58,15 +60,16 @@ $(document).ready(function() {
 
         window.location.href = url;
     });
-});
 
-var update = function updateQueryStringParameter(uri, key, value) {
-    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-    if (uri.match(re)) {
-        return uri.replace(re, '$1' + key + "=" + value + '$2');
-    }
-    else {
-        return uri + separator + key + "=" + value;
-    }
-}
+    var update = function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+            return uri + separator + key + "=" + value;
+        }
+    };
+
+});

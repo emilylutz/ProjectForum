@@ -25,13 +25,19 @@ class ProjectListView(ListView):
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        context = super(ProjectListView, self).get_context_data(**kwargs)
         page = self.request.GET.get('page')
-        status = int(self.request.GET.get('status', 1))
         keywords = self.request.GET.get('keywords', '').split(',')
         order = self.request.GET.get('order', 'timestamp')
         salary = self.request.GET.get('salary', 'lump')
-        ascending = bool(int(self.request.GET.get('ascending', False)))
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
+        context = super(ProjectListView, self).get_context_data(**kwargs)
 
         projects = project_filters.get_projects(status=status,
                                                 keywords=keywords,
@@ -79,8 +85,6 @@ class ProjectView(View):
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'lump')
         ascending = bool(int(request.GET.get('ascending', False)))
-        # starting_from = int(request.GET.get('starting_from', 1))
-        # ending_at = int(request.GET.get('ending_at', 10))
         return project_filters.get_project_list(status=status,
                                                 keywords=keywords,
                                                 order=order,
