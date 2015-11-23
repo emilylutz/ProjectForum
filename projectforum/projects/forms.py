@@ -14,5 +14,4 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        exclude = ['owner', 'status', 'timestamp', 'team_members',
-                   'applicants']
+        exclude = ['owner', 'status', 'timestamp', 'team_members']

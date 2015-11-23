@@ -5,7 +5,7 @@ from django.test import TestCase, Client
 import json
 
 from projectforum.projects.forms import *
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 import projectforum.projects.project_filters as project_filters
 
 import test_create_projects
@@ -63,28 +63,25 @@ class ProjectsTest(TestCase):
             amount=1,
             status=1,
         )
-        allApplicants = project1.applicants.all()
-        self.assertEqual(0, len(allApplicants))
+        allApplications = project1.applications.all()
+        self.assertEqual(0, len(allApplications))
 
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
 
-        # Add applicant to project
-        project1.applicants.add(joe)
+        # Add application to project
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
 
-        # check that applicant is in project's applicants
+        # check that application is in project's applications
         fetched_project = Project.objects.filter()[0]
-        all_applicants = fetched_project.applicants.all()
-        self.assertEqual(1, len(all_applicants))
-        self.assertEqual(joe, all_applicants[0])
+        all_applications = fetched_project.applications.all()
+        self.assertEqual(1, len(all_applications))
+        self.assertEqual(joe_application, all_applications[0])
 
-        # check that project is in applicant's projects applied to
-        fetched_joe = self.user_model.objects.get(id=joe.id)
-        self.assertEqual(1, len(fetched_joe.projects_applied_to.all()))
-        self.assertEqual(project1, fetched_joe.projects_applied_to.all()[0])
-
-    def test_accept_applicant_onto_team(self):
+    def test_accept_application(self):
         project1 = Project.objects.create(
             title="Test Title 1",
             description="Test Description 1",
@@ -99,17 +96,18 @@ class ProjectsTest(TestCase):
                                                   password='topsecret2')
 
         # Check that you can't accept an applicant who isn't in applicants
-        self.assertFalse(project1.accept_applicant(joe))
+        self.assertFalse(project1.accept_application(joe))
 
         # Add applicant to project
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         # Check that project doesn't have any team members yet
         allTeamMembers = project1.team_members.all()
         self.assertEqual(0, len(allTeamMembers))
 
         # Check that accepting an applicant in applicants works
-        self.assertTrue(project1.accept_applicant(joe))
+        self.assertTrue(project1.accept_application(joe))
 
         # check that applicant is in project's team members
         fetched_project = Project.objects.filter()[0]
@@ -117,11 +115,85 @@ class ProjectsTest(TestCase):
         self.assertEqual(1, len(allTeamMembers))
         self.assertEqual(joe, allTeamMembers[0])
 
-        # check that project is in applicant's current_projects
-        fetched_joe = self.user_model.objects.get(id=joe.id)
-        self.assertEqual(0, len(fetched_joe.projects_applied_to.all()))
-        self.assertEqual(1, len(fetched_joe.current_projects.all()))
-        self.assertEqual(project1, fetched_joe.current_projects.all()[0])
+    def test_remove_application(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+
+        # Check that you can't accept an applicant who isn't in applicants
+        self.assertFalse(project1.remove_application(joe))
+
+        # Add applicant to project
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        # Check that accepting an applicant in applicants works
+        self.assertTrue(project1.remove_application(joe))
+
+        # check that applicant isn't in project's team members
+        fetched_project = Project.objects.filter()[0]
+        allApplications = fetched_project.team_members.all()
+        self.assertEqual(0, len(allApplications))
+
+    def test_project_applicants(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+        applicants = project1.applicants()
+        self.assertEqual(0, len(applicants))
+
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        fetched_project = Project.objects.filter()[0]
+        applicants2 = fetched_project.applicants()
+        self.assertEqual(1, len(applicants2))
+        self.assertEqual(joe, applicants2[0])
+
+    def test_project_application_given_applicant(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+        steve = self.user_model.objects.create_user(username='steve',
+                                                    email='steve@mail.com',
+                                                    password='topsecret3')
+
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        self.assertEqual(None, project1.application_given_applicant(steve))
+        self.assertEqual(joe_application,
+                         project1.application_given_applicant(joe))
 
     def test_project_to_string(self):
         project1 = Project.objects.create(

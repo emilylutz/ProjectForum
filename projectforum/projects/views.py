@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View, TemplateView
 from django.views.generic.edit import FormView
 
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 from projectforum.projects.forms import *
 from projectforum.ratings.forms import ReviewForm
 from projectforum.ratings.models import UserReview
@@ -139,7 +139,7 @@ def accept_applicant(request, id, username):
                 ]
             })
         applicant = usermodel.objects.get(username=username)
-        applicant_accepted = project.accept_applicant(applicant)
+        applicant_accepted = project.accept_application(applicant)
 
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
@@ -165,7 +165,9 @@ def apply_to_project(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        project.applicants.add(applicant)
+        application = ProjectApplication.objects.create(applicant=applicant,
+                                                        project=project,
+                                                        text='')
     except Project.DoesNotExist:
         return JsonResponse({
             'status': -1,
@@ -183,14 +185,15 @@ def withdraw_application(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        if applicant not in project.applicants.all():
+        success = project.remove_application(applicant)
+        if not success:
             return JsonResponse({
                 'status': -1,
                 'errors': [
                     "User must be an applicant to withdraw application."
                 ]
             })
-        project.applicants.remove(applicant)
+
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
     return JsonResponse({'status': 1})
