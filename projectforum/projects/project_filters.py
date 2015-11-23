@@ -10,6 +10,8 @@ def get_projects_by_filter(status, keywords):
 
 
 def filter_projects(status, keywords):
+    if status <= 0 or status > 4:
+        status = 1
     project_list = Project.objects.all().filter(status=status)
     for keyword in keywords:
         titles = project_list.filter(title__icontains=keyword)
@@ -58,6 +60,8 @@ def get_project_list(status, keywords, order, salary, ascending):
 
 def get_projects(status, keywords, order, salary, ascending):
     project_list = filter_projects(status, keywords)
+    if ascending != 0 and ascending != 1:
+        ascending = 0
 
     if len(project_list) == 0:
         return project_list
@@ -67,13 +71,13 @@ def get_projects(status, keywords, order, salary, ascending):
                                             ascending=ascending,
                                             project_list=project_list)
         return projects
-    elif order == 'timestamp':
-        projects = sort_projects_by_timestamp(ascending=ascending,
-                                              project_list=project_list)
-        return projects
     elif order == 'title':
         projects = sort_projects_by_title(ascending=ascending,
                                           project_list=project_list)
+        return projects
+    else: #Assuming timestamp
+        projects = sort_projects_by_timestamp(ascending=ascending,
+                                              project_list=project_list)
         return projects
 
 
@@ -95,8 +99,6 @@ def sort_projects_by_title(ascending, project_list):
 
 def sort_projects_by_payment(salary, ascending, project_list):
     order = 'payment'
-    if salary != 'hourly' and salary != 'lump':
-        return errorMessage(error='Please check your salary in Get request')
     if salary == 'hourly':
         order = '-' + order
     amount = 'amount'
@@ -152,17 +154,3 @@ def errorMessage(error="Apologies, we couldn't process your request."):
         "errors": str(error)
     }
     return HttpResponse(json.dumps(response), content_type='application/json')
-
-
-# def check_length(start, end, projects):
-#     """
-#     Make sure the length is within confines.  Will throw an error if I can't
-#     get any projects based on the limits, otherwise will make sure I don't
-#     overflow.
-#     """
-#     length_projects = len(projects)
-#     if length_projects < start:
-#         return -1
-#     if length_projects > end:
-#         return end
-#     return length_projects

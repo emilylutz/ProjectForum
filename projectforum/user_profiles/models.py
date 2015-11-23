@@ -7,6 +7,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from django.template import RequestContext
 from django.template.loader import render_to_string
+from projectforum.projects.models import Project
 
 import hashlib
 import random
@@ -67,7 +68,7 @@ class RegistrationLinkManager(models.Manager):
         user_pk = str(new_user.pk)
         if isinstance(user_pk, unicode):
             user_pk = user_pk.encode('utf-8')
-        activation_key = hashlib.sha1(salt+user_pk).hexdigest()
+        activation_key = hashlib.sha1(salt + user_pk).hexdigest()
 
         link = self.create(user=new_user, activation_key=activation_key)
         link.send_activation_email(site, request)
@@ -207,6 +208,7 @@ class UserProfile(models.Model):
     showRatings = models.BooleanField('Public show ratings',
                                       default=False)
 
+    bookmarked_projects = models.ManyToManyField(Project, blank=True)
     objects = UserProfileManager()
 
     class Meta:
