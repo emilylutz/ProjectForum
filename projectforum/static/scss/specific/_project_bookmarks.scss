@@ -1,0 +1,18 @@
+a#projectBookmark{
+    background: url('images/star-off.png');
+    background-size: 20px 20px;
+    display: inline-block;
+    width: 20px;
+    height: 34px;
+    vertical-align: text-bottom;
+    background-repeat: no-repeat;
+}
+
+a#projectBookmark.active{
+    background: url('images/star-on.png');
+    background-size: 20px 20px;
+    width: 20px;
+    height: 34px;
+    vertical-align: text-bottom;
+    background-repeat: no-repeat;
+}

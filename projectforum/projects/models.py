@@ -46,9 +46,6 @@ class Project(models.Model):
     team_members = models.ManyToManyField(User,
                                           related_name="current_projects",
                                           blank=True)
-    # applicants = models.ManyToManyField(User,
-    #                                     related_name="projects_applied_to",
-    #                                     blank=True)
 
     def accept_application(self, applicant):
         application = self.application_given_applicant(applicant)
