@@ -10,6 +10,6 @@ $(document).ready(function() {
 
     $("#rating").raty({
             path:'/static/external/jqueryraty/images',
-        });
+    });
 
 });
