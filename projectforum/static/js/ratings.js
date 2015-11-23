@@ -12,21 +12,26 @@ $(document).ready(function() {
             path:'/static/external/jqueryraty/images',
         });
 
-    $('#projectReviewForm').on('submit', function(event)) {
-        if ($(this).find())
-    }
+    $('input[name="score"]').attr('required', true);
 
     $('#projectReviewForm').validate({
-       rules:{
-           score:{
-              min:1,
+        ignore: [],
+        rules:{
+            score:{
+                min:1,
+            },
+            comment: {
+                required: true,
            }
-       },
-       messages:{
-           score:{
-              min: "Please enter in a score greater than 0.",
+        },
+        messages:{
+            score:{
+                min: "Please enter in a score greater than 0.",
+            },
+            comment: {
+                required: "Please enter a comment",
             }
-       }
+        }
     })
 
 
