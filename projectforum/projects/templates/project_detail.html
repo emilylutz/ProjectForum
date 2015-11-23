@@ -18,31 +18,31 @@
             <h3 class='project_title'>{{ project.title }}</h3>
         </div>
     </div>
-    <ul class='titled_list'>
-        <li>
+    <div class='ul titled_list'>
+        <div class='li'>
             <p class='project_description'>{{ project.description }}</p>
-        </li>
-        <li>
+        </div>
+        <div class='li'>
             Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
             <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
             <p> Posted: {{ project.timestamp }} </p>
-        </li>
-    </ul>
+        </div>
+    </div>
     <h4>Tags:</h4>
-    <ul class='tags'>
+    <div class='ul tags'>
         {% for tag in project.tags.all %}
-            <li>{{ tag.text }}</li>
+            <div class='li'>{{ tag.text }}</div>
         {% empty %}
-            <li>No tags listed.</li>
+            <div class='li'>No tags listed.</div>
         {% endfor %}
-    </ul>
+    </div>
     <br/>
 
     {% if user == project.owner %}
         <h4>Applicants:</h4>
-        <ul class='applicant_list people_list'>
+        <div class='ul applicant_list people_list'>
         {% for applicant in project.applicants.all %}
-            <li class='people_list_element'>
+            <div class='li people_list_element'>
                 <a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}
                 <button id='accept_applicant'
                         class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
@@ -50,24 +50,24 @@
                         data-projectid="{{ project.id }}"
                         data-applicantusername="{{ applicant.username }}">
                 </button>
-            </li>
+            </div>
         {% empty %}
-            <li class='empty_people_list_element'>No applicants currently.</li>
+            <div class='li empty_people_list_element'>No applicants currently.</div>
         {% endfor %}
-        </ul>
+        </div>
 
         <h4>Team Members:</h4>
-        <ul class='member_list people_list'>
+        <div class='ul member_list people_list'>
         {% for member in project.team_members.all %}
-            <li class='member_list people_list_element'>
+            <div class='li member_list people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
-            </li>
+            </div>
         {% empty %}
-            <li class='empty_people_list_element'>
+            <div class='li empty_people_list_element'>
                 No team members currently.
-            </li>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
 
         {% if project.status == 1 %}
             <button id='close_applications' class='btn btn-default' data-projectid="{{ project.id }}">
@@ -99,20 +99,20 @@
 
     {% elif user in project.team_members.all %}
         <h4>Owner:</h4>
-        <ul class='owner_list people_list'>
-            <li class='people_list_element'>
+        <div class='ul owner_list people_list'>
+            <div class='li people_list_element'>
                 <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a>, {{ project.owner.email }}
-            </li>
-        </ul>
+            </div>
+        </div>
 
         <h4>Team Members:</h4>
-        <ul class='member_list people_list'>
+        <div class='ul member_list people_list'>
         {% for member in project.team_members.all %}
-            <li class='people_list_element'>
+            <div class='li people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
-            </li>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
@@ -145,9 +145,9 @@
         <br/>
         <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
-        <ul class='titled_list'>
+        <div class='ul titled_list'>
         {% if user in project.team_members.all %}
-            <li>
+            <div class='li'>
             <form action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
                 <div id="rating"></div>
@@ -158,10 +158,10 @@
                 <input type="submit" value="Submit" />
 
             </form>
-            </li>
+            </div>
         {% endif %}
         {% for review in project_reviews %}
-            <li class="project-review">
+            <div class="li project-review">
                 <div class="review-score"
                      data-score="{{ review.score }}">
                 </div>
@@ -172,12 +172,12 @@
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
-            </li>
+            </div>
         {% empty %}
-            <li class="project-review">
+            <div class="li project-review">
                 No reviews yet.
-            </li>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 {% endblock %}

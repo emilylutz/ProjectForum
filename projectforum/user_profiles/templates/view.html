@@ -26,79 +26,79 @@
 
         <h2>User profile for {% firstof user_profile.user.get_full_name user_profile.user.username %}</h2>
         <div class='user_details'>
-            <ul>
-                <li>
+            <div class='ul'>
+                <div class='li'>
                     <p>Email: {{ user_profile.user.email }}</a></p>
-                </li>
-                <li>
+                </div>
+                <div class='li'>
                     <p>Phone number: {{ user_profile.phone_number }}</p>
-                </li>
-            </ul>
+                </div>
+            </div>
 
             {% if user_profile.github or user_profile.linkedin or user_profile.personal %}
-            <ul>
+            <div class='ul'>
                 {% if user_profile.github %}
-                <li>
+                <div class='li'>
                     <p>Github: <a href="{{ user_profile.github }}">{{ user_profile.github }}</a></p>
-                </li>
+                </div>
                 {% endif %}
                 {% if user_profile.linkedin %}
-                <li>
+                <div class='li'>
                     <p>LinkedIn: <a href="{{ user_profile.linkedin }}">{{ user_profile.linkedin }}</a></p>
-                </li>
+                </div>
                 {% endif %}
                 {% if user_profile.personal %}
-                <li>
+                <div class='li'>
                     <p>Personal: <a href="{{ user_profile.personal }}">{{ user_profile.personal }}</a></p>
-                </li>
+                </div>
                 {% endif %}
-            </ul>
+            </div>
             {% endif %}
         </div>
 
         <h4>Skills:</h4>
-        <ul class="tags">
+        <div class="ul tags">
             {% for skill_tag in user_profile.skills.all %}
-                <li>{{ skill_tag.skill }}</li>
+                <div class='li'>{{ skill_tag.skill }}</div>
             {% empty %}
-                <li>No skills listed.</li>
+                <div class='li'>No skills listed.</div>
             {% endfor %}
-        </ul>
+        </div>
 
         {% if user_profile.showPastProjects %}
             {% if past_owned_projects %}
                 <h4>Past Projects Started</h4>
-                <ul>
+                <div class='ul'>
                     {% for project in past_owned_projects %}
-                        <li>
+                        <div class='li'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
                             <div>{{ project.description }}</div>
-                        </li>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             {% endif %}
             {% if past_projects %}
                 <h4>Past Projects Worked On</h4>
-                <ul>
+                <div class='ul'>
                     {% for project in past_projects %}
-                        <li>
+                        <div class='li'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
                             <div>{{ project.description }}</div>
-                        </li>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             {% endif %}
         {% endif %}
         <br/>
         {% if user_profile.showRatings %}
             <h4 class='title_tab'>Ratings</h4>
-            <ul class='titled_list'>
+            <div class='ul titled_list'>
                 {% for review in user_reviews %}
-                    <li class="project-review">
+                    <div class="li project-review">
                         <div class="review-score"
                              data-score="{{ review.score }}">
                         </div>
@@ -109,13 +109,13 @@
                         <div class="review-comment">
                             {{ review.comment | escape }}
                         </div>
-                    </li>
+                    </div>
                 {% empty %}
-                    <li class="project-review">
+                    <div class="li project-review">
                         No reviews yet.
-                    </li>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
 
     {% else %}

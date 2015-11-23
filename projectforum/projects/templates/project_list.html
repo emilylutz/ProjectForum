@@ -2,17 +2,17 @@
 
 {% block content %}
     <h1>Projects</h1>
-    <ul>
+    <div class='ul'>
         {% for project in object_list %}
-            <li>
+            <div class='li'>
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
                     <h4>{{ project.title }}</h4>
                 </a>
                 <div>{{ project.description }}</div>
-            </li>
+            </div>
         {% empty %}
-            <li>No projects yet.</li>
+            <div class='li'>No projects yet.</div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

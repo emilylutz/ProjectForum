@@ -18,8 +18,8 @@
 {% endblock %}
 
 {% block content %}
-<form action="." method="post" id="create-project">   
-    <h2>Post a project</h2> 
+<form action="." method="post" id="create-project">
+    <h2>Post a project</h2>
     {{ form.non_field_errors }}
 
     <p>
@@ -46,20 +46,20 @@
     <h2>Optional Information</h2>
     <fieldset id="opInfoTypeSet">
         <legend>What type(s) of project are you looking for?</legend>
-        <ul>
-            <li>
+        <div class='ul'>
+            <div class='li'>
                 <input type="checkbox" id="opInfoTypeAndroid" value="Android">
                 <label for="opInfoTypeAndroid">Android</label>
-            </li>
-            <li>
+            </div>
+            <div class='li'>
                 <input type="checkbox" id="opInfoTypeiOS" value="iOS">
                 <label for="opInfoTypeiOS">iOS</label>
-            </li>
-            <li>
+            </div>
+            <div class='li'>
                 <input type="checkbox" id="opInfoTypeWeb" value="Web">
                 <label for="opInfoTypeWeb">Web</label>
-            </li>
-        </ul>
+            </div>
+        </div>
     </fieldset>
     <h3>Tags</h3>
     <p>

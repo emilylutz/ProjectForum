@@ -1,6 +1,27 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/info_pages.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h2>About Project Forum</h2>
-    About page content.
+    <h1>About Project Forum</h1>
+    <div class="left capsule">
+        Project Forum is the product of a semester long project in the CS169 course at UC Berkeley.  Our goal is to produce a contracting job board that both employers and contractors can leverage.
+    </div>
+    <div class="right capsule">
+        Special thanks to these various technologies and tools that made this project possible:
+        <ul>
+            <li>Django</li>
+            <li>Bootstrap</li>
+            <li>JQuery</li>
+            <li>Mailgun</li>
+            <li>Sass</li>
+            <li>PostgreSQL</li>
+            <li>Selenium</li>
+        </ul>
+    </div>
+
 {% endblock %}
