@@ -8,6 +8,7 @@ from django.db import models
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from projectforum.projects.models import Project
+from projectforum.ratings.models import UserReview
 
 import hashlib
 import random
@@ -218,3 +219,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "User profile for %s" % self.user
+
+    def updateAverage(self):
+        reviews = UserReview.objects.filter(recipient=self.user)
+        self.averageRating = sum(review.score for review in reviews) // len(reviews)

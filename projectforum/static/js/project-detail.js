@@ -108,4 +108,26 @@ $(document).ready(function() {
         $('a#projectBookmark').bind('click', addBookmark)
     }
 
+    $('input[name="score"]').attr('required', true);
+
+    $('#projectReviewForm').validate({
+        ignore: [],
+        rules:{
+            score:{
+                min:1,
+            },
+            comment: {
+                required: true,
+           }
+        },
+        messages:{
+            score:{
+                min: "Please enter in a score greater than 0.",
+            },
+            comment: {
+                required: "Please enter a comment",
+            }
+        }
+    });
+
 });
