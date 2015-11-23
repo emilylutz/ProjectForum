@@ -8,7 +8,7 @@ import django.core.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0006_auto_20151121_0206'),
+        ('projects', '0006_auto_20151122_2356'),
     ]
 
     operations = [
