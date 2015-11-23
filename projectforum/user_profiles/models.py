@@ -103,7 +103,7 @@ class RegistrationLink(models.Model):
         verbose_name = 'registration link'
         verbose_name_plural = 'registration links'
 
-    def __str__(self):
+    def __unicode__(self):
         return "Registration link for %s" % self.user
 
     def is_activation_key_expired(self):
@@ -159,7 +159,7 @@ class UserSkillTag(models.Model):
         verbose_name = 'user skill tag'
         verbose_name_plural = 'user skill tags'
 
-    def __str__(self):
+    def __unicode__(self):
         return "User skill %s" % self.skill
 
 
@@ -215,5 +215,5 @@ class UserProfile(models.Model):
         verbose_name = 'user profile'
         verbose_name_plural = 'user profiles'
 
-    def __str__(self):
+    def __unicode__(self):
         return "User profile for %s" % self.user
