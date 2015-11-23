@@ -414,39 +414,6 @@ class ProjectsTest(TestCase):
         self.assertEqual(1, contents['status'])
         self.assertEqual('A4', contents['projects'][0]['title'])
 
-    # def test_list_projects_by_length(self):
-    #     test_create_projects.create_many_projects()
-    #     response = project_filters.get_project_list(status=1,
-    #                                                 keywords='',
-    #                                                 order='payment',
-    #                                                 salary='hourly',
-    #                                                 ascending=True)
-    #     contents = json.loads(response.content)
-    #     self.assertEqual(1, contents['status'])
-    #     self.assertEqual(3, len(contents['projects']))
-
-    # def test_list_projects_by_length2(self):
-    #     test_create_projects.create_many_projects()
-    #     response = project_filters.get_project_list(status=1,
-    #                                                 keywords='',
-    #                                                 order='payment',
-    #                                                 salary='hourly',
-    #                                                 ascending=True)
-    #     contents = json.loads(response.content)
-    #     self.assertEqual(1, contents['status'])
-    #     self.assertEqual(3, len(contents['projects']))
-
-    # def test_list_projects_by_length3(self):
-    #     test_create_projects.create_many_projects()
-    #     response = project_filters.get_project_list(status=1,
-    #                                                 keywords='',
-    #                                                 order='payment',
-    #                                                 salary='hourly',
-    #                                                 ascending=True)
-    #     contents = json.loads(response.content)
-    #     self.assertEqual(1, contents['status'])
-    #     self.assertEqual(3, len(contents['projects']))
-
     def test_list_projects_error1(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
@@ -459,14 +426,14 @@ class ProjectsTest(TestCase):
 
     def test_list_projects_error2(self):
         test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=100,
+        response = project_filters.get_project_list(status=5,
                                                     keywords='',
                                                     order='payment',
                                                     salary='hourly',
                                                     ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual(0, len(contents['projects']))
+        self.assertEqual(6, len(contents['projects']))
 
     def test_list_projects_error3(self):
         test_create_projects.create_many_projects()
@@ -476,4 +443,4 @@ class ProjectsTest(TestCase):
                                                     salary='apples',
                                                     ascending=True)
         contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
+        self.assertEqual(1, contents['status'])
