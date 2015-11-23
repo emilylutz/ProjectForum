@@ -156,7 +156,7 @@
             <br/>
             <form id="projectReviewForm" action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
-                <select name="recipient_username" id="">
+                <select id="projectReviewDropdown" name="recipient_username" id="">
                 	{% if user != project.owner%}
                 		<option value="{{project.owner.username}}">{{project.owner.username}}</option>
                 	{% endif %}
