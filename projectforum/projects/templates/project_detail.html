@@ -120,7 +120,7 @@
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button class='btn btn-default'>Log in to apply!</button>
+            <a class='btn btn-default' href="{% url 'profile:login' %}?next={{ request.path }}">Log in to apply!</a>
         {% elif user in project.applicants.all %}
             <br/>
             Your application has been submitted. The project owner is
