@@ -12,3 +12,6 @@ class UserReview(models.Model):
     score = models.IntegerField()
     comment = models.CharField(max_length=2048)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+
+    def __unicode__(self):
+        return "User review by %s" % self.reviewer

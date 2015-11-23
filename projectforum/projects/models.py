@@ -9,14 +9,11 @@ class ProjectTag(models.Model):
     max_length = 100
     text = models.CharField(max_length=max_length)
 
-    def __unicode__(self):
-        return self.text
-
     class Meta:
         verbose_name = 'project tag'
         verbose_name_plural = 'project tags'
 
-    def __str__(self):
+    def __unicode__(self):
         return "Project tag %s" % self.text
 
 
@@ -58,5 +55,5 @@ class Project(models.Model):
         else:
             return False
 
-    def __str__(self):
+    def __unicode__(self):
         return "Project: {title: "+self.title+"}"
