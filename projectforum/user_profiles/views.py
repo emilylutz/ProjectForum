@@ -149,6 +149,8 @@ class RegisterView(FormView):
             username=data.get('username'),
             email=data.get('email'),
             password=data.get('password1'),
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name'),
         )
         registration_link = RegistrationLink.objects.create_inactive_user(
             site, new_user, self.request)
