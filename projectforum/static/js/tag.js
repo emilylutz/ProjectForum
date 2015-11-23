@@ -7,7 +7,9 @@ var Tag = (function() {
             });
     };
 
-    var start = function(tagLabelId, tagDivId) {
+    var start = function(tagLabelId, tagDivId, maxLength) {
+        maxLength = maxLength || 100;
+
         var tags_input = $('#' + tagLabelId);
         tags_input.hide();
 
@@ -20,17 +22,24 @@ var Tag = (function() {
         tokenfield
             .on('tokenfield:createtoken', function (e) {
                 var tag = e.attrs.label;
+                if (tag.length > maxLength) {
+                    return;
+                }
                 tags_input.append('<option selected="selected">' + tag
                     + '</option>');
             })
             .on('tokenfield:createdtoken', function (e) {
                 var tag = e.attrs.label;
-                if (getTagsWithText(tags_input, tag).length > 1) {
+                if (tag.length > maxLength
+                    || getTagsWithText(tags_input, tag).length > 1) {
                     $(e.relatedTarget).addClass('invalid');
                 }
             })
             .on('tokenfield:edittoken', function (e) {
                 var tag = e.attrs.label;
+                if (tag.length > maxLength) {
+                    return;
+                }
                 var same = getTagsWithText(tags_input, tag);
                 if (same.length == 2) {
                     tokenfield
@@ -43,6 +52,9 @@ var Tag = (function() {
             })
             .on('tokenfield:removedtoken', function (e) {
                 var tag = e.attrs.label;
+                if (tag.length > maxLength) {
+                    return;
+                }
                 var same = getTagsWithText(tags_input, tag);
                 if (same.length == 2) {
                     tokenfield

@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
 
     // JQuery code to be added in here.
@@ -85,5 +87,36 @@ $(document).ready(function() {
                     location.reload();
                 });
     });
+
+    function addBookmark () {
+        var projectid;
+        projectid = $(this).attr("data-projectid");
+        $.get('/project/'+projectid+'/bookmark_add/', function(data){
+            $('a#projectBookmark')
+                .addClass('active')
+                .attr('title','Remove from bookmarks')
+                .unbind('click')
+                .bind('click', removeBookmark);
+                });
+
+    }
+
+    function removeBookmark () {
+        var projectid;
+        projectid = $(this).attr("data-projectid");
+        $.get('/project/'+projectid+'/bookmark_remove/', function(data){
+            $('a#projectBookmark')
+                .removeClass('active')
+                .attr('title','Bookmark this project')
+                .unbind('click')
+                .bind('click', addBookmark);
+            });
+    }
+
+    if ($('a#projectBookmark').hasClass('active')) {
+        $('a#projectBookmark').bind('click', removeBookmark)
+    } else {
+        $('a#projectBookmark').bind('click', addBookmark)
+    }
 
 });
