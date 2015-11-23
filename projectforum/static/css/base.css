@@ -1,36 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
-@-webkit-keyframes wiggle {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-  25% {
-    -webkit-transform: rotate(30deg);
-            transform: rotate(30deg); }
-  50% {
-    -webkit-transform: rotate(-30deg);
-            transform: rotate(-30deg); }
-  75% {
-    -webkit-transform: rotate(30deg);
-            transform: rotate(30deg); }
-  100% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); } }
 @keyframes wiggle {
   0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
+    transform: rotate(0deg); }
   25% {
-    -webkit-transform: rotate(30deg);
-            transform: rotate(30deg); }
+    transform: rotate(30deg); }
   50% {
-    -webkit-transform: rotate(-30deg);
-            transform: rotate(-30deg); }
+    transform: rotate(-30deg); }
   75% {
-    -webkit-transform: rotate(30deg);
-            transform: rotate(30deg); }
+    transform: rotate(30deg); }
   100% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); } }
+    transform: rotate(0deg); } }
 form label {
   display: block; }
 form .errorlist {
@@ -48,8 +27,7 @@ form input[type="password"] {
   margin: 6px 0;
   padding: 12px;
   width: 100%;
-  -webkit-transition: background-color .1s ease;
-          transition: background-color .1s ease; }
+  transition: background-color .1s ease; }
   form input[type="email"]:focus,
   form input[type="text"]:not(.token-input):focus,
   form input[type="password"]:focus {
@@ -60,8 +38,7 @@ form input[type="submit"] {
   padding: 0.75em 2.5em;
   border-width: 0;
   margin: 0 0 18px 0;
-  -webkit-transition: background-color .1s ease;
-          transition: background-color .1s ease; }
+  transition: background-color .1s ease; }
   form input[type="submit"]:hover {
     background-color: #ADC4CC; }
 form fieldset li {
@@ -149,7 +126,7 @@ a:hover {
 
 .accept_applicant_button {
   float: right;
-  margin-top: -8px
+  margin-top: -8px;
   /* Hack... */ }
 
 .apply_button {
@@ -177,6 +154,23 @@ a:hover {
 .side_notice {
   float: right;
   clear: both; }
+
+a#projectBookmark {
+  background: url("images/star-off.png");
+  background-size: 20px 20px;
+  display: inline-block;
+  width: 20px;
+  height: 34px;
+  vertical-align: text-bottom;
+  background-repeat: no-repeat; }
+
+a#projectBookmark.active {
+  background: url("images/star-on.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 34px;
+  vertical-align: text-bottom;
+  background-repeat: no-repeat; }
 
 body {
   background-color: #4298B5;
@@ -226,10 +220,7 @@ body {
 
 #headerNavTriggerLabel {
   touch-callout: none;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  user-select: none;
   cursor: pointer; }
 
 #headerNavMenuList {
@@ -242,8 +233,7 @@ body {
   padding-right: 20px;
   position: absolute;
   text-align: left;
-  -webkit-transition: max-height .3s .3s ease-in-out, padding .3s .3s ease-in-out;
-          transition: max-height .3s .3s ease-in-out, padding .3s .3s ease-in-out;
+  transition: max-height .3s .3s ease-in-out, padding .3s .3s ease-in-out;
   width: 100%; }
   #headerNavMenuList a {
     color: #fff;
@@ -256,15 +246,13 @@ body {
   display: none; }
 #headerNavTrigger:checked + label span:last-child {
   display: table-cell;
-  -webkit-animation: wiggle .3s 1;
-          animation: wiggle .3s 1; }
+  animation: wiggle .3s 1; }
 #headerNavTrigger:checked ~ #headerNavMenuList {
   max-height: 300px;
   padding-bottom: 2em; }
 #headerNavTrigger:not(:checked) + label span:first-child {
   display: table-cell;
-  -webkit-animation: wiggle .3s 1;
-          animation: wiggle .3s 1; }
+  animation: wiggle .3s 1; }
 #headerNavTrigger:not(:checked) + label span:last-child {
   display: none; }
 #headerNavTrigger:not(:checked) ~ #headerNavMenuList {
@@ -287,21 +275,19 @@ body {
       #headerNav > div a.active {
         color: #ADC4CC; }
     #headerNav > div > a {
-      -webkit-transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out;
-              transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out; }
+      transition: background-color .1s .1s ease-in-out, color .1s .1s ease-in-out; }
       #headerNav > div > a:hover {
         background-color: #ADC4CC; }
         #headerNav > div > a:hover.active {
           color: #fff; }
   #headerNav .headerNavItemCircled {
+    -webkit-border-radius: 300px;
     border-radius: 300px;
     border: 2px solid #fff;
     margin: 0 0 1px 1em;
-    -webkit-transition: background-color .1s .1s ease-in-out;
-            transition: background-color .1s .1s ease-in-out; }
+    transition: background-color .1s .1s ease-in-out; }
     #headerNav .headerNavItemCircled > a {
-      -webkit-transition: color .1s .1s ease-in-out;
-              transition: color .1s .1s ease-in-out; }
+      transition: color .1s .1s ease-in-out; }
     #headerNav .headerNavItemCircled:hover {
       background-color: #ADC4CC; }
   #headerNav .folder {
@@ -313,28 +299,20 @@ body {
       padding: 1em 0;
       position: absolute;
       text-align: left;
-      -webkit-transform-origin: 0 0;
-          -ms-transform-origin: 0 0;
-              transform-origin: 0 0;
-      -webkit-transform: scale(1, 0);
-          -ms-transform: scale(1, 0);
-              transform: scale(1, 0);
-      -webkit-transition: -webkit-transform .2s 0s ease-in-out;
-              transition: transform .2s 0s ease-in-out; }
+      transform-origin: 0 0;
+      transform: scale(1, 0);
+      transition: transform .2s 0s ease-in-out; }
       #headerNav .folder .folder-menu.folder-menu-from-right {
         left: inherit;
         right: -0.5em; }
       #headerNav .folder .folder-menu .folder-item {
         opacity: 0;
         padding: 0 0.5em;
-        -webkit-transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out;
-                transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out; }
+        transition: opacity .1s .1s ease-in-out, background-color .1s .1s ease-in-out; }
         #headerNav .folder .folder-menu .folder-item:hover {
           background-color: #ADC4CC; }
     #headerNav .folder:hover .folder-menu {
-      -webkit-transform: scale(1, 1);
-          -ms-transform: scale(1, 1);
-              transform: scale(1, 1); }
+      transform: scale(1, 1); }
       #headerNav .folder:hover .folder-menu .folder-item {
         opacity: 1; }
 
@@ -357,5 +335,3 @@ body {
 #footer {
   background-color: #4298B5;
   height: 40px; }
-
-/*# sourceMappingURL=base.css.map */
