@@ -23,7 +23,7 @@
     </div>
     <ul class='titled_list'>
         <li>
-            <p class='project_description'>{{ project.description }}</p>
+            <div class='project_description'>{{ project.description|linebreaks }}</div>
         </li>
         <li>
             Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
