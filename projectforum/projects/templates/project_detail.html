@@ -149,10 +149,24 @@
         <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
         <ul class='titled_list'>
-        {% if user in project.team_members.all %}
+        {% if user in project.team_members.all or user == project.owner%}
             <li>
-            <form action="/ratings/review/{{project.id}}" method="post">
+            Rate a team member:
+            <br/>
+            <br/>
+            <form id="projectReviewForm" action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
+                <select name="recipient_username" id="">
+                	{% if user != project.owner%}
+                		<option value="{{project.owner.username}}">{{project.owner.username}}</option>
+                	{% endif %}
+                	{% for member in project.team_members.all%}
+                		{% if member != user %}
+	                		<option value="{{member.username}}">{{member.username}}</option>
+                		{% endif %}
+                	{% endfor %}
+                </select>
+                <br/>
                 <div id="rating"></div>
                 Comments:
                 <br/>
@@ -165,15 +179,18 @@
         {% endif %}
         {% for review in project_reviews %}
             <li class="project-review">
+            	Review for
+            	<a href="{% url 'profile:view' review.recipient.username %}">{{review.recipient.username}}</a>
                 <div class="review-score"
                      data-score="{{ review.score }}">
                 </div>
-                <div class='reviewer'>
-                    By
-                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
-                </div>
                 <div class="review-comment">
                     {{ review.comment | escape }}
+                </div>
+                <br/>
+                <div class='reviewer'>
+                    -
+                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
                 </div>
             </li>
         {% empty %}

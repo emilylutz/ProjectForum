@@ -210,6 +210,7 @@ class UserProfile(models.Model):
 
     bookmarked_projects = models.ManyToManyField(Project, blank=True)
     objects = UserProfileManager()
+    averageRating = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'user profile'
