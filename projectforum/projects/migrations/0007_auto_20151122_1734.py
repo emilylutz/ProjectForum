@@ -17,9 +17,4 @@ class Migration(migrations.Migration):
             name='amount',
             field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0, message=b'Please enter a positive amount')]),
         ),
-        migrations.AlterField(
-            model_name='project',
-            name='description',
-            field=models.TextField(max_length=2048),
-        ),
     ]
