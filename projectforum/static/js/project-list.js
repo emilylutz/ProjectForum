@@ -53,8 +53,7 @@ $(document).ready(function() {
 
     $('.new-page').click(function() {
         var url = window.location.href;
-        var page;
-        page = $(this).attr("data-pageid");
+        var page = $(this).attr("data-pageid");
 
         url = update(url, 'page', page);
 

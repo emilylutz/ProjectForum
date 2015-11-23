@@ -80,11 +80,17 @@ class ProjectView(View):
         *False: Descending order
     """
     def get(self, request, *args, **kwargs):
-        status = int(request.GET.get('status', 1))
         keywords = request.GET.get('keywords', '').split(',')
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'lump')
-        ascending = bool(int(request.GET.get('ascending', False)))
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
         return project_filters.get_project_list(status=status,
                                                 keywords=keywords,
                                                 order=order,

@@ -16,8 +16,13 @@
             <option value='4'>Lowest pay by lump sum first</option>
             <option value='5'>Highest pay by hourly rate first</option>
             <option value='6'>Lowest pay by hourly rate first</option>
-            <option value='7'>By title <b>A-Z</b></option>
-            <option value='8'>By title <b>Z-A</b></option>
+            {% comment "NOTE:"  %}
+                I went ahead swapped the order for title so that
+                sorting works and appears to the user in an intuitive
+                manner.
+            {% endcomment %}
+            <option value='8'>By title <b>A-Z</b></option>
+            <option value='7'>By title <b>Z-A</b></option>
         </select>
         <input type="text" class="keywords"></textbox>
         <button id="search" class="search">Search</button>
