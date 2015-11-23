@@ -9,6 +9,7 @@
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
     <script src="{% static 'js/ratings.js' %}"></script>
+    <script src="//cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -156,7 +157,7 @@
             <br/>
             <form id="projectReviewForm" action="/ratings/review/{{project.id}}" method="post">
                 {% csrf_token %}
-                <select id="projectReviewDropdown" name="recipient_username" id="">
+                <select id="projectReviewDropdown" name="recipient_username" data-projectid="{{ project.id }}">
                 	{% if user != project.owner%}
                 		<option value="{{project.owner.username}}">{{project.owner.username}}</option>
                 	{% endif %}
@@ -192,6 +193,9 @@
                     -
                     <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
                 </div>
+                {% if review.reviewer == user%}
+                	<a href="{% url 'project:detail' project.id %}{{review.id}}">Edit</a>
+                {% endif %}
             </li>
         {% empty %}
             <li class="project-review">

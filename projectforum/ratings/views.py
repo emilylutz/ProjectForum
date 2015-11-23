@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 
 from projectforum.projects.models import Project
@@ -24,10 +24,14 @@ def make_review(request, id):
         return redirect(url)
 
 # allows the user to edit a review from dropdown change
-def get_review_username(request, id, username):
-    if request.method == 'GET':
-        try:
-            project = Projects.objects.get(id=id)
-            review = UserReview.objects.get(project=project, )
-        except Project.DoesNotExist:
-            raise Http404("Projct with given id does not exist")
+# def get_review_username(request, id, username):
+#     if request.method == 'GET':
+#         try:
+#             project = Projects.objects.get(id=id)
+#             recipient =
+#             review = UserReview.objects.get(project=project, )
+#             return JsonResponse({
+#                 'status': 1,
+#                 })
+#         except Project.DoesNotExist:
+#             raise Http404("Projct with given id does not exist")

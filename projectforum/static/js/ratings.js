@@ -12,15 +12,30 @@ $(document).ready(function() {
             path:'/static/external/jqueryraty/images',
         });
 
-    $('#projectReviewDropdown').live('change', function(event) {
-        $.get('/ratings/', function (data) {
-            // body...
-        })
-        $.getJSON($(this).val(), function(snippets) {
-            for(var id in snippets) {
-                // updated to deal with any type of HTML
-                jQuery('#' + id).html(snippets[id]);
+    $('#projectReviewForm').on('submit', function(event)) {
+        if ($(this).find())
+    }
+
+    $('#projectReviewForm').validate({
+       rules:{
+           score:{
+              min:1,
+           }
+       },
+       messages:{
+           score:{
+              min: "Please enter in a score greater than 0.",
             }
-        });
-    });
+       }
+    })
+
+
+
+    // $('#projectReviewDropdown').on('change', function(event) {
+    //     var projectId = $(this).attr('data-projectid');
+    //     var username = $(this).val();
+    //     $.get('/ratings/review/' + projectId + '/' + username, function (data) {
+    //         // body...
+    //     });
+    // });
 });
