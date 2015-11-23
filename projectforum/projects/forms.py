@@ -16,3 +16,15 @@ class ProjectForm(forms.ModelForm):
         model = Project
         exclude = ['owner', 'status', 'timestamp', 'team_members',
                    'applicants']
+
+    def clean_title(self):
+        """
+        Validate that the title has more than whitespace. Strip the whitespace
+        at the start and end.
+        """
+        new_title = self.cleaned_data['title'].lstrip().rstrip()
+        new_title = new_title.replace('\n', ' ').replace('\r', '')
+        if len(new_title) <= 0:
+            raise forms.ValidationError("Please use a title with more than "
+                                        "just whitespace.")
+        return new_title
