@@ -14,15 +14,6 @@ $(document).ready(function() {
                 });
     });
 
-    $('#apply_button').click(function(){
-        var projectid;
-        projectid = $(this).attr("data-projectid");
-
-        $.get('/project/'+projectid+'/apply/', function(data){
-                    location.reload();
-                });
-    });
-
     $('#withdraw_application_button').click(function(){
         var projectid;
         projectid = $(this).attr("data-projectid");

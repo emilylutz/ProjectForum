@@ -155,14 +155,14 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
-        if self.logged_in:
+        logged_in = self.logged_in
+        if logged_in:
             own_reviews = [review.recipient.username for review in UserReview.objects.filter(project=self.project, reviewer=self.user)]
             num_reviews = len(own_reviews)
         else :
             own_reviews = None
             num_reviews = 0
-        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
-            user=self.request.user).bookmarked_projects.all()
+        bookmarked = logged_in and self.project in UserProfile.objects.get_or_create_profile(user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
             'logged_in': self.logged_in,
@@ -207,22 +207,22 @@ def accept_applicant(request, id, username):
 
 def apply_to_project(request, id):
     if not request.user.is_authenticated():
-        return JsonResponse({
-            'status': -1,
-            'errors': ["User must be logged in to apply."]
-        })
-    applicant = request.user
-    try:
-        project = Project.objects.get(id=id)
-        application = ProjectApplication.objects.create(applicant=applicant,
-                                                        project=project,
-                                                        text='')
-    except Project.DoesNotExist:
-        return JsonResponse({
-            'status': -1,
-            'errors': ["Invalid project id"]
-        })
-    return JsonResponse({'status': 1})
+        pass
+        # "User must be logged in to apply."
+    else:
+        applicant = request.user
+        try:
+            project = Project.objects.get(id=id)
+            if applicant not in project.applicants():
+                app = ProjectApplication.objects.create(
+                    applicant=applicant,
+                    project=project,
+                    text=request.POST.get('comment', ''),
+                )
+        except Project.DoesNotExist:
+            pass
+            # "Invalid project id"
+    return redirect(reverse('project:detail', kwargs={'id': id}))
 
 
 def withdraw_application(request, id):

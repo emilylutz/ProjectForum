@@ -26,29 +26,29 @@
 
         <h2>User profile for {% firstof user_profile.user.get_full_name user_profile.user.username %}</h2>
         <div class='user_details'>
-            <ul>
-                <li>
+            <ul class='list'>
+                <li class='list-item'>
                     <p>Email: {{ user_profile.user.email }}</a></p>
                 </li>
-                <li>
+                <li class='list-item'>
                     <p>Phone number: {{ user_profile.phone_number }}</p>
                 </li>
             </ul>
 
             {% if user_profile.github or user_profile.linkedin or user_profile.personal %}
-            <ul>
+            <ul class='list'>
                 {% if user_profile.github %}
-                <li>
+                <li class='list-item'>
                     <p>Github: <a href="{{ user_profile.github }}">{{ user_profile.github }}</a></p>
                 </li>
                 {% endif %}
                 {% if user_profile.linkedin %}
-                <li>
+                <li class='list-item'>
                     <p>LinkedIn: <a href="{{ user_profile.linkedin }}">{{ user_profile.linkedin }}</a></p>
                 </li>
                 {% endif %}
                 {% if user_profile.personal %}
-                <li>
+                <li class='list-item'>
                     <p>Personal: <a href="{{ user_profile.personal }}">{{ user_profile.personal }}</a></p>
                 </li>
                 {% endif %}
@@ -57,20 +57,20 @@
         </div>
 
         <h4>Skills:</h4>
-        <ul class="tags">
+        <ul class="list tags">
             {% for skill_tag in user_profile.skills.all %}
-                <li>{{ skill_tag.skill }}</li>
+                <li class='list-item'>{{ skill_tag.skill }}</li>
             {% empty %}
-                <li>No skills listed.</li>
+                <li class='list-item'>No skills listed.</li>
             {% endfor %}
         </ul>
 
         {% if user_profile.showPastProjects %}
             {% if past_owned_projects %}
                 <h4>Past Projects Started</h4>
-                <ul>
+                <ul class='list'>
                     {% for project in past_owned_projects %}
-                        <li>
+                        <li class='list-item'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
@@ -81,9 +81,9 @@
             {% endif %}
             {% if past_projects %}
                 <h4>Past Projects Worked On</h4>
-                <ul>
+                <ul class='list'>
                     {% for project in past_projects %}
-                        <li>
+                        <li class='list-item'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
@@ -96,13 +96,13 @@
         <br/>
         {% if user_profile.showRatings %}
             <h4 class='title_tab'>Ratings</h4>
-            <ul class='titled_list'>
+            <ul class='list titled_list'>
                 <li class="project-review">
                     Average score:
                     <div class="average-score" data-score="{{ average_score }}"></div>
                 </li>
                 {% for review in user_reviews %}
-                    <li class="project-review">
+                    <li class="list-item project-review">
                         <div class="review-score"
                              data-score="{{ review.score }}">
                         </div>
@@ -115,7 +115,7 @@
                         </div>
                     </li>
                 {% empty %}
-                    <li class="project-review">
+                    <li class="list-item project-review">
                         No reviews yet.
                     </li>
                 {% endfor %}

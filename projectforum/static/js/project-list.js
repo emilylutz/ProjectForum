@@ -1,12 +1,15 @@
 $(document).ready(function() {
 
-    $('.search').click(function() {
+    $('.project-list-description').ellipsis();
+
+    $('#button-search').click(function() {
         var url = window.location.href,
-            filters = $('.keywords').val(),
+            filters = $('#keywords').val(),
             sorting = parseInt($('.sort-projects').val()),
             queryloc = url.indexOf('?'),
             ascending,
-            salary = '';
+            salary = '',
+            status = parseInt($('.filter-status').val());
         // Because I'm making a new search, remove previous query vars
         if (queryloc > -1) {
             url = url.substring(0, queryloc);
@@ -45,6 +48,7 @@ $(document).ready(function() {
                 break;
         }
         url += '&order=' + query_type + '&ascending=' + ascending;
+        url += '&status=' + status;
         if (salary !== '') {
             url += '&salary=' + salary;
         }

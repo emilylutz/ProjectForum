@@ -2,6 +2,36 @@
 
 @import '../common';
 
+#text-filter {
+    width: 100%;
+}
+
+#keywords {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#label-filter {
+    width: 20%;
+}
+
+#dropdown-filter {
+    width: 40%;
+}
+
+#button-search {
+    width: 19%;
+}
+
+.project-list-title {
+    overflow: hidden;
+}
+
+.project-list-description {
+    max-height: 3em;
+    overflow: hidden;
+}
+
 .project_status_mini {
     margin: 0px;
     padding: 5px;
