@@ -6,6 +6,15 @@
     position: relative;
 }
 
+.project_edit_button {
+    margin-right: 10px;
+    padding: 10px;
+    float: right;
+    border: 2px solid $theme-col-main;
+    border-radius: 5px;
+    color: $theme-col-main;
+}
+
 .project_status {
     margin-left: 10px;
     margin-right: 10px;

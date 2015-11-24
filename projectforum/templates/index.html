@@ -1,7 +1,28 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block header %}
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'css/info_pages.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h2>Main Page</h2>
-    Index page content.
+    <div class="center center-field">
+        <h1><u>Welcome to Project Forum:</u></h1>
+        <h3>The easy way to present contracting opportunities and to find contracting work</h3>
+        {% if user.is_authenticated %}
+            <a class="btn btn-default project-button" href="{% url 'project:create' %}">Create a Contract</a>
+
+            <a class="btn btn-default project-button" href="{% url 'project:list' %}">View Available Contracts</a>
+        {% else %}
+            <div class="center accounts-field">
+                <a class="btn btn-default signup-button" href="{% url 'profile:register' %}">Create an Account</a>
+                <hr id="login-divider">
+                <a href="{% url 'profile:login' %}?next={% url 'project:list' %}">Login</a>
+            </div>
+            <br>
+            <a class="btn btn-default color-green project-button" href="{% url 'project:list' %}">View Available Contracts</a>
+        {% endif %}
+    </div>
+
 {% endblock %}

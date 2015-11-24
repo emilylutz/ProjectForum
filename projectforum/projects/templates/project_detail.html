@@ -18,6 +18,9 @@
         {% if logged_in and user != project.owner %}
             <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
         {% endif %}
+        {% if logged_in and user == project.owner %}
+            <h4 class="project_edit_button"><a href="{% url 'project:edit' project.pk %}">Edit</a></h4>
+        {% endif %}
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
         <div class='title_tab'>
             <h3 class='project_detail_title'>{{ project.title }}</h3>
