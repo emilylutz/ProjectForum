@@ -20,6 +20,7 @@ form .errorlist {
   padding: 10px 0 10px 30px; }
 form input[type="email"],
 form input[type="text"]:not(.token-input),
+form textarea,
 form input[type="password"] {
   background-color: #fafafa;
   border-radius: 2px;
@@ -30,6 +31,7 @@ form input[type="password"] {
   transition: background-color .1s ease; }
   form input[type="email"]:focus,
   form input[type="text"]:not(.token-input):focus,
+  form textarea:focus,
   form input[type="password"]:focus {
     background-color: #fff; }
 form input[type="submit"] {
@@ -41,6 +43,8 @@ form input[type="submit"] {
   transition: background-color .1s ease; }
   form input[type="submit"]:hover {
     background-color: #ADC4CC; }
+form textarea {
+  resize: none; }
 form fieldset li {
   list-style-type: none; }
   form fieldset li label {
@@ -335,3 +339,5 @@ body {
 #footer {
   background-color: #4298B5;
   height: 40px; }
+
+/*# sourceMappingURL=base.css.map */
