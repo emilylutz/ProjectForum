@@ -27,27 +27,27 @@
                         <span class="glyphicon glyphicon-remove"></span>
                     </label>
                     <div id="headerNavMenuList">
-                        <a href="{% url 'project:list' %}">
+                        <a id='view-all-projects-tab' href="{% url 'project:list' %}">
                             View All Projects
                         </a>
-                        <a href="{% url 'project:create' %}">
+                        <a id='create-new-project-tab' href="{% url 'project:create' %}">
                             Create New Project
                         </a>
-                        <a href="{% url 'about' %}">
+                        <a id='about-tab' href="{% url 'about' %}">
                             About Project Forum
                         </a>
                         {% if user.is_authenticated %}
-                            <a href="{% url 'profile:view' user.username %}">
+                            <a id='username-tab' href="{% url 'profile:view' user.username %}">
                                 {{ user.username }} Profile
                             </a>
-                            <a href="{% url 'profile:password_change' %}">
+                            <a id='change-password-tab' href="{% url 'profile:password_change' %}">
                                 Change password
                             </a>
-                            <a href="{% url 'profile:logout' %}">
+                            <a id='log-out-tab' href="{% url 'profile:logout' %}">
                                 Log out
                             </a>
                         {% else %}
-                            <a href="{% url 'profile:login' %}">
+                            <a id='log-in-tab' href="{% url 'profile:login' %}">
                                 Log in
                             </a>
                         {% endif %}
@@ -55,12 +55,12 @@
                 </div>
                 <div id="headerNav">
                     <div>
-                        <a href="{% url 'index' %}"{% navactive request ' class="active"' 'index' %}>
+                        <a id='home-tab' href="{% url 'index' %}"{% navactive request ' class="active"' 'index' %}>
                             Home
                         </a>
                     </div>
                     <div class="folder">
-                        <a href="{% url 'project:list' %}"
+                        <a id='projects-tab' href="{% url 'project:list' %}"
                            class="folder-label{% navactive request ' active' 'project:list' %}">
                             Projects
                         </a>
