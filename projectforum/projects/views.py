@@ -159,7 +159,7 @@ class ProjectDetailView(TemplateView):
             user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
-            'logged_in': self.logged_in,
+            'logged_in': logged_in,
             'user': self.request.user,
             'form': form,
             'project_reviews': project_reviews,
@@ -194,6 +194,39 @@ def accept_applicant(request, id, username):
     return JsonResponse({
         'status': -1,
         'errors': ["Unable to accept applicant."]
+    })
+
+
+def remove_team_member(request, id, username):
+    usermodel = get_user_model()
+    try:
+        project = Project.objects.get(id=id)
+        isOwner = (request.user == project.owner)
+        isSelf = (request.user.username == username)
+        if not (isOwner or isSelf):
+            return JsonResponse({
+                'status': -1,
+                'errors': [
+                    "Only the project owner and the team " +
+                    "member being removed can remove a " +
+                    "team member."
+                ]
+            })
+        team_member = usermodel.objects.get(username=username)
+        team_member_removed = project.remove_team_member(team_member)
+
+    except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    except usermodel.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors': ["Invalid username"]
+        })
+    if team_member_removed:
+        return JsonResponse({'status': 1})
+    return JsonResponse({
+        'status': -1,
+        'errors': ["Unable to remove team member."]
     })
 
 

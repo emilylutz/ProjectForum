@@ -86,6 +86,24 @@ form .tokenfield {
   border-bottom: 2px solid #ADC4CC;
   list-style: none; }
 
+.title_tab {
+  display: inline-block;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px 10px 0px 0px;
+  background: #ADC4CC; }
+
+.titled_list {
+  border-radius: 0px 5px 5px 5px; }
+
+.list_right_button {
+  float: right;
+  margin-top: -8px
+  /* Hack... */ }
+
 .accept_button {
   border-width: 2px;
   border-style: solid;
@@ -164,15 +182,7 @@ a:hover {
   padding: 20px 10px 10px;
   overflow: hidden; }
 
-.titled_list {
-  border-radius: 0px 5px 5px 5px; }
-
-.accept_applicant_button {
-  float: right;
-  margin-top: -8px
-  /* Hack... */ }
-
-.apply_button {
+.bottom_button {
   display: block;
   margin: 0 auto;
   width: 50%; }
