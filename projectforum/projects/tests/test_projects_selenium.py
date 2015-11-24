@@ -280,7 +280,7 @@ class ProjectsSeleniumTest(SeleniumTestCase):
         self.assertIn(project3.title, projectListItems[2].text)
 
     @wrap_with_drivers()
-    def _test_that_user_can_filter_list_of_projects(self):
+    def _test_project_description_page(self):
         #Create some projects that will be viewed
         joe = self.create_user('joe', 'secret', 'j@mail.com')
         project1 = Project.objects.create(
@@ -291,6 +291,25 @@ class ProjectsSeleniumTest(SeleniumTestCase):
             amount=1,
             status=1,
         )
+
+        self.open(reverse('project:detail', args=(project1.id,)))
+
+        titleObject = self.driver.find_element_by_class_name('project_detail_title')
+        self.assertIn(project1.title, titleObject.text)
+
+        descriptionObject = self.driver.find_element_by_class_name('project_detail_description')
+        self.assertIn(project1.description, descriptionObject.text)
+
+        statusObject = self.driver.find_element_by_class_name('project_status')
+        # self.assertIn(project1.get_status_display(), statusObject.text)
+
+        # moreDetailsObject = self.driver.find_element_by_class_name('more_project_details')
+        # self.assertIn(project1.owner.username, moreDetailsObject.text)
+        # self.assertIn(str(project1.amount), moreDetailsObject.text)
+        # self.assertIn(project1.get_payment_display(), moreDetailsObject.text)
+
+
+
         #check for specific project titles and descriptions
         #try filtering them various ways
 
