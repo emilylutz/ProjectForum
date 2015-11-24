@@ -198,22 +198,28 @@ def accept_applicant(request, id, username):
 
 def apply_to_project(request, id):
     if not request.user.is_authenticated():
-        return JsonResponse({
-            'status': -1,
-            'errors': ["User must be logged in to apply."]
-        })
-    applicant = request.user
-    try:
-        project = Project.objects.get(id=id)
-        application = ProjectApplication.objects.create(applicant=applicant,
-                                                        project=project,
-                                                        text='')
-    except Project.DoesNotExist:
-        return JsonResponse({
-            'status': -1,
-            'errors': ["Invalid project id"]
-        })
-    return JsonResponse({'status': 1})
+        pass
+        # return JsonResponse({
+        #     'status': -1,
+        #     'errors': ["User must be logged in to apply."]
+        # })
+    else:
+        applicant = request.user
+        try:
+            project = Project.objects.get(id=id)
+            if applicant not in project.applicants():
+                application = ProjectApplication.objects.create(applicant=applicant,
+                                                            project=project,
+                                                            text=request.POST.get('comment',''))
+        except Project.DoesNotExist:
+            pass
+            # return JsonResponse({
+            #     'status': -1,
+            #     'errors': ["Invalid project id"]
+            # })
+        # return JsonResponse({'status': 1})
+    return redirect(reverse('project:detail',
+                        kwargs={'id': id}))
 
 
 def withdraw_application(request, id):

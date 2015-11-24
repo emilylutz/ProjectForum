@@ -351,9 +351,8 @@ class ProjectsDetailViewTest(TestCase):
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/apply/')
-        self.assertEqual(resp.status_code, 200)
-        data = json.loads(resp.content)
-        self.assertEqual(data['status'], 1)
+        self.assertTemplateUsed('project_detail')
+        self.assertEqual(1, len(project1.applications.all()))
         self.assertEqual(project1.applications.all()[0].applicant, joe)
 
     def test_applying_not_logged_in(self):
@@ -370,9 +369,10 @@ class ProjectsDetailViewTest(TestCase):
                                                   password='topsecret2')
         c = Client()
         resp = c.get('/project/' + str(project1.id) + '/apply/')
-        self.assertEqual(resp.status_code, 200)
-        data = json.loads(resp.content)
-        self.assertEqual(data['status'], -1)
+        # self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed('project_detail')
+        # data = json.loads(resp.content)
+        # self.assertEqual(data['status'], -1)
         self.assertEqual(0, len(project1.applications.all()))
 
     def test_applying_bad_project(self):
@@ -392,9 +392,11 @@ class ProjectsDetailViewTest(TestCase):
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
 
         resp = c.get('/project/' + str(project1.id + 1) + '/apply/')
-        self.assertEqual(resp.status_code, 200)
-        data = json.loads(resp.content)
-        self.assertEqual(data['status'], -1)
+        # self.assertEqual(resp.status_code, 200)
+        # data = json.loads(resp.content)
+        # self.assertEqual(data['status'], -1)
+        self.assertTemplateUsed('project_detail')
+
         self.assertEqual(0, len(project1.applications.all()))
 
     # Withdrawing Application tests
