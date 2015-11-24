@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('.project-description').ellipsis();
+    $('.project-list-description').ellipsis();
 
     $('.search').click(function() {
         var url = window.location.href,
