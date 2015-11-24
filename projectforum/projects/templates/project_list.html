@@ -29,19 +29,19 @@
     </div>
     <h1>Projects</h1>
 
-    <div class='ul'>
+    <ul class='list'>
         {% for project in project_list %}
-            <div class='li'>
+            <li class='list-item'>
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
                     <h4>{{ project.title }}</h4>
                 </a>
                 <div>{{ project.description }}</div>
-            </div>
+            </li>
         {% empty %}
-            <div class='li'>No projects yet.</div>
+            <li class='list-item'>No projects yet.</li>
         {% endfor %}
-    </div>
+    </ul>
 
 
     <div class="paginate">

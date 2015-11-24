@@ -26,79 +26,79 @@
 
         <h2>User profile for {% firstof user_profile.user.get_full_name user_profile.user.username %}</h2>
         <div class='user_details'>
-            <div class='ul'>
-                <div class='li'>
+            <ul class='list'>
+                <li class='list-item'>
                     <p>Email: {{ user_profile.user.email }}</a></p>
-                </div>
-                <div class='li'>
+                </li>
+                <li class='list-item'>
                     <p>Phone number: {{ user_profile.phone_number }}</p>
-                </div>
-            </div>
+                </li>
+            </ul>
 
             {% if user_profile.github or user_profile.linkedin or user_profile.personal %}
-            <div class='ul'>
+            <ul class='list'>
                 {% if user_profile.github %}
-                <div class='li'>
+                <li class='list-item'>
                     <p>Github: <a href="{{ user_profile.github }}">{{ user_profile.github }}</a></p>
-                </div>
+                </li>
                 {% endif %}
                 {% if user_profile.linkedin %}
-                <div class='li'>
+                <li class='list-item'>
                     <p>LinkedIn: <a href="{{ user_profile.linkedin }}">{{ user_profile.linkedin }}</a></p>
-                </div>
+                </li>
                 {% endif %}
                 {% if user_profile.personal %}
-                <div class='li'>
+                <li class='list-item'>
                     <p>Personal: <a href="{{ user_profile.personal }}">{{ user_profile.personal }}</a></p>
-                </div>
+                </li>
                 {% endif %}
-            </div>
+            </ul>
             {% endif %}
         </div>
 
         <h4>Skills:</h4>
-        <div class="ul tags">
+        <ul class="list tags">
             {% for skill_tag in user_profile.skills.all %}
-                <div class='li'>{{ skill_tag.skill }}</div>
+                <li class='list-item'>{{ skill_tag.skill }}</li>
             {% empty %}
-                <div class='li'>No skills listed.</div>
+                <li class='list-item'>No skills listed.</li>
             {% endfor %}
-        </div>
+        </ul>
 
         {% if user_profile.showPastProjects %}
             {% if past_owned_projects %}
                 <h4>Past Projects Started</h4>
-                <div class='ul'>
+                <ul class='list'>
                     {% for project in past_owned_projects %}
-                        <div class='li'>
+                        <li class='list-item'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
                             <div>{{ project.description }}</div>
-                        </div>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
             {% endif %}
             {% if past_projects %}
                 <h4>Past Projects Worked On</h4>
-                <div class='ul'>
+                <ul class='list'>
                     {% for project in past_projects %}
-                        <div class='li'>
+                        <li class='list-item'>
                             <a href= "{% url 'project:detail' project.id %}">
                                 {{ project.title }}
                             </a>
                             <div>{{ project.description }}</div>
-                        </div>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
             {% endif %}
         {% endif %}
         <br/>
         {% if user_profile.showRatings %}
             <h4 class='title_tab'>Ratings</h4>
-            <div class='ul titled_list'>
+            <ul class='list titled_list'>
                 {% for review in user_reviews %}
-                    <div class="li project-review">
+                    <li class="list-item project-review">
                         <div class="review-score"
                              data-score="{{ review.score }}">
                         </div>
@@ -109,13 +109,13 @@
                         <div class="review-comment">
                             {{ review.comment | escape }}
                         </div>
-                    </div>
+                    </li>
                 {% empty %}
-                    <div class="li project-review">
+                    <li class="list-item project-review">
                         No reviews yet.
-                    </div>
+                    </li>
                 {% endfor %}
-            </div>
+            </ul>
         {% endif %}
 
     {% else %}
