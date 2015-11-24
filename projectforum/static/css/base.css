@@ -172,6 +172,22 @@ a#projectBookmark.active {
   vertical-align: text-bottom;
   background-repeat: no-repeat; }
 
+#text-filter {
+  width: 100%; }
+
+#keywords {
+  width: 100%;
+  margin-bottom: 5px; }
+
+#label-filter {
+  width: 20%; }
+
+#dropdown-filter {
+  width: 40%; }
+
+#button-search {
+  width: 19%; }
+
 body {
   background-color: #4298B5;
   overflow-x: hidden; }
@@ -335,3 +351,5 @@ body {
 #footer {
   background-color: #4298B5;
   height: 40px; }
+
+/*# sourceMappingURL=base.css.map */
