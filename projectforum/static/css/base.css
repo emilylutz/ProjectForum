@@ -192,7 +192,7 @@ a:hover {
 #label-filter {
   width: 20%; }
 
-#dropdown-filter {
+.dropdown-filter {
   width: 40%; }
 
 #button-search {

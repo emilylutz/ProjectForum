@@ -1,15 +1,57 @@
 $(document).ready(function() {
 
+    var preload_dropdowns = function() {
+        var parseQueryString = function() {
+
+            var str = window.location.search;
+            var objURL = {};
+
+            str.replace(
+                new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+                function( $0, $1, $2, $3 ){
+                    objURL[ $1 ] = $3;
+                }
+            );
+            return objURL;
+        };
+
+        var params = parseQueryString();
+        var sort_projects;
+        try {
+            sort_projects = parseInt(params["sort-projects"]);
+            if (sort_projects > 8 || sort_projects < 0) {
+                sort_projects = 0;
+            }
+        } catch(err) {
+        }
+        try {
+            status = parseInt(params["status"]);
+            if (status > 4 || status < 0) {
+                status = 0;
+            }
+        } catch(err) {
+        }
+        if (isNaN(sort_projects)) {
+            sort_projects = 0;
+        }
+        if (isNaN(status)) {
+            status = 0;
+        }
+        $("#sort-projects").val(sort_projects);
+        $("#status").val(status);
+    };
+    preload_dropdowns();
+
     $('.project-list-description').ellipsis();
 
     $('#button-search').click(function() {
         var url = window.location.href,
             filters = $('#keywords').val(),
-            sorting = parseInt($('.sort-projects').val()),
+            sorting = parseInt($('#sort-projects').val()),
             queryloc = url.indexOf('?'),
             ascending,
             salary = '',
-            status = parseInt($('.filter-status').val());
+            status = parseInt($('#status').val());
         // Because I'm making a new search, remove previous query vars
         if (queryloc > -1) {
             url = url.substring(0, queryloc);
@@ -48,7 +90,7 @@ $(document).ready(function() {
                 break;
         }
         url += '&order=' + query_type + '&ascending=' + ascending;
-        url += '&status=' + status;
+        url += '&status=' + status + '&sort-projects=' + sorting;
         if (salary !== '') {
             url += '&salary=' + salary;
         }
