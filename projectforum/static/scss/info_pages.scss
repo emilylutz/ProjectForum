@@ -1,13 +1,7 @@
 @import 'common';
 
-@import 'general/forms';
-@import 'general/list';
 @import 'general/buttons';
 @import 'general/links';
-
-@import 'specific/project_detail';
-@import 'specific/project_list';
-@import 'specific/user_profile';
 
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
 
@@ -17,6 +11,12 @@
 
 .right {
     margin-left: 25%;
+}
+
+.center {
+    width: 70%;
+    margin: 15%, 15%;
+    text-align: center;
 }
 
 .capsule {

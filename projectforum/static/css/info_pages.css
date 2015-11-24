@@ -10,55 +10,6 @@
     transform: rotate(30deg); }
   100% {
     transform: rotate(0deg); } }
-form label {
-  display: block; }
-form .errorlist {
-  background-color: #F5D0D0;
-  border: #E8AAB4 1px solid;
-  border-radius: 5px;
-  color: #A94442;
-  padding: 10px 0 10px 30px; }
-form input[type="email"],
-form input[type="text"]:not(.token-input),
-form input[type="password"] {
-  background-color: #fafafa;
-  border-radius: 2px;
-  border: 1px solid #ccc;
-  margin: 6px 0;
-  padding: 12px;
-  width: 100%;
-  transition: background-color .1s ease; }
-  form input[type="email"]:focus,
-  form input[type="text"]:not(.token-input):focus,
-  form input[type="password"]:focus {
-    background-color: #fff; }
-form input[type="submit"] {
-  color: #fff;
-  background-color: #4298B5;
-  padding: 0.75em 2.5em;
-  border-width: 0;
-  margin: 0 0 18px 0;
-  transition: background-color .1s ease; }
-  form input[type="submit"]:hover {
-    background-color: #ADC4CC; }
-form fieldset li {
-  list-style-type: none; }
-  form fieldset li label {
-    display: inline-block; }
-form .tokenfield {
-  margin-bottom: 2em; }
-
-.ul {
-  padding: 0px;
-  border: 2px solid #ADC4CC;
-  border-radius: 5px;
-  background: #fafafa; }
-
-.li {
-  padding: 10px;
-  border-bottom: 2px solid #ADC4CC;
-  list-style: none; }
-
 .accept_button {
   border-width: 2px;
   border-style: solid;
@@ -85,6 +36,19 @@ form .tokenfield {
 .btn-default {
   border-width: 2px; }
 
+.page-info {
+  border: 2px solid #ADC4CC;
+  margin-top: 1em;
+  border-radius: 5px;
+  background: #fafafa;
+  padding: 10px;
+  text-align: center;
+  list-style: none;
+  display: inline-block; }
+
+.new-page {
+  cursor: pointer; }
+
 a {
   color: #4298B5; }
 
@@ -92,74 +56,16 @@ a:hover {
   color: #76D2F1;
   text-decoration: none; }
 
-.project_status {
-  margin-right: 10px;
-  padding: 10px;
-  float: right;
-  border: 2px solid #929292;
-  border-radius: 5px;
-  color: #929292; }
-
-.title_tab {
-  display: inline-block;
-  margin-bottom: 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 10px 10px 0px 0px;
-  background: #ADC4CC; }
-
-.title_tab:after {
-  border-bottom-left-radius: 6px;
-  border-width: 0 0 5px 5px; }
-
-.project_title {
-  display: inline-block;
-  vertical-align: text-bottom; }
-
-.project_description {
-  padding: 20px 10px 10px; }
-
-.titled_list {
-  border-radius: 0px 5px 5px 5px; }
-
-.accept_applicant_button {
-  float: right;
-  margin-top: -8px;
-  /* Hack... */ }
-
-.apply_button {
-  display: block;
-  margin: 0 auto;
-  width: 50%; }
-
-.reviewer {
-  margin-bottom: 10px; }
-
-.project_status_mini {
-  margin: 0px;
-  padding: 5px;
-  border-width: 0px; }
-
-.edit_profile_button {
-  float: right;
-  padding: 5px 10px;
-  border: 2px solid;
-  border-radius: 5px; }
-
-.tags {
-  display: inline-block; }
-
-.side_notice {
-  float: right;
-  clear: both; }
-
 .left {
   margin-left: 0%; }
 
 .right {
   margin-left: 25%; }
+
+.center {
+  width: 70%;
+  margin: 15%, 15%;
+  text-align: center; }
 
 .capsule {
   width: 75%;
