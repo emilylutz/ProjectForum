@@ -150,6 +150,9 @@ a:hover {
   color: #76D2F1;
   text-decoration: none; }
 
+.project_header {
+  position: relative; }
+
 .project_status {
   margin-left: 10px;
   margin-right: 10px;
@@ -231,12 +234,16 @@ a:hover {
 
 a#projectBookmark {
   background: url("images/star-off.png");
+  background-repeat: no-repeat;
   background-size: 20px 20px;
   display: inline-block;
-  width: 20px;
+  float: left;
   height: 34px;
+  left: -30px;
+  margin-top: 10px;
+  position: absolute;
   vertical-align: text-bottom;
-  background-repeat: no-repeat; }
+  width: 20px; }
 
 a#projectBookmark.active {
   background: url("images/star-on.png");

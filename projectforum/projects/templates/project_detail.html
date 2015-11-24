@@ -15,11 +15,11 @@
 
 {% block content %}
     <div class='project_header'>
+        {% if logged_in and user != project.owner %}
+            <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
+        {% endif %}
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
         <div class='title_tab'>
-            {% if logged_in and user != project.owner %}
-                <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
-            {% endif %}
             <h3 class='project_detail_title'>{{ project.title }}</h3>
         </div>
     </div>
