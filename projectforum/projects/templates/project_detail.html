@@ -134,8 +134,8 @@
             </button>
 
         {% else %}
-            <ul>
-                <li>
+            <ul class="list">
+                <li class="list-item">
                 <form action="/project/{{project.id}}/apply/" method="post">
                     {% csrf_token %}
                     <div id="application_message"></div>
