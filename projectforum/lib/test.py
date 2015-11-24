@@ -3,6 +3,10 @@ from django.test import LiveServerTestCase
 
 from functools import wraps
 
+from django.contrib.auth import get_user_model
+from projectforum.user_profiles.models import UserProfile
+from projectforum.projects.models import Project, ProjectApplication
+
 
 try:
     web_drivers = settings.SELENIUM_WEBDRIVER_MODULES
@@ -48,7 +52,7 @@ class WebDriverWrapper(type):
             if hasattr(attr[method_name], "wrap_with_drivers"):
                 source = attr[method_name]
                 source_name = method_name.lstrip("_")
-                    
+
                 for wd in web_drivers:
                     webdriver_name = wd.__module__.split('.')[-2]
                     method = method_wrapper(source, wd)
@@ -69,7 +73,7 @@ class SeleniumTestCase(LiveServerTestCase):
     when wrapped. Inside the test, you can access the driver through the
     field `self.driver`. Make sure you call super.teardown if you override it
     so that the driver is properly destructed.
-    
+
     Make sure you use the WebDriverWrapper metaclass.
 
     Provides helper methods for common actions.
@@ -85,4 +89,15 @@ class SeleniumTestCase(LiveServerTestCase):
             self.driver = None
 
     def open(self, url):
-        self.driver.get("%s%s" % (self.live_server_url, url))
+        self.driver.get(self.format_url(url))
+
+    def format_url(self, url):
+        return "%s%s" % (self.live_server_url, url)
+
+    def create_user(self, username, password, email):
+        user_model = get_user_model()
+        user = user_model.objects.create_user(username=username,
+                                                        email=email,
+                                                        password=password)
+        return user
+
