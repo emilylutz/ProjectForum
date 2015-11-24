@@ -1,0 +1,28 @@
+@import 'common';
+
+@import 'general/forms';
+@import 'general/list';
+@import 'general/buttons';
+@import 'general/links';
+
+@import 'specific/project_detail';
+@import 'specific/project_list';
+@import 'specific/user_profile';
+
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
+
+.left {
+    margin-left: 0%;
+}
+
+.right {
+    margin-left: 25%;
+}
+
+.capsule {
+    width: 75%;
+    margin-top: 1em;
+    background-color: $theme-col-main;
+    padding: 1.5em;
+    border-radius: 5px;
+}
