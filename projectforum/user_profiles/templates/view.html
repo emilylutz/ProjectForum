@@ -66,8 +66,21 @@
         </ul>
 
         {% if user_profile.showPastProjects %}
+            {% if current_projects %}
+                <h4>Current Projects</h4>
+                <ul class='list'>
+                    {% for project in current_projects %}
+                        <li class='list-item'>
+                            <a href= "{% url 'project:detail' project.id %}">
+                                {{ project.title }}
+                            </a>
+                            <div>{{ project.description }}</div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             {% if past_owned_projects %}
-                <h4>Past Projects Started</h4>
+                <h4>Projects Started</h4>
                 <ul class='list'>
                     {% for project in past_owned_projects %}
                         <li class='list-item'>
