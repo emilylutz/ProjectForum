@@ -150,6 +150,14 @@ a:hover {
   color: #76D2F1;
   text-decoration: none; }
 
+.project_edit_button {
+  margin-right: 10px;
+  padding: 10px;
+  float: right;
+  border: 2px solid #ADC4CC;
+  border-radius: 5px;
+  color: #ADC4CC; }
+
 .project_status {
   margin-right: 10px;
   padding: 10px;

@@ -5,7 +5,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View, TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from projectforum.projects.models import Project, ProjectApplication
@@ -134,6 +134,44 @@ class CreateView(FormView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(CreateView, self).dispatch(*args, **kwargs)
+
+
+class ProjectEditView(UpdateView):
+    template_name = 'edit.html'
+    form_class = ProjectEditForm
+    model = Project
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        project = None
+        try:
+            self.project_id = kwargs['id']
+            del kwargs['id']
+            project = self.get_project(self.project_id)
+        except:
+            project = None
+        if project == None:
+            return redirect(reverse('index'))
+        self.project = project
+        return super(ProjectEditView, self).dispatch(request, *args, **kwargs)
+
+    def get_project(self, projectId):
+        project = None
+        try:
+            project = Project.objects.get(id=projectId)
+            user = self.request.user
+            if user.pk != project.owner.pk:
+                project = None
+        except UserModel.DoesNotExist:
+            project = None
+        return project
+
+    def get_object(self):
+        return self.project
+
+    def get_success_url(self):
+        return reverse('project:detail',
+                       kwargs={'id': self.project_id})
 
 
 class ProjectDetailView(TemplateView):

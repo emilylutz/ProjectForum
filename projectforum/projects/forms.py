@@ -38,3 +38,11 @@ class ProjectForm(forms.ModelForm):
             raise forms.ValidationError("Please use a description with more "
                                         "than just whitespace.")
         return new_description
+
+
+class ProjectEditForm(forms.ModelForm):
+    tags = TagsField(ProjectTag, 'text', max_length=ProjectTag.max_length)
+
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'payment', 'amount', 'tags']

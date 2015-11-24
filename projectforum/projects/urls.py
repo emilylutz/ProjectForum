@@ -20,6 +20,10 @@ urlpatterns = [
         TemplateView.as_view(template_name='create_fail.html'),
         name='create_fail'),
 
+    url(r'^edit/(?P<id>\d+)/$',
+        ProjectEditView.as_view(),
+        name='edit'),
+
     url(r'^list/filter_by',
         ProjectView.as_view(),
         name='list_projects'),

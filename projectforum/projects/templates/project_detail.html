@@ -14,6 +14,9 @@
 
 {% block content %}
     <div class='project_header'>
+        {% if logged_in and user == project.owner %}
+            <h4 class="project_edit_button"><a href="{% url 'project:edit' project.pk %}">Edit</a></h4>
+        {% endif %}
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
         <div class='title_tab'>
             {% if logged_in and user != project.owner %}
