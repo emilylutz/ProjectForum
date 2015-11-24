@@ -219,7 +219,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "User profile for %s" % self.user
-
-    def updateAverage(self):
-        reviews = UserReview.objects.filter(recipient=self.user)
-        self.averageRating = sum(review.score for review in reviews) // len(reviews)

@@ -26,18 +26,23 @@ def make_review(request, id):
         url = "/project/" + str(id)
         return redirect(url)
 
-def get_review(request, id):
+def edit_review(request, reviewid):
     try:
-        review = UserReview.objects.get(id=id)
-    except UserReview.DoesNotExist:
-        return JsonResponse({'status': -1, 'errors': ["Invalid review id"]})
-    return JsonResponse({
-        'status': 1,
-        'comment': review.comment
-        })
+        review = UserReview.objects.get(id=reviewid)
+        review.comment = request.POST.get('comment')
+        review.score = request.POST.get('score')
+        review.save()
 
-def edit_review(request, id, reviewid):
-    try:
-        review = UserReview.objects.get(id=id)
-    except Project.DoesNotExist:
-            raise Http404("Projct with given id does not exist")
+        setAverage(review.recipient)
+    except UserReview.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors':['Review does not exist']
+        })
+    return JsonResponse({'status': 1})
+
+def setAverage(user):
+    reviews = UserReview.objects.filter(recipient=user)
+    profile = UserProfile.objects.get_or_create_profile(user)
+    profile.averageRating = sum(review.score for review in reviews) // len(reviews)
+    profile.save()

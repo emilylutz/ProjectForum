@@ -122,8 +122,10 @@ class ProjectDetailView(TemplateView):
         project_reviews = UserReview.objects.filter(project=self.project)
         if self.logged_in:
             own_reviews = [review.recipient.username for review in UserReview.objects.filter(project=self.project, reviewer=self.user)]
+            num_reviews = len(own_reviews)
         else :
             own_reviews = None
+            num_reviews = 0
         bookmarked = self.logged_in and self.project in UserProfile.objects.get(
             user=self.request.user).bookmarked_projects.all()
         context.update({
@@ -133,6 +135,7 @@ class ProjectDetailView(TemplateView):
             'form': form,
             'project_reviews': project_reviews,
             'own_reviews': own_reviews,
+            'num_reviews': num_reviews,
             'bookmarked': bookmarked
         })
         return context

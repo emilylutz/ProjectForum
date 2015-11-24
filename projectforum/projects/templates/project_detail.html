@@ -152,9 +152,7 @@
         <br/>
         <ul class='titled_list'>
         {% if user in project.team_members.all or user == project.owner %}
-        	{{own_reviews| length}}
-        	{{project.team_members.all|length}}
-        	{% if own_reviews.count != project.team_members.all.count %}
+        	{% if num_reviews != project.team_members.all.count %}
 	            <li>
 	            Rate a team member:
 	            <br/>

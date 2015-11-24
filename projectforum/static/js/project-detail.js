@@ -142,14 +142,25 @@ $(document).ready(function() {
             path:'/static/external/jqueryraty/images',
         });
         $(this).text('Submit');
-        $(this).removeClass('reviewEditable');
-        $(this).addClass('submitEdit');
+        $(this).unbind('click');
+        $(this).bind('click', submitEdit)
     });
 
-    $('.submitEdit').on('click', function(event) {
-        $.post('ratings/review/' + '/' + ,function(data) {
+    function submitEdit() {
+        var review = $(this).parent()[0];
+        var reviewid = $(review).attr("data-reviewid");
+        rating_score =  $(review).find('input[type=hidden]').val();
+        rating_comment = $(review).find('textarea').val();
+        if (rating_comment == "") {
+            return false;
+        }
+        post_data = {
+            score : rating_score,
+            comment: rating_comment,
+        };
+        $.post('/ratings/review/edit/' + reviewid, post_data, function(data) {
             location.reload();
-        })
-    });
+        });
+    }
 
 });
