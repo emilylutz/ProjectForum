@@ -8,6 +8,7 @@ from django.db import models
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from projectforum.projects.models import Project
+from projectforum.ratings.models import UserReview
 
 import hashlib
 import random
@@ -152,15 +153,12 @@ class UserSkillTag(models.Model):
     max_length = 100
     skill = models.CharField(max_length=max_length)
 
-    def __unicode__(self):
-        return self.skill
-
     class Meta:
         verbose_name = 'user skill tag'
         verbose_name_plural = 'user skill tags'
 
     def __unicode__(self):
-        return "User skill %s" % self.skill
+        return self.skill
 
 
 class UserProfileManager(models.Manager):
@@ -205,10 +203,13 @@ class UserProfile(models.Model):
     showPastProjects = models.BooleanField('Publicly show past projects',
                                            default=False)
 
-    showRatings = models.BooleanField('Public show ratings',
+    showRatings = models.BooleanField('Publicly show ratings',
                                       default=False)
 
     bookmarked_projects = models.ManyToManyField(Project, blank=True)
+
+    averageRating = models.FloatField(default=0)
+
     objects = UserProfileManager()
 
     class Meta:

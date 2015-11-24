@@ -111,6 +111,7 @@ class ProjectViewFilters(View):
         4: Finished
     keywords: List of words filtering with separated by commas
     """
+
     def get(self, request, *args, **kwargs):
         status = int(request.GET.get('status', 1))
         keywords = request.GET.get('keywords', '').split(',')
@@ -154,14 +155,22 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
-        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
-            user=self.request.user).bookmarked_projects.all()
+        logged_in = self.logged_in
+        if logged_in:
+            own_reviews = [review.recipient.username for review in UserReview.objects.filter(project=self.project, reviewer=self.user)]
+            num_reviews = len(own_reviews)
+        else :
+            own_reviews = None
+            num_reviews = 0
+        bookmarked = logged_in and self.project in UserProfile.objects.get_or_create_profile(user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
-            'logged_in': self.logged_in,
+            'logged_in': logged_in,
             'user': self.request.user,
             'form': form,
             'project_reviews': project_reviews,
+            'own_reviews': own_reviews,
+            'num_reviews': num_reviews,
             'bookmarked': bookmarked
         })
         return context
@@ -196,24 +205,57 @@ def accept_applicant(request, id, username):
     })
 
 
-def apply_to_project(request, id):
-    if not request.user.is_authenticated():
-        return JsonResponse({
-            'status': -1,
-            'errors': ["User must be logged in to apply."]
-        })
-    applicant = request.user
+def remove_team_member(request, id, username):
+    usermodel = get_user_model()
     try:
         project = Project.objects.get(id=id)
-        application = ProjectApplication.objects.create(applicant=applicant,
-                                                        project=project,
-                                                        text='')
+        isOwner = (request.user == project.owner)
+        isSelf = (request.user.username == username)
+        if not (isOwner or isSelf):
+            return JsonResponse({
+                'status': -1,
+                'errors': [
+                    "Only the project owner and the team " +
+                    "member being removed can remove a " +
+                    "team member."
+                ]
+            })
+        team_member = usermodel.objects.get(username=username)
+        team_member_removed = project.remove_team_member(team_member)
+
     except Project.DoesNotExist:
+        return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
+    except usermodel.DoesNotExist:
         return JsonResponse({
             'status': -1,
-            'errors': ["Invalid project id"]
+            'errors': ["Invalid username"]
         })
-    return JsonResponse({'status': 1})
+    if team_member_removed:
+        return JsonResponse({'status': 1})
+    return JsonResponse({
+        'status': -1,
+        'errors': ["Unable to remove team member."]
+    })
+
+
+def apply_to_project(request, id):
+    if not request.user.is_authenticated():
+        pass
+        # "User must be logged in to apply."
+    else:
+        applicant = request.user
+        try:
+            project = Project.objects.get(id=id)
+            if applicant not in project.applicants():
+                app = ProjectApplication.objects.create(
+                    applicant=applicant,
+                    project=project,
+                    text=request.POST.get('comment', ''),
+                )
+        except Project.DoesNotExist:
+            pass
+            # "Invalid project id"
+    return redirect(reverse('project:detail', kwargs={'id': id}))
 
 
 def withdraw_application(request, id):

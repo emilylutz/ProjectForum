@@ -9,6 +9,7 @@
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
     <script src="{% static 'js/ratings.js' %}"></script>
+    <script src="{% static 'external/jqueryvalidate/jquery.validate.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -47,9 +48,10 @@
         <ul class='list applicant_list people_list'>
         {% for application in project.applications.all %}
             <li class='list-item people_list_element'>
+                <p>{{ application.text }}</p>
                 <a href="{% url 'profile:view' application.applicant.username %}">{{ application.applicant.username }}</a>, {{ application.applicant.email }}
                 <button id='accept_applicant'
-                        class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
+                        class='btn glyphicon glyphicon-ok accept_applicant accept_button list_right_button'
                         title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
                         data-applicantusername="{{ application.applicant.username }}">
@@ -65,6 +67,12 @@
         {% for member in project.team_members.all %}
             <li class='list-item member_list people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
+                <button id='remove_team_member'
+                        class='btn glyphicon glyphicon-remove remove_team_member cancel_button list_right_button'
+                        title="Remove user from your project's team."
+                        data-projectid="{{ project.id }}"
+                        data-team-member-username="{{ member.username }}">
+                </button>
             </li>
         {% empty %}
             <li class='list-item empty_people_list_element'>
@@ -114,6 +122,14 @@
         {% for member in project.team_members.all %}
             <li class='list-item people_list_element'>
                 <a href="{% url 'profile:view' member.username %}">{{ member.username }}</a>, {{ member.email }}
+                {% if user == member %}
+                <button id='remove_team_member'
+                        class='btn remove_team_member cancel_button list_right_button'
+                        title="Remove yourself from this project's team."
+                        data-projectid="{{ project.id }}"
+                        data-team-member-username="{{ member.username }}">Remove Self From Team
+                </button>
+                {% endif %}
             </li>
         {% endfor %}
         </ul>
@@ -133,12 +149,24 @@
             </button>
 
         {% else %}
-            <button id='apply_button'
-                    class='btn apply_button accept_button'
-                    data-projectid="{{ project.id }}"
-                    title="Apply to join project team.">
-                Apply
-            </button>
+            <ul class="list">
+                <li class="list-item">
+                <form action="/project/{{project.id}}/apply/" method="post">
+                    {% csrf_token %}
+                    <div id="application_message"></div>
+                    Message to Owner:
+                    <br/>
+                    {{ form.comment }}
+                    <br/>
+                    <input id='apply_button'
+                           class='btn bottom_button accept_button'
+                           data-projectid="{{ project.id }}"
+                           title="Apply to join project team."
+                           type="submit"
+                           value="Apply" />
+                </form>
+                </li>
+            </ul>
 
         {% endif %}
 
@@ -150,32 +178,54 @@
         <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
         <ul class='list titled_list'>
-        {% if user in project.team_members.all %}
-            <li class='list-item'>
-            <form action="/ratings/review/{{project.id}}" method="post">
-                {% csrf_token %}
-                <div id="rating"></div>
-                Comments:
-                <br/>
-                {{ form.comment }}
-                <br/>
-                <input type="submit" value="Submit" />
+        {% if user in project.team_members.all or user == project.owner %}
+        	{% if num_reviews != project.team_members.all.count %}
+	            <li class="list-item">
+	            Rate a team member:
+	            <br/>
+	            <br/>
+	            <form id="projectReviewForm" action="/ratings/review/{{project.id}}" method="post">
+	                {% csrf_token %}
+	                <select id="projectReviewDropdown" name="recipient_username" data-projectid="{{ project.id }}">
+	                	{% if user != project.owner and project.owner.username not in own_reviews%}
+	                		<option value="{{project.owner.username}}">{{project.owner.username}} (Owner)</option>
+	                	{% endif %}
+	                	{% for member in project.team_members.all%}
+	                		{% if member != user and member.username not in own_reviews%}
+		                		<option value="{{member.username}}">{{member.username}}</option>
+	                		{% endif %}
+	                	{% endfor %}
+	                </select>
+	                <br/>
+	                <div id="rating"></div>
+	                Comments:
+	                <br/>
+	                {{ form.comment }}
+	                <br/>
+	                <input type="submit" value="Submit" />
 
-            </form>
-            </li>
+	            </form>
+	            </li>
+	        {% endif %}
         {% endif %}
         {% for review in project_reviews %}
-            <li class="list-item project-review">
+            <li data-reviewid="{{review.id}}" data-projectid="{{project.id}}" class="list-item project-review">
+            	Review for
+            	<a href="{% url 'profile:view' review.recipient.username %}">{{review.recipient.username}}</a>
                 <div class="review-score"
                      data-score="{{ review.score }}">
-                </div>
-                <div class='reviewer'>
-                    By
-                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
                 </div>
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
+                <br/>
+                <div class='reviewer'>
+                    -
+                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                </div>
+                {% if review.reviewer == user%}
+                	<button class='btn btn-default reviewEditable'>Edit</button>
+                {% endif %}
             </li>
         {% empty %}
             <li class="list-item project-review">

@@ -14,11 +14,13 @@ $(document).ready(function() {
                 });
     });
 
-    $('#apply_button').click(function(){
+    $('.remove_team_member').click(function(){
         var projectid;
         projectid = $(this).attr("data-projectid");
+        var team_member_username;
+        team_member_username = $(this).attr("data-team-member-username");
 
-        $.get('/project/'+projectid+'/apply/', function(data){
+        $.get('/project/'+projectid+'/remove_team_member/'+team_member_username, function(data){
                     location.reload();
                 });
     });
@@ -106,6 +108,61 @@ $(document).ready(function() {
         $('a#projectBookmark').bind('click', removeBookmark)
     } else {
         $('a#projectBookmark').bind('click', addBookmark)
+    }
+
+    $('#projectReviewForm').validate({
+        ignore: [],
+        rules:{
+            score:{
+                required: true,
+            },
+            comment: {
+                required: true,
+           }
+        },
+        messages:{
+            score:{
+                required: "Please enter in a score greater than 0.",
+            },
+            comment: {
+                required: "Please enter a comment",
+            }
+        }
+    });
+
+    $('.reviewEditable').on('click', function(event) {
+        var review = $(this).parent()[0];
+        reviewid = $(review).attr("data-reviewid");
+        var oldText = $(review).find('.review-comment').html();
+        var editTextArea = $('<textarea />');
+        editTextArea.val(oldText);
+        $(review).find('.review-comment').replaceWith(editTextArea);
+        var old_score = $(review).find('.review-score').attr('data-score');
+        $(review).find('.review-score').replaceWith('<div class="editRating"></div>');
+        $('.editRating').raty({
+            score: old_score,
+            path:'/static/external/jqueryraty/images',
+        });
+        $(this).text('Submit');
+        $(this).unbind('click');
+        $(this).bind('click', submitEdit)
+    });
+
+    function submitEdit() {
+        var review = $(this).parent()[0];
+        var reviewid = $(review).attr("data-reviewid");
+        rating_score =  $(review).find('input[type=hidden]').val();
+        rating_comment = $(review).find('textarea').val();
+        if (rating_comment == "") {
+            return false;
+        }
+        post_data = {
+            score : rating_score,
+            comment: rating_comment,
+        };
+        $.post('/ratings/review/edit/' + reviewid, post_data, function(data) {
+            location.reload();
+        });
     }
 
 });

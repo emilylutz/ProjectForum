@@ -195,6 +195,34 @@ class ProjectsTest(TestCase):
         self.assertEqual(joe_application,
                          project1.application_given_applicant(joe))
 
+    def test_remove_team_member_from_team(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+
+        # Check that you can't remove a user who isn't on the team
+        self.assertFalse(project1.remove_team_member(joe))
+
+        # Add applicant to project
+        project1.team_members.add(joe)
+
+        # Check that accepting an applicant in applicants works
+        self.assertTrue(project1.remove_team_member(joe))
+
+        # check that applicant is in project's team members
+        fetched_project = Project.objects.filter()[0]
+        allTeamMembers = fetched_project.team_members.all()
+        self.assertEqual(0, len(allTeamMembers))
+
     def test_project_to_string(self):
         project1 = Project.objects.create(
             title="Test Title 1",
