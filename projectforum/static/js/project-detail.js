@@ -14,11 +14,13 @@ $(document).ready(function() {
                 });
     });
 
-    $('#apply_button').click(function(){
+    $('.remove_team_member').click(function(){
         var projectid;
         projectid = $(this).attr("data-projectid");
+        var team_member_username;
+        team_member_username = $(this).attr("data-team-member-username");
 
-        $.get('/project/'+projectid+'/apply/', function(data){
+        $.get('/project/'+projectid+'/remove_team_member/'+team_member_username, function(data){
                     location.reload();
                 });
     });

@@ -10,28 +10,39 @@
 
 {% block content %}
     <div class="search-features">
-        <select class="sort-projects" name="sort-projects">
-            <option value='1'>Most recently made projects first</option>
-            <option value='2'>Least recently made projects first</option>
-            <option value='3'>Highest pay by lump sum first</option>
-            <option value='4'>Lowest pay by lump sum first</option>
-            <option value='5'>Highest pay by hourly rate first</option>
-            <option value='6'>Lowest pay by hourly rate first</option>
-            {% comment "NOTE:"  %}
-                I went ahead swapped the order for title so that
-                sorting works and appears to the user in an intuitive
-                manner.
-            {% endcomment %}
-            <option value='8'>By title <b>A-Z</b></option>
-            <option value='7'>By title <b>Z-A</b></option>
-        </select>
-        <input type="text" class="keywords"></textbox>
-        <button id="search" class="search">Search</button>
+        <input type="text" id="keywords" placeholder="Filter by keywords"></textbox>
+        <div id="text-filter">
+            <select id="dropdown-filter" class="sort-projects" name="sort-projects">
+                <option value='1'>Sort by Features</option>
+                <option value='1'>Most recently made projects first</option>
+                <option value='2'>Least recently made projects first</option>
+                <option value='3'>Highest pay by lump sum first</option>
+                <option value='4'>Lowest pay by lump sum first</option>
+                <option value='5'>Highest pay by hourly rate first</option>
+                <option value='6'>Lowest pay by hourly rate first</option>
+                {% comment "NOTE:"  %}
+                    I went ahead swapped the order for title so that
+                    sorting works and appears to the user in an intuitive
+                    manner.
+                {% endcomment %}
+                <option value='8'>By title <b>A-Z</b></option>
+                <option value='7'>By title <b>Z-A</b></option>
+            </select>
+            <select id="dropdown-filter" class="filter-status" name="filter-status">
+                <option value='1'>Filter by Status</option>
+                <option value='1'>Currently Accepting Applicants</option>
+                <option value='2'>In Progress</option>
+                <option value='3'>Canceled Projects</option>
+                <option value='4'>Finished Projects</option>
+            </select>
+            <button id="button-search">Search</button>
+        </div>
     </div>
     <h1>Projects</h1>
-    <ul id="project-list">
+
+    <ul id="project-list" class="list">
         {% for project in project_list %}
-            <li>
+            <li class="list-item">
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
                     <h4 class="project-list-title">{{ project.title }}</h4>
@@ -41,28 +52,28 @@
                 </div>
             </li>
         {% empty %}
-            <li>No projects yet.</li>
+            <li class='list-item'>No projects yet.</li>
         {% endfor %}
     </ul>
 
 
-    <div class="pagination">
+    <div class="paginate">
         {% if project_list.has_previous %}
-            <li class="new-page" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
+            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
                 <span>
                     Previous
                 </span>
-            </li>
+            </div>
         {% endif %}
-            <li>
+            <div class='page-info'>
                 <span>Page {{ project_list.number }} of {{ project_list.paginator.num_pages }}.</span>
-            </li>
+            </div>
         {% if project_list.has_next %}
-            <li class="new-page" id="new-page" data-pageid="{{ project_list.next_page_number }}">
+            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.next_page_number }}">
                 <span>
                     Next
                 </span>
-            </li>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
