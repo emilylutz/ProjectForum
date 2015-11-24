@@ -1,16 +1,21 @@
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.core.urlresolvers import reverse
 
-from projectforum.projects.models import Project
+from projectforum.lib.test import (
+    SeleniumTestCase,
+    WebDriverWrapper,
+    wrap_with_drivers,
+)
 
 
-class ProjectsSeleniumTest(TestCase):
-    def setUp(self):
-        self.user_model = get_user_model()
-        self.user = self.user_model.objects.create_user(username='jacob',
-                                                        email='jacob@mail.com',
-                                                        password='topsecret')
+class ProjectsSeleniumTest(SeleniumTestCase):
 
-    def test_that_tests_work(self):
-        pass
+    __metaclass__ = WebDriverWrapper
+
+    @wrap_with_drivers()
+    def _test_that_selenium_tests_work(self):
+        print('2')
+
+    @wrap_with_drivers()
+    def _test_that_selenium_index_loads(self):
+        print('3')
+        self.open(reverse('index'))
