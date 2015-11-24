@@ -153,15 +153,12 @@ class UserSkillTag(models.Model):
     max_length = 100
     skill = models.CharField(max_length=max_length)
 
-    def __unicode__(self):
-        return self.skill
-
     class Meta:
         verbose_name = 'user skill tag'
         verbose_name_plural = 'user skill tags'
 
     def __unicode__(self):
-        return "User skill %s" % self.skill
+        return self.skill
 
 
 class UserProfileManager(models.Manager):
@@ -210,8 +207,10 @@ class UserProfile(models.Model):
                                       default=False)
 
     bookmarked_projects = models.ManyToManyField(Project, blank=True)
-    objects = UserProfileManager()
+
     averageRating = models.FloatField(default=0)
+
+    objects = UserProfileManager()
 
     class Meta:
         verbose_name = 'user profile'
