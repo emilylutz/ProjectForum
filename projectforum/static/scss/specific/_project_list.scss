@@ -2,8 +2,13 @@
 
 @import '../common';
 
-.project-description {
+.project-list-title {
+    overflow: hidden;
+}
+
+.project-list-description {
     max-height: 3em;
+    overflow: hidden;
 }
 
 .project_status_mini {

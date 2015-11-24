@@ -34,9 +34,9 @@
             <li>
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
-                    <h4>{{ project.title }}</h4>
+                    <h4 class="project-list-title">{{ project.title }}</h4>
                 </a>
-                <div class="project-description">
+                <div class="project-list-description">
                     {{ project.description|linebreaks }}
                 </div>
             </li>

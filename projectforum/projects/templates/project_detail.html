@@ -18,12 +18,12 @@
             {% if logged_in and user != project.owner %}
                 <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
             {% endif %}
-            <h3 class='project_title'>{{ project.title }}</h3>
+            <h3 class='project_detail_title'>{{ project.title }}</h3>
         </div>
     </div>
     <ul class='titled_list'>
         <li>
-            <div class='project_description'>{{ project.description|linebreaks }}</div>
+            <div class='project_detail_description'>{{ project.description|linebreaks }}</div>
         </li>
         <li>
             Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
