@@ -15,7 +15,6 @@ class ProjectsSeleniumTest(SeleniumTestCase):
 
     @wrap_with_drivers()
     def _test_that_selenium_index_loads(self):
-        print('3')
         self.open(reverse('index'))
         logo = self.driver.find_element_by_id("headerLogo")
         self.assertIn('Project Forum', logo.text)
