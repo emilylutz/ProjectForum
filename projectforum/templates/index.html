@@ -4,7 +4,6 @@
 {% block header %}
     <link rel="stylesheet" type="text/css"
         href="{% static 'css/info_pages.css' %}">
-    <script src="{% static 'js/frontpage.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -12,16 +11,17 @@
         <h1><u>Welcome to Project Forum:</u></h1>
         <h3>The easy way to present contracting opportunities and to find contracting work</h3>
         {% if user.is_authenticated %}
-            <button class="create-content project-button">Create a Contract</button>
-            <button class="list-content project-button">View Available Contracts</button>
+            <a class="btn btn-default project-button" href="{% url 'project:create' %}">Create a Contract</a>
+
+            <a class="btn btn-default project-button" href="{% url 'project:list' %}">View Available Contracts</a>
         {% else %}
             <div class="center accounts-field">
-                <button class="signup-button">Create an Account</button>
+                <a class="btn btn-default signup-button" href="{% url 'profile:register' %}">Create an Account</a>
                 <hr id="login-divider">
-                <a href="/profile/login/?next=/project/list/">Login</a>
+                <a href="{% url 'profile:login' %}?next={% url 'project:list' %}">Login</a>
             </div>
             <br>
-            <button class="project-button color-green list-content">View Available Contracts</button>
+            <a class="btn btn-default color-green project-button" href="{% url 'project:list' %}">View Available Contracts</a>
         {% endif %}
     </div>
 
