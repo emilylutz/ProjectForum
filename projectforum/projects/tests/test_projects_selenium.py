@@ -197,14 +197,100 @@ class ProjectsSeleniumTest(SeleniumTestCase):
         location = self.driver.current_url
         self.assertEqual(self.format_url('/project/'+str(project3.id) + '/'), location)
 
+
+    @wrap_with_drivers()
+    def _test_that_user_can_filter_list_of_projects(self):
+        #Create some projects that will be viewed
+        joe = self.create_user('joe', 'secret', 'j@mail.com')
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=joe,
+            payment=3,
+            amount=1,
+            status=1,
+        )
+
+        project2 = Project.objects.create(
+            title="Test Title 2",
+            description="Test Description 2",
+            owner=joe,
+            payment=1,
+            amount=2,
+            status=1,
+        )
+
+        project3 = Project.objects.create(
+            title="Test Title 3",
+            description="Test Description 3",
+            owner=joe,
+            payment=2,
+            amount=1,
+            status=1,
+        )
+
+        project4 = Project.objects.create(
+            title="Test Title 4",
+            description="Test Description 4",
+            owner=joe,
+            payment=2,
+            amount=1,
+            status=2,
+        )
+
         self.open(reverse('project:list'))
 
-        ######
-        # Check filtering
-        ######
+        # Search for projects with keyword 1
+        keywordsInput = self.driver.find_element_by_id('keywords')
+        keywordsInput.send_keys('1')
+        self.driver.find_element_by_id('button-search').click()
 
+        projectList = self.driver.find_element_by_id('project-list')
+        self.assertIn(project1.title, projectList.text)
+        self.assertNotIn(project2.title, projectList.text)
+        self.assertNotIn(project3.title, projectList.text)
+        self.assertNotIn(project4.title, projectList.text)
 
+        #Sort by most recent project
+        sortInput = self.driver.find_element_by_class_name('sort-projects')
+        sort_options = sortInput.find_elements_by_tag_name("option")
 
+        sort_options[1].click()
+        self.driver.find_element_by_id('button-search').click()
+
+        projectList = self.driver.find_element_by_id('project-list')
+        projectListItems = projectList.find_elements_by_tag_name("li")
+
+        self.assertIn(project3.title, projectListItems[0].text)
+        self.assertIn(project2.title, projectListItems[1].text)
+        self.assertIn(project1.title, projectListItems[2].text)
+
+        #Sort by least recent project
+        sortInput = self.driver.find_element_by_class_name('sort-projects')
+        sort_options = sortInput.find_elements_by_tag_name("option")
+
+        sort_options[2].click()
+        self.driver.find_element_by_id('button-search').click()
+
+        projectList = self.driver.find_element_by_id('project-list')
+        projectListItems = projectList.find_elements_by_tag_name("li")
+
+        self.assertIn(project1.title, projectListItems[0].text)
+        self.assertIn(project2.title, projectListItems[1].text)
+        self.assertIn(project3.title, projectListItems[2].text)
+
+    @wrap_with_drivers()
+    def _test_that_user_can_filter_list_of_projects(self):
+        #Create some projects that will be viewed
+        joe = self.create_user('joe', 'secret', 'j@mail.com')
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=joe,
+            payment=3,
+            amount=1,
+            status=1,
+        )
         #check for specific project titles and descriptions
         #try filtering them various ways
 
