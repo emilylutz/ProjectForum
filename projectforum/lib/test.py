@@ -5,7 +5,6 @@ from functools import wraps
 
 from django.contrib.auth import get_user_model
 from projectforum.user_profiles.models import UserProfile
-from projectforum.projects.models import Project, ProjectApplication
 
 
 try:
@@ -97,7 +96,6 @@ class SeleniumTestCase(LiveServerTestCase):
     def create_user(self, username, password, email):
         user_model = get_user_model()
         user = user_model.objects.create_user(username=username,
-                                                        email=email,
-                                                        password=password)
+                                              email=email,
+                                              password=password)
         return user
-
