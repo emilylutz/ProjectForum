@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^list/$',
         ProjectListView.as_view(),
         name='list'),
+
     url(r'^create/$',
         CreateView.as_view(),
         name='create'),
@@ -23,6 +24,10 @@ urlpatterns = [
         ProjectView.as_view(),
         name='list_projects'),
 
+    url(r'^list/filter_keywords',
+        ProjectViewFilters.as_view(),
+        name='list_projects_keywords'),
+
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view(), name='detail'),
     url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),
@@ -32,4 +37,7 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/reopen_project/$', reopen_project),
     url(r'^(?P<id>\d+)/reopen_applications/$', reopen_applications),
     url(r'^(?P<id>\d+)/close_applications/$', close_applications),
+    url(r'^(?P<id>\d+)/bookmark_add/$', bookmark_add),
+    url(r'^(?P<id>\d+)/bookmark_remove/$', bookmark_remove),
+
 ]

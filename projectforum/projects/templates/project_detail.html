@@ -15,19 +15,23 @@
     <div class='project_header'>
         <h4 class='project_status'>{{ project.get_status_display }}</h4>
         <div class='title_tab'>
+            {% if logged_in and user != project.owner %}
+                <a href="#" {% if bookmarked %} class="active" {% endif %} id="projectBookmark" title="Bookmark this project" data-projectid="{{ project.id }}">&nbsp;</a>
+            {% endif %}
             <h3 class='project_title'>{{ project.title }}</h3>
         </div>
     </div>
     <div class='ul titled_list'>
         <div class='li'>
-            <p class='project_description'>{{ project.description }}</p>
+            <div class='project_description'>{{ project.description|linebreaks }}</div>
         </div>
         <div class='li'>
             Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
             <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
-            <p> Posted: {{ project.timestamp }} </p>
+            <p> Posted: {{ project.timestamp }} UTC </p>
         </div>
     </div>
+
     <h4>Tags:</h4>
     <div class='ul tags'>
         {% for tag in project.tags.all %}
@@ -43,12 +47,12 @@
         <div class='ul applicant_list people_list'>
         {% for applicant in project.applicants.all %}
             <div class='li people_list_element'>
-                <a href="{% url 'profile:view' applicant.username %}">{{ applicant.username }}</a>, {{ applicant.email }}
+                <a href="{% url 'profile:view' application.applicant.username %}">{{ application.applicant.username }}</a>, {{ application.applicant.email }}
                 <button id='accept_applicant'
                         class='btn glyphicon glyphicon-ok accept_applicant accept_button accept_applicant_button'
                         title="Add applicant to your project's team."
                         data-projectid="{{ project.id }}"
-                        data-applicantusername="{{ applicant.username }}">
+                        data-applicantusername="{{ application.applicant.username }}">
                 </button>
             </div>
         {% empty %}
@@ -116,8 +120,8 @@
 
     {% elif project.status == 1 %}
         {% if not logged_in %}
-            <button class='btn btn-default'>Log in to apply!</button>
-        {% elif user in project.applicants.all %}
+            <a class='btn btn-default' href="{% url 'profile:login' %}?next={{ request.path }}">Log in to apply!</a>
+        {% elif user in project.applicants %}
             <br/>
             Your application has been submitted. The project owner is
             reviewing your application.

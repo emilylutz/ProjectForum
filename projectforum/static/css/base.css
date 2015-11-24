@@ -54,6 +54,11 @@ form .tokenfield {
   border-radius: 5px;
   background: #fafafa; }
 
+.pagination {
+  background: #fafafa;
+  border: 2px solid #ADC4CC;
+  border-radius: 5px; }
+
 .li {
   padding: 10px;
   border-bottom: 2px solid #ADC4CC;
@@ -84,6 +89,19 @@ form .tokenfield {
 
 .btn-default {
   border-width: 2px; }
+
+.page-info {
+  border: 2px solid #ADC4CC;
+  margin-top: 1em;
+  border-radius: 5px;
+  background: #fafafa;
+  padding: 10px;
+  text-align: center;
+  list-style: none;
+  display: inline-block; }
+
+.new-page {
+  cursor: pointer; }
 
 a {
   color: #4298B5; }
@@ -154,6 +172,23 @@ a:hover {
 .side_notice {
   float: right;
   clear: both; }
+
+a#projectBookmark {
+  background: url("images/star-off.png");
+  background-size: 20px 20px;
+  display: inline-block;
+  width: 20px;
+  height: 34px;
+  vertical-align: text-bottom;
+  background-repeat: no-repeat; }
+
+a#projectBookmark.active {
+  background: url("images/star-on.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 34px;
+  vertical-align: text-bottom;
+  background-repeat: no-repeat; }
 
 body {
   background-color: #4298B5;

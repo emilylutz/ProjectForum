@@ -2,15 +2,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View, TemplateView
 from django.views.generic.edit import FormView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 from projectforum.projects.forms import *
 from projectforum.ratings.forms import ReviewForm
 from projectforum.ratings.models import UserReview
+from projectforum.user_profiles.models import UserProfile
 
 import project_filters
 
@@ -21,11 +23,44 @@ class ProjectListView(ListView):
     """
     model = Project
     template_name = 'project_list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page')
+        keywords = self.request.GET.get('keywords', '').split(',')
+        order = self.request.GET.get('order', 'timestamp')
+        salary = self.request.GET.get('salary', 'lump')
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+
+        projects = project_filters.get_projects(status=status,
+                                                keywords=keywords,
+                                                order=order,
+                                                salary=salary,
+                                                ascending=ascending)
+        paginator = Paginator(projects, self.paginate_by)
+
+        try:
+            project_list = paginator.page(page)
+        except PageNotAnInteger:
+            project_list = paginator.page(1)
+        except EmptyPage:
+            project_list = paginator.page(paginator.num_pages)
+
+        context['project_list'] = project_list
+        return context
 
 
 class ProjectView(View):
     """
-    Returns a JSON list of projects accempting applicants based on parameters:
+    Returns a JSON list of projects based on parameters:
           '*' marks the default value
     status: The current state of the project
         *1: Accepting Applicants
@@ -33,33 +68,54 @@ class ProjectView(View):
         3: Canceled
         4: Finished
     order: How the results should be sorted:
-        *timestamp: When was the project created?
+        *timestamp: When was the project created? Note: False leads to
+                    newest posts first.  True leads to oldest first.
         payment: Whether we sort by salary.  Will subsort ascending descending
                  based on type
         title: Sort by the titles in alphabetical order
     salary:
-        *Lump: Lump Sum
-        Hourly
+        *lump: Lump Sum
+        hourly
     ascending: Whether or not we sort by ascending or descending order
-        *True: Ascending order
-        False: Descending order
-    starting_from: Integer Default is 1.  Return projects starting from this
-                   number
-    ending_at: Integer Default is 10. Stop returning projects at this number
+        True: Ascending order
+        *False: Descending order
+    """
+
+    def get(self, request, *args, **kwargs):
+        keywords = request.GET.get('keywords', '').split(',')
+        order = request.GET.get('order', 'timestamp')
+        salary = request.GET.get('salary', 'lump')
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
+        return project_filters.get_project_list(status=status,
+                                                keywords=keywords,
+                                                order=order,
+                                                salary=salary,
+                                                ascending=ascending)
+
+
+class ProjectViewFilters(View):
+    """
+    Returns a JSON list of projects based on parameters:
+          '*' marks the default value
+    status: The current state of the project
+        *1: Accepting Applicants
+        2: In progress
+        3: Canceled
+        4: Finished
+    keywords: List of words filtering with separated by commas
     """
     def get(self, request, *args, **kwargs):
         status = int(request.GET.get('status', 1))
-        order = request.GET.get('order', 'timestamp')
-        salary = request.GET.get('salary', 'Lump')
-        ascending = bool(request.GET.get('ascending', True))
-        starting_from = int(request.GET.get('starting_from', 0))
-        ending_at = int(request.GET.get('ending_at', 10))
-        return project_filters.get_project_list(status=status,
-                                                order=order,
-                                                salary=salary,
-                                                ascending=ascending,
-                                                starting_from=starting_from,
-                                                ending_at=ending_at)
+        keywords = request.GET.get('keywords', '').split(',')
+        return project_filters.get_projects_by_filter(status=status,
+                                                      keywords=keywords)
 
 
 class CreateView(FormView):
@@ -98,12 +154,15 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
+        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
+            user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
             'logged_in': self.logged_in,
             'user': self.request.user,
             'form': form,
-            'project_reviews': project_reviews
+            'project_reviews': project_reviews,
+            'bookmarked': bookmarked
         })
         return context
 
@@ -120,7 +179,7 @@ def accept_applicant(request, id, username):
                 ]
             })
         applicant = usermodel.objects.get(username=username)
-        applicant_accepted = project.accept_applicant(applicant)
+        applicant_accepted = project.accept_application(applicant)
 
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
@@ -146,7 +205,9 @@ def apply_to_project(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        project.applicants.add(applicant)
+        application = ProjectApplication.objects.create(applicant=applicant,
+                                                        project=project,
+                                                        text='')
     except Project.DoesNotExist:
         return JsonResponse({
             'status': -1,
@@ -164,14 +225,15 @@ def withdraw_application(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        if applicant not in project.applicants.all():
+        success = project.remove_application(applicant)
+        if not success:
             return JsonResponse({
                 'status': -1,
                 'errors': [
                     "User must be an applicant to withdraw application."
                 ]
             })
-        project.applicants.remove(applicant)
+
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
     return JsonResponse({'status': 1})
@@ -247,6 +309,52 @@ def close_applications(request, id):
             })
         project.status = 2
         project.save()
+    except Project.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors': ["Invalid project id"]
+        })
+    return JsonResponse({'status': 1})
+
+
+def bookmark_add(request, id):
+    try:
+        project = Project.objects.get(id=id)
+        if request.user == project.owner:
+            return JsonResponse({
+                'status': -1,
+                'errors': ["Project owner cannot bookmark own project"]
+            })
+        if not request.user.is_authenticated():
+            return JsonResponse({
+                'status': -1,
+                'errors': ["User must be logged in to add bookmarks."]
+            })
+        profile = UserProfile.objects.get(user=request.user)
+        profile.bookmarked_projects.add(project)
+    except Project.DoesNotExist:
+        return JsonResponse({
+            'status': -1,
+            'errors': ["Invalid project id"]
+        })
+    return JsonResponse({'status': 1})
+
+
+def bookmark_remove(request, id):
+    try:
+        project = Project.objects.get(id=id)
+        if request.user == project.owner:
+            return JsonResponse({
+                'status': -1,
+                'errors': ["Project owner cannot bookmark own project"]
+            })
+        if not request.user.is_authenticated():
+            return JsonResponse({
+                'status': -1,
+                'errors': ["User must be logged in to remove bookmarks."]
+            })
+        profile = UserProfile.objects.get(user=request.user)
+        profile.bookmarked_projects.remove(project)
     except Project.DoesNotExist:
         return JsonResponse({
             'status': -1,

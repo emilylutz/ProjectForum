@@ -5,7 +5,7 @@ from django.test import TestCase, Client
 import json
 
 from projectforum.projects.forms import *
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 import projectforum.projects.project_filters as project_filters
 
 import test_create_projects
@@ -63,28 +63,25 @@ class ProjectsTest(TestCase):
             amount=1,
             status=1,
         )
-        allApplicants = project1.applicants.all()
-        self.assertEqual(0, len(allApplicants))
+        allApplications = project1.applications.all()
+        self.assertEqual(0, len(allApplications))
 
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
 
-        # Add applicant to project
-        project1.applicants.add(joe)
+        # Add application to project
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
 
-        # check that applicant is in project's applicants
+        # check that application is in project's applications
         fetched_project = Project.objects.filter()[0]
-        all_applicants = fetched_project.applicants.all()
-        self.assertEqual(1, len(all_applicants))
-        self.assertEqual(joe, all_applicants[0])
+        all_applications = fetched_project.applications.all()
+        self.assertEqual(1, len(all_applications))
+        self.assertEqual(joe_application, all_applications[0])
 
-        # check that project is in applicant's projects applied to
-        fetched_joe = self.user_model.objects.get(id=joe.id)
-        self.assertEqual(1, len(fetched_joe.projects_applied_to.all()))
-        self.assertEqual(project1, fetched_joe.projects_applied_to.all()[0])
-
-    def test_accept_applicant_onto_team(self):
+    def test_accept_application(self):
         project1 = Project.objects.create(
             title="Test Title 1",
             description="Test Description 1",
@@ -99,17 +96,18 @@ class ProjectsTest(TestCase):
                                                   password='topsecret2')
 
         # Check that you can't accept an applicant who isn't in applicants
-        self.assertFalse(project1.accept_applicant(joe))
+        self.assertFalse(project1.accept_application(joe))
 
         # Add applicant to project
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         # Check that project doesn't have any team members yet
         allTeamMembers = project1.team_members.all()
         self.assertEqual(0, len(allTeamMembers))
 
         # Check that accepting an applicant in applicants works
-        self.assertTrue(project1.accept_applicant(joe))
+        self.assertTrue(project1.accept_application(joe))
 
         # check that applicant is in project's team members
         fetched_project = Project.objects.filter()[0]
@@ -117,11 +115,85 @@ class ProjectsTest(TestCase):
         self.assertEqual(1, len(allTeamMembers))
         self.assertEqual(joe, allTeamMembers[0])
 
-        # check that project is in applicant's current_projects
-        fetched_joe = self.user_model.objects.get(id=joe.id)
-        self.assertEqual(0, len(fetched_joe.projects_applied_to.all()))
-        self.assertEqual(1, len(fetched_joe.current_projects.all()))
-        self.assertEqual(project1, fetched_joe.current_projects.all()[0])
+    def test_remove_application(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+
+        # Check that you can't accept an applicant who isn't in applicants
+        self.assertFalse(project1.remove_application(joe))
+
+        # Add applicant to project
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        # Check that accepting an applicant in applicants works
+        self.assertTrue(project1.remove_application(joe))
+
+        # check that applicant isn't in project's team members
+        fetched_project = Project.objects.filter()[0]
+        allApplications = fetched_project.team_members.all()
+        self.assertEqual(0, len(allApplications))
+
+    def test_project_applicants(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+        applicants = project1.applicants()
+        self.assertEqual(0, len(applicants))
+
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        fetched_project = Project.objects.filter()[0]
+        applicants2 = fetched_project.applicants()
+        self.assertEqual(1, len(applicants2))
+        self.assertEqual(joe, applicants2[0])
+
+    def test_project_application_given_applicant(self):
+        project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.user,
+            payment=1,
+            amount=1,
+            status=1,
+        )
+
+        joe = self.user_model.objects.create_user(username='joe',
+                                                  email='joe@mail.com',
+                                                  password='topsecret2')
+        steve = self.user_model.objects.create_user(username='steve',
+                                                    email='steve@mail.com',
+                                                    password='topsecret3')
+
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
+        self.assertEqual(None, project1.application_given_applicant(steve))
+        self.assertEqual(joe_application,
+                         project1.application_given_applicant(joe))
 
     def test_project_to_string(self):
         project1 = Project.objects.create(
@@ -212,212 +284,163 @@ class ProjectsTest(TestCase):
     def test_list_projects_by_title_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('F', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('family guy', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_title_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='title',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('F', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('family guy', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
-    def test_list_projects_by_created_up(self):
+    def test_list_projects_by_newest(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('E', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('fallen', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
-    def test_list_projects_by_created_down(self):
+    def test_list_projects_by_oldest(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='timestamp',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('E', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('fallen', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Lump',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('D', contents['projects'][0]['title'])
-        self.assertEqual('B', contents['projects'][-1]['title'])
-        self.assertEqual('C', contents['projects'][3]['title'])
+        self.assertEqual('decoy', contents['projects'][0]['title'])
+        self.assertEqual('Barrel', contents['projects'][-1]['title'])
+        self.assertEqual('Cricket', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_lump_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Lump',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='lump',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('A', contents['projects'][0]['title'])
-        self.assertEqual('C', contents['projects'][-1]['title'])
-        self.assertEqual('B', contents['projects'][3]['title'])
+        self.assertEqual('Azrael', contents['projects'][0]['title'])
+        self.assertEqual('Cricket', contents['projects'][-1]['title'])
+        self.assertEqual('Barrel', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_down(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=False,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=False)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('C', contents['projects'][0]['title'])
-        self.assertEqual('A', contents['projects'][-1]['title'])
-        self.assertEqual('D', contents['projects'][3]['title'])
+        self.assertEqual('Cricket', contents['projects'][0]['title'])
+        self.assertEqual('Azrael', contents['projects'][-1]['title'])
+        self.assertEqual('decoy', contents['projects'][3]['title'])
 
     def test_list_projects_by_pay_hourly_up(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
-        self.assertEqual('B', contents['projects'][0]['title'])
-        self.assertEqual('D', contents['projects'][-1]['title'])
-        self.assertEqual('A', contents['projects'][3]['title'])
+        self.assertEqual('Barrel', contents['projects'][0]['title'])
+        self.assertEqual('decoy', contents['projects'][-1]['title'])
+        self.assertEqual('Azrael', contents['projects'][3]['title'])
 
     def test_list_projects_status(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=2,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A2', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=3,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A3', contents['projects'][0]['title'])
 
         response = project_filters.get_project_list(status=4,
+                                                    keywords='',
                                                     order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(1, contents['status'])
         self.assertEqual('A4', contents['projects'][0]['title'])
 
-    def test_list_projects_by_length(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=1,
-                                                    ending_at=3)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
-
-    def test_list_projects_by_length2(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=6)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
-
-    def test_list_projects_by_length3(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=1,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
-        contents = json.loads(response.content)
-        self.assertEqual(1, contents['status'])
-        self.assertEqual(3, len(contents['projects']))
-
     def test_list_projects_error1(self):
         test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='apples',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
-        contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
-
-    def test_list_projects_error1(self):
-        test_create_projects.create_many_projects()
-        response = project_filters.get_project_list(status=100,
-                                                    order='payment',
-                                                    salary='Hourly',
-                                                    ascending=True,
-                                                    starting_from=4,
-                                                    ending_at=10)
+                                                    salary='hourly',
+                                                    ascending=True)
         contents = json.loads(response.content)
         self.assertEqual(-1, contents['status'])
 
     def test_list_projects_error2(self):
         test_create_projects.create_many_projects()
+        response = project_filters.get_project_list(status=5,
+                                                    keywords='',
+                                                    order='payment',
+                                                    salary='hourly',
+                                                    ascending=True)
+        contents = json.loads(response.content)
+        self.assertEqual(1, contents['status'])
+        self.assertEqual(6, len(contents['projects']))
+
+    def test_list_projects_error3(self):
+        test_create_projects.create_many_projects()
         response = project_filters.get_project_list(status=1,
+                                                    keywords='',
                                                     order='payment',
                                                     salary='apples',
-                                                    ascending=True,
-                                                    starting_from=100,
-                                                    ending_at=101)
+                                                    ascending=True)
         contents = json.loads(response.content)
-        self.assertEqual(-1, contents['status'])
+        self.assertEqual(1, contents['status'])

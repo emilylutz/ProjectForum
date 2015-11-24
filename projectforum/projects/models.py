@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.core.validators import MinValueValidator
 
 class ProjectTag(models.Model):
     """
@@ -9,14 +9,11 @@ class ProjectTag(models.Model):
     max_length = 100
     text = models.CharField(max_length=max_length)
 
-    def __unicode__(self):
-        return self.text
-
     class Meta:
         verbose_name = 'project tag'
         verbose_name_plural = 'project tags'
 
-    def __str__(self):
+    def __unicode__(self):
         return "Project tag %s" % self.text
 
 
@@ -35,10 +32,10 @@ class Project(models.Model):
     )
 
     title = models.CharField(max_length=128)
-    description = models.CharField(max_length=2048)
+    description = models.TextField(max_length=2048)
     owner = models.ForeignKey(User)
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
-    amount = models.IntegerField()
+    amount = models.IntegerField(validators=[MinValueValidator(0, message="Please enter a positive amount")])
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.ManyToManyField(ProjectTag, related_name='projects',
                                   blank=True)
@@ -46,17 +43,57 @@ class Project(models.Model):
     team_members = models.ManyToManyField(User,
                                           related_name="current_projects",
                                           blank=True)
-    applicants = models.ManyToManyField(User,
-                                        related_name="projects_applied_to",
-                                        blank=True)
 
-    def accept_applicant(self, applicant):
-        if applicant in self.applicants.all():
-            self.applicants.remove(applicant)
-            self.team_members.add(applicant)
+    def accept_application(self, applicant):
+        application = self.application_given_applicant(applicant)
+        if application is not None:
+            application.delete()
+            self.team_members.add(application.applicant)
             return True
         else:
             return False
 
-    def __str__(self):
+    def remove_application(self, applicant):
+        application = self.application_given_applicant(applicant)
+        if application is not None:
+            application.delete()
+            return True
+        else:
+            return False
+
+    def applicants(self):
+        applicants = []
+        for application in self.applications.all():
+            applicants += [application.applicant]
+        return applicants
+
+    def application_given_applicant(self, applicant):
+        for application in self.applications.all():
+            if application.applicant == applicant:
+                return application
+        return None
+
+    def __unicode__(self):
         return "Project: {title: "+self.title+"}"
+
+
+class ProjectApplication(models.Model):
+    """
+    Applications to project.
+    """
+    applicant = models.ForeignKey(User,
+                                  related_name="applications")
+    project = models.ForeignKey(Project,
+                                related_name="applications")
+    text = models.TextField(max_length=2048)
+
+    # def __unicode__(self):
+    #     return self.applicant.username + ', ' + self.text
+
+    class Meta:
+        verbose_name = 'project application'
+        verbose_name_plural = 'project applications'
+
+    def __unicode__(self):
+        key = self.applicant.username + ", " + self.project.title
+        return "Project Application %s" % key

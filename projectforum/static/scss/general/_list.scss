@@ -9,6 +9,12 @@
     background: $theme-col-grey-light;
 }
 
+.pagination {
+    background: $theme-col-grey-light;
+    border: 2px solid $theme-col-main;
+    border-radius: 5px;
+}
+
 .li {
     padding: 10px;
     border-bottom: 2px solid $theme-col-main;
