@@ -30,7 +30,8 @@ urlpatterns = [
 
     url(r'^(?P<id>\d+)/$', ProjectDetailView.as_view(), name='detail'),
     url(r'^(?P<id>\d+)/accept_applicant/(?P<username>\w+)$', accept_applicant),
-    url(r'^(?P<id>\d+)/remove_team_member/(?P<username>\w+)$', remove_team_member),
+    url(r'^(?P<id>\d+)/remove_team_member/(?P<username>\w+)$',
+        remove_team_member),
     url(r'^(?P<id>\d+)/apply/$', apply_to_project),
     url(r'^(?P<id>\d+)/withdraw_application/$', withdraw_application),
     url(r'^(?P<id>\d+)/mark_complete/$', mark_complete),

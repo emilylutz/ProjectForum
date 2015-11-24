@@ -335,7 +335,6 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(0, len(project1.team_members.all()))
         self.assertEqual(0, len(project1.applications.all()))
 
-
     # Test removing a team member
     def test_owner_removing_team_member(self):
         project1 = Project.objects.create(
@@ -397,12 +396,13 @@ class ProjectsDetailViewTest(TestCase):
                                                   email='joe@mail.com',
                                                   password='topsecret2')
         steve = self.user_model.objects.create_user(username='steve',
-                                                  email='steve@mail.com',
-                                                  password='topsecret3')
+                                                    email='steve@mail.com',
+                                                    password='topsecret3')
         project1.team_members.add(joe)
 
         c = Client()
-        self.assertTrue(c.login(username=steve.username, password='topsecret3'))
+        self.assertTrue(c.login(username=steve.username,
+                                password='topsecret3'))
         resp = c.get('/project/' + str(project1.id) + '/remove_team_member/' +
                      joe.username)
         self.assertEqual(resp.status_code, 200)

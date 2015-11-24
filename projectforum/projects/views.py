@@ -154,7 +154,8 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
-        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
+        loggedIn = self.logged_in
+        bookmarked = loggedIn and self.project in UserProfile.objects.get(
             user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
@@ -195,15 +196,20 @@ def accept_applicant(request, id, username):
         'errors': ["Unable to accept applicant."]
     })
 
+
 def remove_team_member(request, id, username):
     usermodel = get_user_model()
     try:
         project = Project.objects.get(id=id)
-        if not (request.user == project.owner or request.user.username == username):
+        isOwner = (request.user == project.owner)
+        isSelf = (request.user.username == username)
+        if not (isOwner or isSelf):
             return JsonResponse({
                 'status': -1,
                 'errors': [
-                    "Only the project owner and the team member being removed can remove a team member."
+                    "Only the project owner and the team " +
+                    "member being removed can remove a " +
+                    "team member."
                 ]
             })
         team_member = usermodel.objects.get(username=username)

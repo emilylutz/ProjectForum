@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator
 
+
 class ProjectTag(models.Model):
     """
     The projects can be tagged with descriptive text.
@@ -35,7 +36,11 @@ class Project(models.Model):
     description = models.TextField(max_length=2048)
     owner = models.ForeignKey(User)
     payment = models.IntegerField(choices=PAYMENT_CHOICES)
-    amount = models.IntegerField(validators=[MinValueValidator(0, message="Please enter a positive amount")])
+    amount = models.IntegerField(
+        validators=[
+            MinValueValidator(0, message="Please enter a positive amount")
+        ]
+    )
     status = models.IntegerField(choices=STATUSES, default=1)
     tags = models.ManyToManyField(ProjectTag, related_name='projects',
                                   blank=True)
