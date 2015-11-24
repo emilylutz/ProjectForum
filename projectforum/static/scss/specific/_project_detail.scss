@@ -2,6 +2,10 @@
 
 @import '../common';
 
+.project_header {
+    position: relative;
+}
+
 .project_edit_button {
     margin-right: 10px;
     padding: 10px;
@@ -12,6 +16,7 @@
 }
 
 .project_status {
+    margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
     float: right;
@@ -21,7 +26,7 @@
 }
 
 .title_tab {
-    display: inline-block;
+    display: block;
     margin-bottom: 0px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -29,18 +34,14 @@
     padding-right: 20px;
     border-radius: 10px 10px 0px 0px;
     background: $theme-col-main;
+    overflow: hidden;
+    height: 67px;
+    max-width: 100%;
 }
 
 .title_tab:after{
     border-bottom-left-radius: 6px;
     border-width: 0 0 5px 5px;
-}
-
-.project_detail_title {
-    display: inline-block;
-    vertical-align: text-bottom;
-    overflow: hidden;
-    max-width: 100%;
 }
 
 .project_detail_description {

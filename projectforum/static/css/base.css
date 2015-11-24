@@ -133,6 +133,9 @@ a:hover {
   color: #76D2F1;
   text-decoration: none; }
 
+.project_header {
+  position: relative; }
+
 .project_edit_button {
   margin-right: 10px;
   padding: 10px;
@@ -142,6 +145,7 @@ a:hover {
   color: #ADC4CC; }
 
 .project_status {
+  margin-left: 10px;
   margin-right: 10px;
   padding: 10px;
   float: right;
@@ -150,24 +154,21 @@ a:hover {
   color: #929292; }
 
 .title_tab {
-  display: inline-block;
+  display: block;
   margin-bottom: 0px;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 10px 10px 0px 0px;
-  background: #ADC4CC; }
+  background: #ADC4CC;
+  overflow: hidden;
+  height: 67px;
+  max-width: 100%; }
 
 .title_tab:after {
   border-bottom-left-radius: 6px;
   border-width: 0 0 5px 5px; }
-
-.project_detail_title {
-  display: inline-block;
-  vertical-align: text-bottom;
-  overflow: hidden;
-  max-width: 100%; }
 
 .project_detail_description {
   padding: 20px 10px 10px;
@@ -222,14 +223,21 @@ a:hover {
   float: right;
   clear: both; }
 
+.user_profile_project_item {
+  overflow: hidden; }
+
 a#projectBookmark {
   background: url("images/star-off.png");
+  background-repeat: no-repeat;
   background-size: 20px 20px;
   display: inline-block;
-  width: 20px;
+  float: left;
   height: 34px;
+  left: -30px;
+  margin-top: 10px;
+  position: absolute;
   vertical-align: text-bottom;
-  background-repeat: no-repeat; }
+  width: 20px; }
 
 a#projectBookmark.active {
   background: url("images/star-on.png");
