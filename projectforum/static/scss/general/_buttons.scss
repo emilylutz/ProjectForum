@@ -23,6 +23,13 @@
     color: $theme-col-error-dark;
 }
 
+.applications {
+    background-color: $theme-col-grey-gentle;
+}
+.reopen_button {
+    background-color: $theme-col-grey-gentle;
+}
+
 .cancel_button:hover {
     border-color: $theme-col-error-dark;
     background-color: $theme-col-error;
