@@ -82,19 +82,19 @@
         </ul>
 
         {% if project.status == 1 %}
-            <button id='close_applications' class='btn btn-default' data-projectid="{{ project.id }}">
+            <button id='close_applications' class='btn btn-default applications' data-projectid="{{ project.id }}">
                 Close Applications
             </button>
         {% endif %}
 
         {% if project.status == 2 %}
-            <button id='reopen_applications' class='btn btn-default' data-projectid="{{ project.id }}">
+            <button id='reopen_applications' class='btn btn-default applications' data-projectid="{{ project.id }}">
                 Re-Open Applications
             </button>
         {% endif %}
 
         {% if project.status == 3 or project.status == 4 %}
-            <button id='reopen_project' class='btn btn-default' data-projectid="{{ project.id }}">
+            <button id='reopen_project' class='btn btn-default applications' data-projectid="{{ project.id }}">
                 Re-Open Project
             </button>
         {% endif %}
