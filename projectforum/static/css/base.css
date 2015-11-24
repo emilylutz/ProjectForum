@@ -118,12 +118,15 @@ a:hover {
   border-bottom-left-radius: 6px;
   border-width: 0 0 5px 5px; }
 
-.project_title {
+.project_detail_title {
   display: inline-block;
-  vertical-align: text-bottom; }
+  vertical-align: text-bottom;
+  overflow: hidden;
+  max-width: 100%; }
 
-.project_description {
-  padding: 20px 10px 10px; }
+.project_detail_description {
+  padding: 20px 10px 10px;
+  overflow: hidden; }
 
 .titled_list {
   border-radius: 0px 5px 5px 5px; }
@@ -140,6 +143,13 @@ a:hover {
 
 .reviewer {
   margin-bottom: 10px; }
+
+.project-list-title {
+  overflow: hidden; }
+
+.project-list-description {
+  max-height: 3em;
+  overflow: hidden; }
 
 .project_status_mini {
   margin: 0px;
