@@ -32,7 +32,7 @@ class ProfileEditView(UpdateView):
     """
     User profile edit view.
     """
-    template_name = 'edit.html'
+    template_name = 'profile_edit.html'
     form_class = ProfileEditForm
     model = UserProfile
 
@@ -97,7 +97,7 @@ class ProfileView(TemplateView):
     """
     User profile view.
     """
-    template_name = 'view.html'
+    template_name = 'profile_view.html'
 
     def get(self, request, *args, **kwargs):
         UserModel = get_user_model()

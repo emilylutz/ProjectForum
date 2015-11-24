@@ -120,7 +120,7 @@ class ProjectViewFilters(View):
 
 
 class CreateView(FormView):
-    template_name = 'create.html'
+    template_name = 'project_create.html'
     form_class = ProjectForm
 
     def form_valid(self, form):
@@ -137,7 +137,7 @@ class CreateView(FormView):
 
 
 class ProjectEditView(UpdateView):
-    template_name = 'edit.html'
+    template_name = 'project_edit.html'
     form_class = ProjectEditForm
     model = Project
 
