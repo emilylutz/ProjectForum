@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/tokenfield/bootstrap-tokenfield.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'external/tokenfield/tokenfield-typeahead.min.css' %}">
+    <script
+        src="{% static 'external/tokenfield/bootstrap-tokenfield.min.js' %}">
+    </script>
+    <script src="{% static 'js/tag.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action=".">
+        <h2>Edit project</h2>
+        {{ form.non_field_errors }}
+
+        <p>
+            {{ form.title.label_tag }}
+            {{ form.title.errors }}
+            {{ form.title }}
+        </p>
+        <p>
+            {{ form.description.label_tag }}
+            {{ form.description.errors }}
+            {{ form.description }}
+        </p>
+        <p>
+            {{ form.payment.label_tag }}
+            {{ form.payment.errors }}
+            {{ form.payment }}
+        </p>
+        <p>
+            {{ form.amount.label_tag }}
+            {{ form.amount.errors }}
+            {{ form.amount }}
+        </p>
+
+        <h2>Tags</h2>
+        <p>
+            {{ form.tags.label_tag }}
+            {{ form.tags.errors }}
+            {{ form.tags }}
+        </p>
+        <div id="tags_tokenfield"></div>
+        <script>
+            tagfield = Tag.start('{{ form.tags.id_for_label }}',
+                                 'tags_tokenfield');
+        </script>
+
+        {% csrf_token %}
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}
