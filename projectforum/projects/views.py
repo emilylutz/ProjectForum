@@ -154,7 +154,8 @@ class ProjectDetailView(TemplateView):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
-        bookmarked = self.logged_in and self.project in UserProfile.objects.get(
+        logged_in = self.logged_in
+        bookmarked = logged_in and self.project in UserProfile.objects.get(
             user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
@@ -198,22 +199,22 @@ def accept_applicant(request, id, username):
 
 def apply_to_project(request, id):
     if not request.user.is_authenticated():
-        return JsonResponse({
-            'status': -1,
-            'errors': ["User must be logged in to apply."]
-        })
-    applicant = request.user
-    try:
-        project = Project.objects.get(id=id)
-        application = ProjectApplication.objects.create(applicant=applicant,
-                                                        project=project,
-                                                        text='')
-    except Project.DoesNotExist:
-        return JsonResponse({
-            'status': -1,
-            'errors': ["Invalid project id"]
-        })
-    return JsonResponse({'status': 1})
+        pass
+        # "User must be logged in to apply."
+    else:
+        applicant = request.user
+        try:
+            project = Project.objects.get(id=id)
+            if applicant not in project.applicants():
+                app = ProjectApplication.objects.create(
+                    applicant=applicant,
+                    project=project,
+                    text=request.POST.get('comment', ''),
+                )
+        except Project.DoesNotExist:
+            pass
+            # "Invalid project id"
+    return redirect(reverse('project:detail', kwargs={'id': id}))
 
 
 def withdraw_application(request, id):
