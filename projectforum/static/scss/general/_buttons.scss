@@ -18,17 +18,32 @@
 .cancel_button {
     border-width: 2px;
     border-style: solid;
-    border-color: $theme-col-error-dark; 
+    border-color: $theme-col-error-dark;
     background-color: $theme-col-error-light;
     color: $theme-col-error-dark;
 }
 
 .cancel_button:hover {
-    border-color: $theme-col-error-dark; 
+    border-color: $theme-col-error-dark;
     background-color: $theme-col-error;
     color: $theme-col-error-dark;
 }
 
 .btn-default {
     border-width: 2px;
+}
+
+.page-info {
+    border: 2px solid $theme-col-main;
+    margin-top: 1em;
+    border-radius: 5px;
+    background: $theme-col-grey-light;
+    padding: 10px;
+    text-align: center;
+    list-style: none;
+    display:inline-block;
+}
+
+.new-page {
+    cursor: pointer;
 }

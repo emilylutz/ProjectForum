@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    $('.project-description').ellipsis();
+
     $('#button-search').click(function() {
         var url = window.location.href,
             filters = $('#keywords').val(),

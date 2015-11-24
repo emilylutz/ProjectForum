@@ -4,6 +4,7 @@
 {% block header %}
     <link rel="stylesheet" type="text/css"
         href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <script src="{% static 'external/jqueryautoellipsis/jquery.autoellipsis-1.0.10.min.js' %}"></script>
     <script src="{% static 'js/project-list.js' %}"></script>
 {% endblock %}
 
@@ -38,38 +39,41 @@
         </div>
     </div>
     <h1>Projects</h1>
-    <ul>
+
+    <ul id="project-list" class="list">
         {% for project in project_list %}
-            <li>
+            <li class="list-item">
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
-                    <h4>{{ project.title }}</h4>
+                    <h4 class="project-list-title">{{ project.title }}</h4>
                 </a>
-                <div>{{ project.description }}</div>
+                <div class="project-list-description">
+                    {{ project.description|linebreaks }}
+                </div>
             </li>
         {% empty %}
-            <li>No projects yet.</li>
+            <li class='list-item'>No projects yet.</li>
         {% endfor %}
     </ul>
 
 
-    <div class="pagination">
+    <div class="paginate">
         {% if project_list.has_previous %}
-            <li class="new-page" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
+            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
                 <span>
                     Previous
                 </span>
-            </li>
+            </div>
         {% endif %}
-            <li>
+            <div class='page-info'>
                 <span>Page {{ project_list.number }} of {{ project_list.paginator.num_pages }}.</span>
-            </li>
+            </div>
         {% if project_list.has_next %}
-            <li class="new-page" id="new-page" data-pageid="{{ project_list.next_page_number }}">
+            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.next_page_number }}">
                 <span>
                     Next
                 </span>
-            </li>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
