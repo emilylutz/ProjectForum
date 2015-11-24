@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^list/$',
         ProjectListView.as_view(),
         name='list'),
+
     url(r'^create/$',
         CreateView.as_view(),
         name='create'),

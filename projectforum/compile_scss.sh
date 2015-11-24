@@ -1,1 +1,1 @@
-sass projectforum/static/css/*.scss projectforum/static/css/
+sass projectforum/static/scss/base.scss projectforum/static/css/

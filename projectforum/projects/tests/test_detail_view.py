@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 
 import json
 
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 from projectforum.user_profiles.models import UserProfile
 
 
@@ -149,8 +149,11 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         UserProfile.objects.get_or_create_profile(joe)
-        project1.applicants.add(joe)
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/')
@@ -179,9 +182,11 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+        project1.accept_application(joe)
         UserProfile.objects.get_or_create_profile(joe)
-        project1.applicants.add(joe)
-        project1.accept_applicant(joe)
 
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
@@ -214,9 +219,10 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         UserProfile.objects.get_or_create_profile(joe)
-        project1.applicants.add(joe)
-
         c = Client()
         self.assertTrue(c.login(username=self.user.username,
                                 password='topsecret'))
@@ -225,7 +231,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
-        self.assertEqual(0, len(project1.applicants.all()))
+        self.assertEqual(0, len(project1.applications.all()))
         self.assertEqual(project1.team_members.all()[0], joe)
 
     def test_non_owner_accepting_applicant(self):
@@ -240,8 +246,9 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
@@ -250,7 +257,7 @@ class ProjectsDetailViewTest(TestCase):
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         self.assertEqual(0, len(project1.team_members.all()))
-        self.assertEqual(project1.applicants.all()[0], joe)
+        self.assertEqual(project1.applications.all()[0], joe_application)
 
     def test_not_logged_in_accepting_applicant(self):
         project1 = Project.objects.create(
@@ -264,8 +271,10 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         UserProfile.objects.get_or_create_profile(joe)
-        project1.applicants.add(joe)
 
         c = Client()
         resp = c.get('/project/' + str(project1.id) + '/accept_applicant/' +
@@ -274,7 +283,7 @@ class ProjectsDetailViewTest(TestCase):
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         self.assertEqual(0, len(project1.team_members.all()))
-        self.assertEqual(project1.applicants.all()[0], joe)
+        self.assertEqual(project1.applications.all()[0], joe_application)
 
     def test_owner_accepting_applicant_on_invalid_project(self):
         project1 = Project.objects.create(
@@ -288,8 +297,9 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         c = Client()
         self.assertTrue(c.login(username=self.user.username,
                                 password='topsecret'))
@@ -299,7 +309,7 @@ class ProjectsDetailViewTest(TestCase):
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         self.assertEqual(0, len(project1.team_members.all()))
-        self.assertEqual(project1.applicants.all()[0], joe)
+        self.assertEqual(project1.applications.all()[0], joe_application)
 
     def test_owner_accepting_invalid_applicant(self):
         project1 = Project.objects.create(
@@ -323,7 +333,7 @@ class ProjectsDetailViewTest(TestCase):
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
         self.assertEqual(0, len(project1.team_members.all()))
-        self.assertEqual(0, len(project1.applicants.all()))
+        self.assertEqual(0, len(project1.applications.all()))
 
     # Test applying to projects
     def test_applying(self):
@@ -344,7 +354,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
-        self.assertEqual(project1.applicants.all()[0], joe)
+        self.assertEqual(project1.applications.all()[0].applicant, joe)
 
     def test_applying_not_logged_in(self):
         project1 = Project.objects.create(
@@ -363,7 +373,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
-        self.assertEqual(0, len(project1.applicants.all()))
+        self.assertEqual(0, len(project1.applications.all()))
 
     def test_applying_bad_project(self):
         project1 = Project.objects.create(
@@ -385,7 +395,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
-        self.assertEqual(0, len(project1.applicants.all()))
+        self.assertEqual(0, len(project1.applications.all()))
 
     # Withdrawing Application tests
     def test_applicant_withdrawing_application(self):
@@ -400,16 +410,17 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         UserProfile.objects.get_or_create_profile(joe)
-        project1.applicants.add(joe)
-
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], 1)
-        self.assertEqual(0, len(project1.applicants.all()))
+        self.assertEqual(0, len(project1.applications.all()))
         self.assertEqual(0, len(project1.team_members.all()))
 
     def test_non_applicant_withdrawing_application(self):
@@ -424,7 +435,10 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
+
         john = self.user_model.objects.create_user(username='john',
                                                    email='john@mail.com',
                                                    password='topsecret3')
@@ -435,7 +449,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
-        self.assertEqual(1, len(project1.applicants.all()))
+        self.assertEqual(1, len(project1.applications.all()))
 
     def test_non_logged_in_withdrawing_application(self):
         project1 = Project.objects.create(
@@ -449,14 +463,15 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         c = Client()
         resp = c.get('/project/' + str(project1.id) + '/withdraw_application/')
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
-        self.assertEqual(1, len(project1.applicants.all()))
+        self.assertEqual(1, len(project1.applications.all()))
 
     def test_withdrawing_application_bad_project(self):
         project1 = Project.objects.create(
@@ -470,8 +485,9 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         c = Client()
         self.assertTrue(c.login(username=self.user.username,
                                 password='topsecret'))
@@ -480,7 +496,7 @@ class ProjectsDetailViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
-        self.assertEqual(1, len(project1.applicants.all()))
+        self.assertEqual(1, len(project1.applications.all()))
 
     # mark complete tests
     def test_owner_marking_project_as_complete(self):
@@ -515,8 +531,9 @@ class ProjectsDetailViewTest(TestCase):
         joe = self.user_model.objects.create_user(username='joe',
                                                   email='joe@mail.com',
                                                   password='topsecret2')
-        project1.applicants.add(joe)
-
+        joe_application = ProjectApplication.objects.create(applicant=joe,
+                                                            project=project1,
+                                                            text='I am joe')
         c = Client()
         self.assertTrue(c.login(username=joe.username, password='topsecret2'))
         resp = c.get('/project/' + str(project1.id) + '/mark_complete/')
