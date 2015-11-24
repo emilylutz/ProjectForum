@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
 
-    // JQuery code to be added in here.
     $('.accept_applicant').click(function(){
         var projectid;
         projectid = $(this).attr("data-projectid");
