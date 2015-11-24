@@ -30,7 +30,7 @@
         <li class='list-item'>
             <div class='project_detail_description'>{{ project.description|linebreaks }}</div>
         </li>
-        <li class='list-item'>
+        <li class='more_project_details list-item'>
             Owner: <a href="{% url 'profile:view' project.owner.username %}">{{ project.owner.username }}</a> </p>
             <p> Compensation: ${{ project.amount }} {{ project.get_payment_display }} </p>
             <p> Posted: {{ project.timestamp }} UTC </p>
