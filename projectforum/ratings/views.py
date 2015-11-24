@@ -38,6 +38,7 @@ def edit_review(request, reviewid):
         review.save()
 
         setAverage(review.recipient)
+        print(UserProfile.objects.get_or_create_profile(user=review.recipient).averageRating)
     except UserReview.DoesNotExist:
         return JsonResponse({
             'status': -1,
@@ -48,5 +49,5 @@ def edit_review(request, reviewid):
 def setAverage(user):
     reviews = UserReview.objects.filter(recipient=user)
     profile = UserProfile.objects.get_or_create_profile(user)
-    profile.averageRating = sum(review.score for review in reviews) // len(reviews)
+    profile.averageRating = sum(review.score for review in reviews) / len(reviews)
     profile.save()

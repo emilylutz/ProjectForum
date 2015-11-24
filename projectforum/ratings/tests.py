@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 
+import json
+
 from projectforum.projects.models import Project
 from projectforum.ratings.models import UserReview
 
@@ -114,4 +116,5 @@ class RatingsTest(TestCase):
         c.login(username="user2", password="password")
         edit_url = '/ratings/review/edit/429'
         resp = c.post(edit_url, data={})
-        self.assertEqual(resp.status_code, 404)
+        data = json.loads(resp.content)
+        self.assertEqual(data['status'], -1)

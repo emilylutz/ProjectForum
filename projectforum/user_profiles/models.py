@@ -206,12 +206,12 @@ class UserProfile(models.Model):
     showPastProjects = models.BooleanField('Publicly show past projects',
                                            default=False)
 
-    showRatings = models.BooleanField('Public show ratings',
+    showRatings = models.BooleanField('Publicly show ratings',
                                       default=False)
 
     bookmarked_projects = models.ManyToManyField(Project, blank=True)
     objects = UserProfileManager()
-    averageRating = models.IntegerField(default=0)
+    averageRating = models.FloatField(default=0)
 
     class Meta:
         verbose_name = 'user profile'
