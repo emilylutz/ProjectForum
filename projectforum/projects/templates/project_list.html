@@ -4,6 +4,7 @@
 {% block header %}
     <link rel="stylesheet" type="text/css"
         href="{% static 'external/jqueryui/jquery-ui.min.css' %}">
+    <script src="{% static 'external/jqueryautoellipsis/jquery.autoellipsis-1.0.10.min.js' %}"></script>
     <script src="{% static 'js/project-list.js' %}"></script>
 {% endblock %}
 
@@ -28,14 +29,16 @@
         <button id="search" class="search">Search</button>
     </div>
     <h1>Projects</h1>
-    <ul>
+    <ul id="project-list">
         {% for project in project_list %}
             <li>
                 <h5 class="project_status project_status_mini">{{ project.get_status_display }}</h5>
                 <a href= "{% url 'project:detail' project.id %}">
-                    <h4>{{ project.title }}</h4>
+                    <h4 class="project-list-title">{{ project.title }}</h4>
                 </a>
-                <div>{{ project.description }}</div>
+                <div class="project-list-description">
+                    {{ project.description|linebreaks }}
+                </div>
             </li>
         {% empty %}
             <li>No projects yet.</li>

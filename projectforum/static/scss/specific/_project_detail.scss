@@ -27,13 +27,16 @@
     border-width: 0 0 5px 5px;
 }
 
-.project_title {
+.project_detail_title {
     display: inline-block;
     vertical-align: text-bottom;
+    overflow: hidden;
+    max-width: 100%;
 }
 
-.project_description {
+.project_detail_description {
     padding: 20px 10px 10px;
+    overflow: hidden;
 }
 
 .titled_list {
