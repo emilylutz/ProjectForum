@@ -30,7 +30,7 @@ class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        exclude = ['user']
+        exclude = ['user', 'averageRating']
 
 
 class RegisterForm(UserCreationForm):

@@ -111,6 +111,7 @@ class ProjectViewFilters(View):
         4: Finished
     keywords: List of words filtering with separated by commas
     """
+
     def get(self, request, *args, **kwargs):
         status = int(request.GET.get('status', 1))
         keywords = request.GET.get('keywords', '').split(',')
@@ -155,14 +156,21 @@ class ProjectDetailView(TemplateView):
         form = ReviewForm(self.request.POST or None)
         project_reviews = UserReview.objects.filter(project=self.project)
         logged_in = self.logged_in
-        bookmarked = logged_in and self.project in UserProfile.objects.get(
-            user=self.request.user).bookmarked_projects.all()
+        if logged_in:
+            own_reviews = [review.recipient.username for review in UserReview.objects.filter(project=self.project, reviewer=self.user)]
+            num_reviews = len(own_reviews)
+        else :
+            own_reviews = None
+            num_reviews = 0
+        bookmarked = logged_in and self.project in UserProfile.objects.get_or_create_profile(user=self.request.user).bookmarked_projects.all()
         context.update({
             'project': self.project,
             'logged_in': logged_in,
             'user': self.request.user,
             'form': form,
             'project_reviews': project_reviews,
+            'own_reviews': own_reviews,
+            'num_reviews': num_reviews,
             'bookmarked': bookmarked
         })
         return context

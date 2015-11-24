@@ -15,7 +15,7 @@ class ProjectTag(models.Model):
         verbose_name_plural = 'project tags'
 
     def __unicode__(self):
-        return "Project tag %s" % self.text
+        return self.text
 
 
 class Project(models.Model):

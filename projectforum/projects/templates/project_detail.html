@@ -9,6 +9,7 @@
     <script src="{% static 'external/jqueryraty/jquery.raty.js' %}"></script>
     <script src="{% static 'js/project-detail.js' %}"></script>
     <script src="{% static 'js/ratings.js' %}"></script>
+    <script src="{% static 'external/jqueryvalidate/jquery.validate.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -177,32 +178,54 @@
         <label class="title_tab"><h4>Reviews:</h4></label>
         <br/>
         <ul class='list titled_list'>
-        {% if user in project.team_members.all %}
-            <li class='list-item'>
-            <form action="/ratings/review/{{project.id}}" method="post">
-                {% csrf_token %}
-                <div id="rating"></div>
-                Comments:
-                <br/>
-                {{ form.comment }}
-                <br/>
-                <input type="submit" value="Submit" />
+        {% if user in project.team_members.all or user == project.owner %}
+        	{% if num_reviews != project.team_members.all.count %}
+	            <li class="list-item">
+	            Rate a team member:
+	            <br/>
+	            <br/>
+	            <form id="projectReviewForm" action="/ratings/review/{{project.id}}" method="post">
+	                {% csrf_token %}
+	                <select id="projectReviewDropdown" name="recipient_username" data-projectid="{{ project.id }}">
+	                	{% if user != project.owner and project.owner.username not in own_reviews%}
+	                		<option value="{{project.owner.username}}">{{project.owner.username}} (Owner)</option>
+	                	{% endif %}
+	                	{% for member in project.team_members.all%}
+	                		{% if member != user and member.username not in own_reviews%}
+		                		<option value="{{member.username}}">{{member.username}}</option>
+	                		{% endif %}
+	                	{% endfor %}
+	                </select>
+	                <br/>
+	                <div id="rating"></div>
+	                Comments:
+	                <br/>
+	                {{ form.comment }}
+	                <br/>
+	                <input type="submit" value="Submit" />
 
-            </form>
-            </li>
+	            </form>
+	            </li>
+	        {% endif %}
         {% endif %}
         {% for review in project_reviews %}
-            <li class="list-item project-review">
+            <li data-reviewid="{{review.id}}" data-projectid="{{project.id}}" class="list-item project-review">
+            	Review for
+            	<a href="{% url 'profile:view' review.recipient.username %}">{{review.recipient.username}}</a>
                 <div class="review-score"
                      data-score="{{ review.score }}">
-                </div>
-                <div class='reviewer'>
-                    By
-                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
                 </div>
                 <div class="review-comment">
                     {{ review.comment | escape }}
                 </div>
+                <br/>
+                <div class='reviewer'>
+                    -
+                    <a href="{% url 'profile:view' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                </div>
+                {% if review.reviewer == user%}
+                	<button class='btn btn-default reviewEditable'>Edit</button>
+                {% endif %}
             </li>
         {% empty %}
             <li class="list-item project-review">

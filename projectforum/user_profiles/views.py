@@ -120,12 +120,15 @@ class ProfileView(TemplateView):
             past_owned_projects = Project.objects.filter(owner=profile.user)
             past_projects = profile.user.current_projects.all()
         user_reviews = None
+        average_score = 0
         if profile and profile.showRatings:
             user_reviews = UserReview.objects.filter(recipient=profile.user)
+            average_score = self.user_profile.averageRating
         context.update({
             'can_edit': self.can_edit,
             'user_profile': self.user_profile,
             'user_reviews': user_reviews,
+            'average_score': average_score,
             'past_owned_projects': past_owned_projects,
             'past_projects': past_projects,
         })
