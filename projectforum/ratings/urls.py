@@ -7,5 +7,4 @@ from projectforum.ratings.views import *
 urlpatterns = [
     url(r'^review/(?P<id>\d+)$', make_review),
     url(r'^review/edit/(?P<reviewid>\d+)$', edit_review),
-    # url(r'^review/(?P<id>\d+)/(?P<username>[\w\-]+)$', get_review_username)
 ]

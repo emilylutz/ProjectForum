@@ -1,4 +1,4 @@
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 from projectforum.projects.models import Project
@@ -16,11 +16,15 @@ def make_review(request, id):
             raise Http404("Projct with given id does not exist")
         if request.user.is_authenticated() == False:
             return redirect("/profile/login")
-        rating_form = ReviewForm(data=request.POST)
-        rating = rating_form.save(commit=False)
-        rating.reviewer = request.user
-        rating.project = project
-        rating.save()
+        review_form = ReviewForm(data=request.POST)
+        review = review_form.save(commit=False)
+        # if review for a user already exists
+        if (len(UserReview.objects.filter(project=project, reviewer=request.user, recipient=review.recipient)) != 0):
+            return HttpResponse(status=409)
+        review.reviewer = request.user
+        review.project = project
+        review.save()
+        setAverage(review.recipient)
 
         # Refreshes project page after posting a comment
         url = "/project/" + str(id)
