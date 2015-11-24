@@ -114,11 +114,17 @@ class ProfileView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         profile = self.user_profile
+        current_projects = None
         past_owned_projects = None
         past_projects = None
         if profile and profile.showPastProjects:
+            current_projects = profile.user.current_projects.filter(
+                status__lte=2
+            ).order_by('-timestamp')
             past_owned_projects = Project.objects.filter(owner=profile.user)
-            past_projects = profile.user.current_projects.all()
+            past_projects = profile.user.current_projects.filter(
+                status__gte=3
+            ).order_by('-timestamp')
         user_reviews = None
         average_score = 0
         if profile and profile.showRatings:
@@ -129,6 +135,7 @@ class ProfileView(TemplateView):
             'user_profile': self.user_profile,
             'user_reviews': user_reviews,
             'average_score': average_score,
+            'current_projects': current_projects,
             'past_owned_projects': past_owned_projects,
             'past_projects': past_projects,
         })
