@@ -2,12 +2,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View, TemplateView
 from django.views.generic.edit import FormView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from projectforum.projects.models import Project
+from projectforum.projects.models import Project, ProjectApplication
 from projectforum.projects.forms import *
 from projectforum.ratings.forms import ReviewForm
 from projectforum.ratings.models import UserReview
@@ -22,6 +23,39 @@ class ProjectListView(ListView):
     """
     model = Project
     template_name = 'project_list.html'
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page')
+        keywords = self.request.GET.get('keywords', '').split(',')
+        order = self.request.GET.get('order', 'timestamp')
+        salary = self.request.GET.get('salary', 'lump')
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+
+        projects = project_filters.get_projects(status=status,
+                                                keywords=keywords,
+                                                order=order,
+                                                salary=salary,
+                                                ascending=ascending)
+        paginator = Paginator(projects, self.paginate_by)
+
+        try:
+            project_list = paginator.page(page)
+        except PageNotAnInteger:
+            project_list = paginator.page(1)
+        except EmptyPage:
+            project_list = paginator.page(paginator.num_pages)
+
+        context['project_list'] = project_list
+        return context
 
 
 class ProjectView(View):
@@ -35,7 +69,7 @@ class ProjectView(View):
         4: Finished
     order: How the results should be sorted:
         *timestamp: When was the project created? Note: False leads to
-                    oldests posts first.  True leads to newest first.
+                    newest posts first.  True leads to oldest first.
         payment: Whether we sort by salary.  Will subsort ascending descending
                  based on type
         title: Sort by the titles in alphabetical order
@@ -45,19 +79,20 @@ class ProjectView(View):
     ascending: Whether or not we sort by ascending or descending order
         True: Ascending order
         *False: Descending order
-    starting_from: Integer Default is 1.  Return projects starting from this
-                   number
-    ending_at: Integer Default is 10. Stop returning projects at this number
     """
 
     def get(self, request, *args, **kwargs):
-        status = int(request.GET.get('status', 1))
         keywords = request.GET.get('keywords', '').split(',')
         order = request.GET.get('order', 'timestamp')
         salary = request.GET.get('salary', 'lump')
-        ascending = bool(request.GET.get('ascending', False))
-        # starting_from = int(request.GET.get('starting_from', 1))
-        # ending_at = int(request.GET.get('ending_at', 10))
+        try:
+            ascending = bool(int(self.request.GET.get('ascending', False)))
+        except:
+            ascending = False
+        try:
+            status = int(self.request.GET.get('status', 1))
+        except:
+            status = 1
         return project_filters.get_project_list(status=status,
                                                 keywords=keywords,
                                                 order=order,
@@ -153,7 +188,7 @@ def accept_applicant(request, id, username):
                 ]
             })
         applicant = usermodel.objects.get(username=username)
-        applicant_accepted = project.accept_applicant(applicant)
+        applicant_accepted = project.accept_application(applicant)
 
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
@@ -179,7 +214,9 @@ def apply_to_project(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        project.applicants.add(applicant)
+        application = ProjectApplication.objects.create(applicant=applicant,
+                                                        project=project,
+                                                        text='')
     except Project.DoesNotExist:
         return JsonResponse({
             'status': -1,
@@ -197,14 +234,15 @@ def withdraw_application(request, id):
     applicant = request.user
     try:
         project = Project.objects.get(id=id)
-        if applicant not in project.applicants.all():
+        success = project.remove_application(applicant)
+        if not success:
             return JsonResponse({
                 'status': -1,
                 'errors': [
                     "User must be an applicant to withdraw application."
                 ]
             })
-        project.applicants.remove(applicant)
+
     except Project.DoesNotExist:
         return JsonResponse({'status': -1, 'errors': ["Invalid project id"]})
     return JsonResponse({'status': 1})
