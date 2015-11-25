@@ -126,6 +126,14 @@ form .tokenfield {
 .new-page {
   cursor: pointer; }
 
+.project-button {
+  background-color: #ADC4CC;
+  border-color: #4298B5;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px; }
+
 a {
   color: #4298B5; }
 
@@ -139,14 +147,6 @@ a:hover {
 
 .signup-button {
   width: 100%; }
-
-.project-button {
-  background-color: #ADC4CC;
-  border-color: #4298B5;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  border-radius: 5px; }
 
 .create-content {
   background-color: #929292; }
@@ -247,9 +247,6 @@ a:hover {
 
 .dropdown-filter {
   width: 40%; }
-
-#button-search {
-  width: 19%; }
 
 .project-list-title {
   overflow: hidden; }

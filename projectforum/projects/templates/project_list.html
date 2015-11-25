@@ -35,7 +35,7 @@
                 <option value='3'>Canceled Projects</option>
                 <option value='4'>Finished Projects</option>
             </select>
-            <button id="button-search">Search</button>
+            <button class='btn default-btn project-button' id="button-search">Search</button>
         </div>
     </div>
     <h1>Projects</h1>
@@ -57,7 +57,7 @@
     </ul>
 
 
-    <div class="paginate">
+    <div class="paginate center">
         {% if project_list.has_previous %}
             <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
                 <span>

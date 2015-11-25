@@ -54,3 +54,12 @@
 .new-page {
     cursor: pointer;
 }
+
+.project-button {
+    background-color: $theme-col-main;
+    border-color: $theme-col-main-dark;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
