@@ -7,19 +7,14 @@
 {% endblock %}
 
 {% block content %}
-    <h1>About Project Forum</h1>
-    <div class="left capsule">
-        Project Forum is the product of a semester long project in the CS169 course at UC Berkeley.  Our goal is to produce a contracting job board that both employers and contractors can leverage.  This project was put together by Alex, Emily, Sarah, and Cedric.
-    </div>
-    <div class="right capsule">
-        Special thanks to these various technologies and tools that made this project possible:
-        <ul>
-            <li><b>Web Framework: </b> Django</li>
-            <li><b>Backend: </b>PostgreSQL</li>
-            <li><b>Frontend: </b>JQuery, Bootstrap, Sass</li>
-            <li><b>Notifications System: </b>Mailgun</li>
-            <li><b>Testing: </b>Selenium</li>
-        </ul>
+    <h1 class='center bottom_bordered'>About Project Forum</h1>
+    <div class='about_message'>
+        <h4 class="project_forum_purpose bottom_bordered">
+            The purpose of ProjectForum is to bring people together: Those with ideas but in need of someone with know-how to make them real, and those with experience looking to sharpen their skills. It is the product of a semester-long project in the CS169 course at UC Berkeley.
+        </h4>
+        <div class="project_forum_contribute">
+            This project was put together by Alex, Emily, Sarah, and Cedric. You can contribute to the ProjectForum or report a bug via <a href=https://github.com/emilylutz/ProjectForum>github</a>.
+        </div>
     </div>
 
 {% endblock %}

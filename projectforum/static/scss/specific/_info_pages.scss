@@ -1,0 +1,59 @@
+//Base css for info pages
+@import '../common';
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+.signup-button {
+    width: 100%;
+}
+
+.create-content {
+    background-color: $theme-col-grey-dark;
+}
+
+.color-green {
+    background-color: $theme-col-green;
+}
+
+.capsule {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: $theme-col-main;
+    padding: 1.5em;
+    border-radius: 30px;
+}
+
+#fortyeight-width {
+    width: 48%;
+}
+
+#login-divider {
+    margin: 5px;
+}
+
+.right {
+    margin-left: 25%;
+}
+
+.bottom_bordered {
+    border-bottom: 3px solid $theme-col-main-dark;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.about_message {
+    max-width: 1000px;
+}
+
+.project_forum_purpose {
+    padding-top: 30px;
+    padding-bottom: 35px;
+}
+
+.project_forum_contribute {
+    margin-top: 30px;
+}
