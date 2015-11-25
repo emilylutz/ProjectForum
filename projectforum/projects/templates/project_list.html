@@ -57,23 +57,17 @@
     </ul>
 
 
-    <div class="paginate center">
+    <div class="paginate">
         {% if project_list.has_previous %}
-            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
-                <span>
-                    Previous
-                </span>
-            </div>
+            <a class="new-page" id="new-page" data-pageid="{{ project_list.previous_page_number }}">
+                Previous
+            </a>
         {% endif %}
-            <div class='page-info'>
-                <span>Page {{ project_list.number }} of {{ project_list.paginator.num_pages }}.</span>
-            </div>
+            <span class='center'>Page {{ project_list.number }} of {{ project_list.paginator.num_pages }}</span>
         {% if project_list.has_next %}
-            <div class="new-page page-info" id="new-page" data-pageid="{{ project_list.next_page_number }}">
-                <span>
-                    Next
-                </span>
-            </div>
+            <a class="new-page" id="new-page" data-pageid="{{ project_list.next_page_number }}">
+                Next
+            </a>
         {% endif %}
     </div>
 {% endblock %}
