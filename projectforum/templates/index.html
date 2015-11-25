@@ -7,22 +7,18 @@
 {% endblock %}
 
 {% block content %}
-    <div class="center center-field">
-        <h1><u>Welcome to Project Forum:</u></h1>
-        <h3>The easy way to present contracting opportunities and to find contracting work</h3>
+    <div class="center">
+        <h1 class='bottom_bordered'>Welcome to Project Forum:</h1>
+        <h3>Connecting people with projects.</h3>
         {% if user.is_authenticated %}
-            <a class="btn btn-default project-button" href="{% url 'project:create' %}">Create a Contract</a>
-
-            <a class="btn btn-default project-button" href="{% url 'project:list' %}">View Available Contracts</a>
+            <a class="btn btn-default project-button" href="{% url 'project:create' %}">Create a Project</a>
         {% else %}
-            <div class="center accounts-field">
-                <a class="btn btn-default signup-button" href="{% url 'profile:register' %}">Create an Account</a>
-                <hr id="login-divider">
-                <a href="{% url 'profile:login' %}?next={% url 'project:list' %}">Login</a>
-            </div>
+            <a class="btn btn-default project-button signup-button" href="{% url 'profile:register' %}">Create an Account</a>
+            <br/>
+            or <a href="{% url 'profile:login' %}?next={% url 'project:list' %}">Login</a>
             <br>
-            <a class="btn btn-default color-green project-button" href="{% url 'project:list' %}">View Available Contracts</a>
         {% endif %}
+            <a class="btn btn-default project-button" href="{% url 'project:list' %}">View Available Projects</a>
     </div>
 
 {% endblock %}

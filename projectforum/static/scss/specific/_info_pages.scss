@@ -1,38 +1,22 @@
 //Base css for info pages
 @import '../common';
 
-.left {
-    margin-left: 0%;
-}
-
-.right {
-    margin-left: 25%;
-}
-
 .center {
     margin: auto;
     text-align: center;
 }
 
-.center-field {
-    padding-top: 5px;
-    width: 70%;
-}
-.accounts-field {
-    /*width: 50%;*/
-}
-
 .signup-button {
     width: 100%;
-    height: 4em;
-    background-color: $theme-col-grey-dark;
-    padding-top: 1em;
 }
 
 .project-button {
-    height: 4em;
-    padding-top: 1em;
-    background-color: $theme-col-grey-dark;
+    background-color: $theme-col-main;
+    border-color: $theme-col-main-dark;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
 }
 
 .create-content {
@@ -44,11 +28,11 @@
 }
 
 .capsule {
-    width: 75%;
-    margin-top: 1em;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: $theme-col-main;
     padding: 1.5em;
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 #fortyeight-width {
@@ -57,4 +41,28 @@
 
 #login-divider {
     margin: 5px;
+}
+
+.right {
+    margin-left: 25%;
+}
+
+.bottom_bordered {
+    border-bottom: 3px solid $theme-col-main-dark;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.about_message {
+    max-width: 1000px;
+}
+
+.project_forum_purpose {
+    padding-top: 30px;
+    padding-bottom: 35px;
+}
+
+.project_forum_contribute {
+    margin-top: 30px;
 }
