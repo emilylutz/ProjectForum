@@ -257,7 +257,7 @@ class ProjectsSeleniumTest(SeleniumTestCase):
         self.assertNotIn(project4.title, projectList.text)
 
         # Sort by most recent project
-        sortInput = self.driver.find_element_by_class_name('sort-projects')
+        sortInput = self.driver.find_element_by_id('sort-projects')
         sort_options = sortInput.find_elements_by_tag_name("option")
 
         sort_options[1].click()
@@ -271,7 +271,7 @@ class ProjectsSeleniumTest(SeleniumTestCase):
         self.assertIn(project1.title, projectListItems[2].text)
 
         # Sort by least recent project
-        sortInput = self.driver.find_element_by_class_name('sort-projects')
+        sortInput = self.driver.find_element_by_id('sort-projects')
         sort_options = sortInput.find_elements_by_tag_name("option")
 
         sort_options[2].click()
