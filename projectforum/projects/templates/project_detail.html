@@ -180,7 +180,6 @@
         <br/>
         <br/>
         <label class="title_tab"><h4>Reviews:</h4></label>
-        <br/>
         <ul class='list titled_list'>
         {% if user in project.team_members.all or user == project.owner %}
             {% if num_reviews != project.team_members.all.count %}
