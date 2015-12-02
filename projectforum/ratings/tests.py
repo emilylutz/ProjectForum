@@ -10,25 +10,29 @@ from projectforum.ratings.models import UserReview
 class RatingsTest(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="user1",
-                                             email="user1@gmail.com",
-                                             password="password")
+        self.recipient = User.objects.create_user(username="user1",
+                                                  email="user1@gmail.com",
+                                                  password="password")
         self.reviewer = User.objects.create_user(username="user2",
                                                  email="user2@gmail.com",
                                                  password="password")
         self.project1 = Project.objects.create(
             title="Test Title 1",
             description="Test Description 1",
-            owner=self.user,
+            owner=self.recipient,
             payment=1,
             amount=1,
             status=3,
         )
 
+        self.project1.team_members.add(self.recipient)
+        self.project1.team_members.add(self.reviewer)
+        self.project1.save()
+
     def test_ratings_can_be_created(self):
         rating1 = UserReview.objects.create(
             reviewer=self.reviewer,
-            recipient=self.user,
+            recipient=self.recipient,
             score=5,
             comment="ratings can be created",
             project=self.project1
@@ -40,10 +44,10 @@ class RatingsTest(TestCase):
         form_data = {
             'score': 5,
             'comment': "test post ratings",
-            'recipient_username': self.reviewer.username,
+            'recipient_username': self.recipient.username,
         }
         c = Client()
-        c.login(username="user2", password="password")
+        c.login(username=self.reviewer.username, password="password")
         url = '/ratings/review/' + str(self.project1.id)
         project_url = 'http://testserver/project/' + str(self.project1.id)
         resp = c.post(url, data=form_data)
@@ -64,7 +68,7 @@ class RatingsTest(TestCase):
         form_data = {
             'score': 5,
             'comment': "test invalid project",
-            'recipient_username': self.user.username,
+            'recipient_username': self.recipient.username,
         }
         c = Client()
         url = '/ratings/review/' + str(9999999)
@@ -76,29 +80,30 @@ class RatingsTest(TestCase):
         form_data = {
             'score': 5,
             'comment': "nice",
-            'recipient_username': self.user.username,
+            'recipient_username': self.recipient.username,
         }
         c = Client()
         c.login(username="user2", password="password")
         url = '/ratings/review/' + str(self.project1.id)
         resp = c.post(url, data=form_data)
-        reviews = UserReview.objects.filter(reviewer=self.reviewer, recipient=self.user, project=self.project1)
+        reviews = UserReview.objects.filter(
+            reviewer=self.reviewer, recipient=self.recipient, project=self.project1)
         self.assertEqual(len(reviews), 1)
         resp = c.post(url, data=form_data)
         self.assertEqual(resp.status_code, 409)
-
 
     def test_edit_rating(self):
         form_data = {
             'score': 5,
             'comment': "test edit rating",
-            'recipient_username': self.user.username,
+            'recipient_username': self.recipient.username,
         }
         c = Client()
         c.login(username="user2", password="password")
         url = '/ratings/review/' + str(self.project1.id)
         resp = c.post(url, data=form_data)
-        review = UserReview.objects.get(reviewer=self.reviewer, recipient=self.user, project=self.project1)
+        review = UserReview.objects.get(
+            reviewer=self.reviewer, recipient=self.recipient, project=self.project1)
         self.assertEqual(review.score, 5)
         self.assertEqual(review.comment, "test edit rating")
         new_data = {
@@ -107,7 +112,8 @@ class RatingsTest(TestCase):
         }
         edit_url = '/ratings/review/edit/' + str(review.id)
         resp = c.post(edit_url, data=new_data)
-        review = UserReview.objects.get(reviewer=self.reviewer, recipient=self.user, project=self.project1)
+        review = UserReview.objects.get(
+            reviewer=self.reviewer, recipient=self.recipient, project=self.project1)
         self.assertEqual(review.score, 1)
         self.assertEqual(review.comment, "new comment")
 
@@ -118,3 +124,107 @@ class RatingsTest(TestCase):
         resp = c.post(edit_url, data={})
         data = json.loads(resp.content)
         self.assertEqual(data['status'], -1)
+
+    def test_not_member_receive(self):
+        user3 = User.objects.create_user(username="user3",
+                                         email="user3@gmail.com",
+                                         password="password")
+        c = Client()
+        c.login(username=self.reviewer.username, password="password")
+        form_data = {
+            'score': 5,
+            'comment': "test recipient is not part of project",
+            'recipient_username': user3.username,
+        }
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_not_member_review(self):
+        user3 = User.objects.create_user(username="user3",
+                                         email="user3@gmail.com",
+                                         password="password")
+        c = Client()
+        c.login(username=user3.username, password="password")
+        form_data = {
+            'score': 5,
+            'comment': "test reviewer is not part of project",
+            'recipient_username': self.recipient.username,
+        }
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_rate_self(self):
+        form_data = {
+            'score': 5,
+            'comment': "test reviewer is not part of project",
+            'recipient_username': self.reviewer.username,
+        }
+        c = Client()
+        c.login(username=self.reviewer.username, password="password")
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_open_project(self):
+        self.project1 = Project.objects.create(
+            title="Test Title 1",
+            description="Test Description 1",
+            owner=self.recipient,
+            payment=1,
+            amount=1,
+            status=2,
+        )
+        form_data = {
+            'score': 5,
+            'comment': "test project is still in progress",
+            'recipient_username': self.reviewer.username,
+        }
+        c = Client()
+        c.login(username=self.reviewer.username, password="password")
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        self.assertEqual(resp.status_code, 403)
+
+    def test_edit_different_review(self):
+        form_data = {
+            'score': 5,
+            'comment': "test edit rating",
+            'recipient_username': self.recipient.username,
+        }
+        c = Client()
+        c.login(username=self.reviewer.username, password="password")
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        review = UserReview.objects.get(
+            reviewer=self.reviewer, recipient=self.recipient, project=self.project1)
+        self.assertEqual(review.score, 5)
+        self.assertEqual(review.comment, "test edit rating")
+        edit_url = '/ratings/review/edit/' + str(review.id)
+        c.login(username=self.recipient.username, password="password")
+        resp = c.post(edit_url, data=form_data)
+        data = json.loads(resp.content)
+        self.assertEqual(data['status'], -1)
+        self.assertEqual(data['errors'][0], 'User cannot edit another review')
+
+    def test_edit_unauthorized(self):
+        form_data = {
+            'score': 5,
+            'comment': "test edit rating",
+            'recipient_username': self.recipient.username,
+        }
+        c = Client()
+        c.login(username=self.reviewer.username, password="password")
+        url = '/ratings/review/' + str(self.project1.id)
+        resp = c.post(url, data=form_data)
+        review = UserReview.objects.get(
+            reviewer=self.reviewer, recipient=self.recipient, project=self.project1)
+        self.assertEqual(review.score, 5)
+        self.assertEqual(review.comment, "test edit rating")
+        c = Client()
+        edit_url = '/ratings/review/edit/' + str(review.id)
+        resp = c.post(edit_url, data=form_data)
+        data = json.loads(resp.content)
+        self.assertEqual(data['status'], -1)
+        self.assertEqual(data['errors'][0], 'User must login to edit review')
