@@ -190,6 +190,7 @@ body {
             transform-origin: 0 0;
             transform: scale(1,0);
             transition: transform .2s 0s ease-in-out;
+            z-index: 100;
 
             &.folder-menu-from-right {
                 left: inherit;

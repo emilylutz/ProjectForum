@@ -242,6 +242,9 @@ a:hover {
 .reviewer {
   margin-bottom: 10px; }
 
+.project_header {
+  position: relative; }
+
 #text-filter {
   width: 100%; }
 
@@ -446,7 +449,8 @@ body {
           -ms-transform: scale(1, 0);
               transform: scale(1, 0);
       -webkit-transition: -webkit-transform .2s 0s ease-in-out;
-              transition: transform .2s 0s ease-in-out; }
+              transition: transform .2s 0s ease-in-out;
+      z-index: 100; }
       #headerNav .folder .folder-menu.folder-menu-from-right {
         left: inherit;
         right: -0.5em; }
